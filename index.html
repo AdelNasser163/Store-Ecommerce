@@ -1,0 +1,1249 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AlMumez Online Store - المميز ستور | Authorized Regional Tech
+      Distributor</title>
+    <!-- Google Fonts: Plus Jakarta Sans & Bricolage Grotesque -->
+    <!-- Material Symbols Outlined -->
+    <!-- Tailwind CSS v3 -->
+
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body
+    class="bg-[#f8fafc] text-on-surface antialiased font-body selection:bg-mumez-green selection:text-navy-dark min-h-screen flex flex-col">
+    
+    <!-- ========================================================================= -->
+    <!-- TOP NAVBAR (Clean AlMumez Storefront Header)                             -->
+    <!-- ========================================================================= -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-sm">
+      <div class="w-full max-w-7xl mx-auto px-margin py-3 flex flex-col gap-3">
+        <div class="flex items-center justify-between gap-space-lg">
+          <button
+            class="mobile-menu-button md:hidden inline-flex items-center justify-center size-10 rounded-full border border-slate-200 text-navy-dark"
+            type="button" aria-label="فتح القائمة" aria-expanded="false"
+            aria-controls="mobile-navigation">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <!-- Logo: AlMumez Online Store -->
+          <a
+            class="flex items-center shrink-0 transition-transform duration-200 active:scale-95"
+            href="index.html" title="AlMumez Online Store - المميز ستور">
+            <div
+              class="bg-white rounded-lg px-2 py-0.5 flex items-center justify-center">
+              <img alt="AlMumez Online Store"
+                class="h-10 md:h-12 w-auto object-contain block"
+                src="assets/images/logo.png" />
+            </div>
+          </a>
+          <!-- Search Bar -->
+          <div
+            class="flex-1 max-w-xl hidden md:flex items-center bg-slate-50 hover:bg-slate-100/90 rounded-full border border-slate-200 focus-within:border-mumez-green focus-within:ring-2 focus-within:ring-mumez-green/25 transition-all duration-200 px-4 py-1.5 shadow-inner">
+            <span
+              class="material-symbols-outlined text-slate-400 text-xl mr-2">search</span>
+            <input
+              class="bg-transparent border-0 text-slate-800 placeholder:text-slate-400 focus:ring-0 w-full text-sm font-medium py-0.5"
+              placeholder="Search genuine electronics, accessories, laptops..."
+              type="text" />
+            <button
+              class="bg-mumez-green hover:bg-mumez-green-dark text-navy-dark hover:text-white font-extrabold px-5 py-1.5 rounded-full text-xs transition-all ml-1 shadow-sm flex items-center gap-1">
+              <span>Search</span>
+            </button>
+          </div>
+          <!-- Actions: Wishlist, Cart, User -->
+          <div class="flex items-center gap-space-md shrink-0">
+            <a
+              class="flex items-center gap-1.5 text-slate-600 hover:text-mumez-green-dark transition-colors duration-150 py-1.5 px-2 text-sm font-semibold"
+              href="#" title="Wishlist">
+              <span class="material-symbols-outlined text-xl">favorite</span>
+              <span class="hidden sm:inline">Wishlist</span>
+            </a>
+            <button
+              class="home-cart-button flex items-center gap-2 bg-navy-dark hover:bg-navy-slate text-white px-4 py-1.5 rounded-full transition-all duration-200 shadow-sm border border-navy-dark hover:shadow-md"
+              type="button" title="Shopping Cart">
+              <span
+                class="material-symbols-outlined text-xl text-mumez-green">shopping_bag</span>
+              <span class="text-sm font-bold tracking-tight">Cart: <span
+                  class="text-mumez-green">0</span> | EGP 0</span>
+            </button>
+            <div class="h-4 w-px bg-slate-200 hidden sm:block"></div>
+            <div
+              class="flex items-center gap-2 text-slate-700 text-sm font-semibold">
+              <a class="hover:text-primary transition-colors"
+                href="auth.html">Login</a>
+              <span class="text-slate-300">/</span>
+              <a
+                class="text-primary hover:text-mumez-green-dark transition-colors font-bold"
+                href="auth.html">Sign Up</a>
+            </div>
+          </div>
+        </div>
+        <!-- Secondary Nav Bar -->
+        <nav id="mobile-navigation"
+          class="home-navigation flex items-center justify-between border-t border-slate-100 pt-2 text-sm overflow-x-auto no-scrollbar">
+          <div class="flex items-center gap-space-lg whitespace-nowrap">
+            <a
+              class="text-primary font-bold border-b-2 border-mumez-green pb-1 flex items-center gap-1"
+              href="index.html">
+              <span>Home</span>
+            </a>
+            <a
+              class="text-slate-600 hover:text-navy-dark font-semibold transition-colors duration-150 pb-1"
+              href="about.html">About</a>
+            <a
+              class="text-slate-600 hover:text-navy-dark font-semibold transition-colors duration-150 pb-1"
+              href="accessories.html">Accessories</a>
+            <a
+              class="text-slate-600 hover:text-navy-dark font-semibold transition-colors duration-150 pb-1"
+              href="blog.html">Blog</a>
+            <a
+              class="text-slate-600 hover:text-navy-dark font-semibold transition-colors duration-150 pb-1"
+              href="contact.html">Contact</a>
+          </div>
+          <div
+            class="flex items-center gap-1 hover:text-mumez-green transition-colors cursor-pointer">
+            <span class="material-symbols-outlined text-sm">language</span>
+            <span class="text-navy-dark font-semibold">العربية</span>
+            <span class="text-slate-400 text-[10px]">/ EN</span>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- ========================================================================= -->
+    <!-- MAIN CANVASES: HERO SHOWCASE (Refined AlMumez Bento Grid)                 -->
+    <!-- ========================================================================= -->
+    <main
+      class="flex-1 w-full max-w-7xl mx-auto px-margin py-space-md space-y-space-xl">
+      <!-- Hero Bento: 1 Flagship Slider + 2 Side Promo Cards -->
+      <section
+        class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-stretch">
+        <!-- Main Flagship Showcase (8 cols) -->
+        <div
+          class="lg:col-span-8 relative overflow-hidden rounded-xl bg-gradient-to-br from-navy-dark via-navy-slate to-navy-surface text-white p-space-lg md:p-space-xl flex flex-col justify-between min-h-[460px] shadow-lg border border-slate-800">
+          <div
+            class="absolute -right-16 -bottom-16 w-96 h-96 bg-mumez-green/15 rounded-full blur-3xl pointer-events-none"></div>
+          <div
+            class="absolute top-0 right-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="relative z-10 space-y-space-sm max-w-xl">
+            <div
+              class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-mumez-green/40 text-lime-300 px-3.5 py-1 rounded-full text-xs font-bold tracking-wide">
+              <span
+                class="material-symbols-outlined text-sm text-mumez-green animate-bounce">bolt</span>
+              <span>ALMUMEZ EXCLUSIVE • UP TO 35% OFF</span>
+            </div>
+            <h1
+              class="font-headline text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              iPhone 15 Pro Max <br />
+              <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-lime-300 via-mumez-green to-emerald-400">
+                &amp; Spatial Pro Buds
+              </span>
+            </h1>
+            <p class="text-slate-300 text-sm md:text-base leading-relaxed pt-1">
+              Engineered with aerospace-grade titanium, A17 Pro chip, and
+              studio-fidelity acoustic tuning. Next-day fulfillment across Cairo
+              &amp; Alexandria through AlMumez Express.
+            </p>
+          </div>
+          <!-- Hero Actions & Pricing Badge -->
+          <div
+            class="relative z-10 pt-space-lg flex flex-wrap items-center gap-space-md">
+            <a
+              class="bg-mumez-green hover:bg-mumez-green-dark text-navy-dark hover:text-white px-7 py-3.5 rounded-full text-sm font-extrabold mumez-glow transition-all duration-200 flex items-center gap-2 shadow-lg"
+              href="#">
+              <span>Shop Now</span>
+              <span
+                class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
+            <a
+              class="bg-white/10 hover:bg-white/20 text-white px-6 py-3.5 rounded-full text-sm font-semibold border border-white/20 transition-colors flex items-center gap-2"
+              href="#">
+              <span>Learn More</span>
+              <span class="material-symbols-outlined text-sm">info</span>
+            </a>
+            <div
+              class="ml-auto hidden sm:flex items-center gap-2 bg-navy-dark/90 backdrop-blur px-4 py-2 rounded-full border border-white/15 shadow-inner">
+              <span class="text-slate-400 text-xs font-medium">Starts
+                from</span>
+              <span
+                class="font-headline text-lg text-mumez-green font-bold">54,999
+                EGP</span>
+            </div>
+          </div>
+          <!-- Staging Graphic -->
+          <div
+            class="absolute right-4 bottom-4 md:right-10 md:bottom-8 pointer-events-none opacity-20 lg:opacity-25 text-mumez-green">
+            <span
+              class="material-symbols-outlined text-[160px] md:text-[220px]">smartphone</span>
+          </div>
+        </div>
+        <!-- Side Promo Column (4 cols, 2 stacked high-density cards) -->
+        <div class="lg:col-span-4 flex flex-col gap-space-md">
+          <!-- Side Promo 1: Smart Home -->
+          <div
+            class="flex-1 rounded-xl bg-white border border-slate-200 p-space-md md:p-space-lg relative overflow-hidden flex flex-col justify-between group hover:border-mumez-green hover:shadow-md transition-all">
+            <div class="relative z-10 space-y-1">
+              <span
+                class="text-[11px] uppercase font-bold text-mumez-green-dark tracking-wider flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-mumez-green"></span>
+                Connected Living
+              </span>
+              <h3 class="font-headline text-lg font-bold text-navy-dark">Smart
+                Home Revolution</h3>
+              <p class="text-xs text-slate-500">Automate your ambiance &amp;
+                security. Up to 40% discount with AlMumez Guarantee.</p>
+            </div>
+            <div class="relative z-10 pt-4 flex items-center justify-between">
+              <span class="text-sm font-extrabold text-navy-dark">From <span
+                  class="text-primary font-bold">899 EGP</span></span>
+              <span
+                class="p-2 rounded-full bg-slate-100 text-navy-dark group-hover:bg-mumez-green group-hover:text-navy-dark transition-colors shadow-sm">
+                <span
+                  class="material-symbols-outlined text-lg">arrow_outward</span>
+              </span>
+            </div>
+            <div
+              class="absolute -right-4 -bottom-4 text-slate-100 group-hover:text-slate-200 transition-colors pointer-events-none">
+              <span class="material-symbols-outlined text-9xl">hub</span>
+            </div>
+          </div>
+          <!-- Side Promo 2: Back to College -->
+          <div
+            class="flex-1 rounded-xl bg-gradient-to-br from-navy-slate to-navy-dark text-white border border-slate-800 p-space-md md:p-space-lg relative overflow-hidden flex flex-col justify-between group hover:border-mumez-green/60 transition-all shadow-sm">
+            <div class="relative z-10 space-y-1">
+              <span
+                class="text-[11px] uppercase font-bold text-lime-300 tracking-wider flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-mumez-green"></span>
+                Student &amp; Creator Pass
+              </span>
+              <h3 class="font-headline text-lg font-bold text-white">Back to
+                College Tech</h3>
+              <p class="text-xs text-slate-300">0% Interest up to 12 months with
+                ValU &amp; regional credit cards.</p>
+            </div>
+            <div class="relative z-10 pt-4 flex items-center justify-between">
+              <span class="text-sm font-extrabold text-mumez-green">0% Down
+                Payment</span>
+              <span
+                class="p-2 rounded-full bg-white/10 text-white group-hover:bg-mumez-green group-hover:text-navy-dark transition-colors shadow-sm">
+                <span
+                  class="material-symbols-outlined text-lg">arrow_outward</span>
+              </span>
+            </div>
+            <div
+              class="absolute -right-4 -bottom-4 text-white/5 group-hover:text-white/10 transition-colors pointer-events-none">
+              <span class="material-symbols-outlined text-9xl">laptop_mac</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ========================================================================= -->
+      <!-- TRUST ASSURANCE BAR (4 Columns Light Clean Canvas)                        -->
+      <!-- ========================================================================= -->
+      <section
+        class="grid grid-cols-2 md:grid-cols-4 gap-space-md py-4 px-6 bg-white rounded-xl border border-slate-200/90 shadow-sm">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-11 h-11 rounded-full bg-mumez-green/15 flex items-center justify-center text-primary shrink-0">
+            <span
+              class="material-symbols-outlined text-2xl">local_shipping</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-navy-dark">24h Express
+              Delivery</h4>
+            <p class="text-xs text-slate-500">Cairo &amp; Giza guaranteed</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div
+            class="w-11 h-11 rounded-full bg-navy-dark/10 flex items-center justify-center text-navy-dark shrink-0">
+            <span class="material-symbols-outlined text-2xl">lock</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-navy-dark">Secure Payment</h4>
+            <p class="text-xs text-slate-500">Cards, ValU, Meeza, COD</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div
+            class="w-11 h-11 rounded-full bg-mumez-green/15 flex items-center justify-center text-primary shrink-0">
+            <span
+              class="material-symbols-outlined text-2xl">change_circle</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-navy-dark">14-Day Free
+              Returns</h4>
+            <p class="text-xs text-slate-500">No hassle replacement</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div
+            class="w-11 h-11 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0">
+            <span class="material-symbols-outlined text-2xl">chat</span>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-navy-dark">24/7 VIP Support</h4>
+            <p class="text-xs text-slate-500">WhatsApp &amp; Phone Live</p>
+          </div>
+        </div>
+      </section>
+      <!-- ========================================================================= -->
+      <!-- FLASH DEALS SECTION (Countdown + 5 High-Density Cards)                    -->
+      <!-- ========================================================================= -->
+      <section class="space-y-space-md">
+        <!-- Section Header -->
+        <div
+          class="flex flex-wrap items-center justify-between gap-space-sm bg-white p-4 rounded-xl border border-slate-200/90 shadow-sm">
+          <div class="flex items-center gap-space-md">
+            <div class="flex items-center gap-2">
+              <span
+                class="w-9 h-9 rounded-full bg-red-500/10 flex items-center justify-center text-red-500">
+                <span
+                  class="material-symbols-outlined text-2xl animate-pulse">local_fire_department</span>
+              </span>
+              <h2
+                class="font-headline text-xl md:text-2xl font-extrabold text-navy-dark tracking-tight">Flash
+                Deals</h2>
+            </div>
+            <!-- Live Countdown Pill -->
+            <div
+              class="hidden sm:flex items-center gap-1.5 bg-slate-100 px-3 py-1 rounded-full text-xs font-semibold text-slate-700">
+              <span class="text-slate-400">Ends in:</span>
+              <span
+                class="font-extrabold text-navy-dark bg-white px-2 py-0.5 rounded shadow-xs">08h</span>
+              :
+              <span
+                class="font-extrabold text-navy-dark bg-white px-2 py-0.5 rounded shadow-xs">42m</span>
+              :
+              <span
+                class="font-extrabold text-red-600 bg-white px-2 py-0.5 rounded shadow-xs">19s</span>
+            </div>
+          </div>
+          <a
+            class="inline-flex items-center gap-1 text-sm text-primary hover:text-mumez-green-dark transition-colors font-bold"
+            href="#">
+            <span>View All Deals</span>
+            <span class="material-symbols-outlined text-sm">chevron_right</span>
+          </a>
+        </div>
+        <!-- 5-Card Product Grid -->
+        <div
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-space-md">
+          <!-- Flash Item 1 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <span
+              class="absolute top-3 left-3 bg-red-600 text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full z-10 shadow-sm">-25%</span>
+            <button
+              class="absolute top-3 right-3 text-slate-400 hover:text-red-500 transition-colors z-10 p-1"
+              title="Add to Wishlist">
+              <span class="material-symbols-outlined text-lg">favorite</span>
+            </button>
+            <!-- Image Stage -->
+            <div
+              class="w-full aspect-square bg-slate-50 rounded-lg flex items-center justify-center overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Sony WF-1000XM5 Wireless Noise Canceling"
+                src="assets/images/sony-wf.jpg" />
+            </div>
+            <div class="space-y-1.5 flex-1">
+              <div
+                class="flex items-center gap-1 text-[11px] text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>4.9</span>
+                <span class="text-slate-400 font-normal">(182)</span>
+              </div>
+              <h3
+                class="font-semibold text-sm leading-tight text-navy-dark line-clamp-2">Sony
+                WF-1000XM5 Wireless Noise Canceling</h3>
+              <div class="pt-1">
+                <div class="flex items-baseline gap-2">
+                  <span
+                    class="font-headline text-base font-bold text-navy-dark">8,499
+                    EGP</span>
+                  <span class="text-slate-400 text-xs line-through">11,300
+                    EGP</span>
+                </div>
+              </div>
+              <!-- Claim Bar -->
+              <div class="pt-2">
+                <div
+                  class="flex justify-between text-[11px] text-slate-500 mb-1">
+                  <span>Claimed: 84%</span>
+                  <span class="text-primary font-bold">12 Left</span>
+                </div>
+                <div
+                  class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-mumez-green rounded-full"
+                    style="width: 84%"></div>
+                </div>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-navy-dark hover:bg-mumez-green hover:text-navy-dark text-white py-2 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <span
+                class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+          <!-- Flash Item 2 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <span
+              class="absolute top-3 left-3 bg-red-600 text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full z-10 shadow-sm">-18%</span>
+            <button
+              class="absolute top-3 right-3 text-slate-400 hover:text-red-500 transition-colors z-10 p-1"
+              title="Add to Wishlist">
+              <span class="material-symbols-outlined text-lg">favorite</span>
+            </button>
+            <div
+              class="w-full aspect-square bg-slate-50 rounded-lg flex items-center justify-center overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Samsung Galaxy Watch 6 Classic 47mm LTE"
+                src="assets/images/watch-6.jpg" />
+            </div>
+            <div class="space-y-1.5 flex-1">
+              <div
+                class="flex items-center gap-1 text-[11px] text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>4.8</span>
+                <span class="text-slate-400 font-normal">(94)</span>
+              </div>
+              <h3
+                class="font-semibold text-sm leading-tight text-navy-dark line-clamp-2">Samsung
+                Galaxy Watch 6 Classic 47mm LTE</h3>
+              <div class="pt-1">
+                <div class="flex items-baseline gap-2">
+                  <span
+                    class="font-headline text-base font-bold text-navy-dark">12,199
+                    EGP</span>
+                  <span class="text-slate-400 text-xs line-through">14,900
+                    EGP</span>
+                </div>
+              </div>
+              <div class="pt-2">
+                <div
+                  class="flex justify-between text-[11px] text-slate-500 mb-1">
+                  <span>Claimed: 62%</span>
+                  <span class="text-primary font-bold">28 Left</span>
+                </div>
+                <div
+                  class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-mumez-green rounded-full"
+                    style="width: 62%"></div>
+                </div>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-navy-dark hover:bg-mumez-green hover:text-navy-dark text-white py-2 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <span
+                class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+          <!-- Flash Item 3 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <span
+              class="absolute top-3 left-3 bg-red-600 text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full z-10 shadow-sm">-30%</span>
+            <button
+              class="absolute top-3 right-3 text-slate-400 hover:text-red-500 transition-colors z-10 p-1"
+              title="Add to Wishlist">
+              <span class="material-symbols-outlined text-lg">favorite</span>
+            </button>
+            <div
+              class="w-full aspect-square bg-slate-50 rounded-lg flex items-center justify-center overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Dell G15 Core i7 13th Gen RTX 4060 16GB"
+                src="assets/images/dell-g15.jpg" />
+            </div>
+            <div class="space-y-1.5 flex-1">
+              <div
+                class="flex items-center gap-1 text-[11px] text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>5.0</span>
+                <span class="text-slate-400 font-normal">(62)</span>
+              </div>
+              <h3
+                class="font-semibold text-sm leading-tight text-navy-dark line-clamp-2">Dell
+                G15 Core i7 13th Gen RTX 4060 16GB</h3>
+              <div class="pt-1">
+                <div class="flex items-baseline gap-2">
+                  <span
+                    class="font-headline text-base font-bold text-navy-dark">46,500
+                    EGP</span>
+                  <span class="text-slate-400 text-xs line-through">66,500
+                    EGP</span>
+                </div>
+              </div>
+              <div class="pt-2">
+                <div
+                  class="flex justify-between text-[11px] text-slate-500 mb-1">
+                  <span>Claimed: 91%</span>
+                  <span class="text-primary font-bold">4 Left</span>
+                </div>
+                <div
+                  class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-mumez-green rounded-full"
+                    style="width: 91%"></div>
+                </div>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-navy-dark hover:bg-mumez-green hover:text-navy-dark text-white py-2 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <span
+                class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+          <!-- Flash Item 4 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <span
+              class="absolute top-3 left-3 bg-red-600 text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full z-10 shadow-sm">-15%</span>
+            <button
+              class="absolute top-3 right-3 text-slate-400 hover:text-red-500 transition-colors z-10 p-1"
+              title="Add to Wishlist">
+              <span class="material-symbols-outlined text-lg">favorite</span>
+            </button>
+            <div
+              class="w-full aspect-square bg-slate-50 rounded-lg flex items-center justify-center overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Philips Barista Touch Smart Coffee Machine"
+                src="assets/images/philips-coffee.jpg" />
+            </div>
+            <div class="space-y-1.5 flex-1">
+              <div
+                class="flex items-center gap-1 text-[11px] text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>4.7</span>
+                <span class="text-slate-400 font-normal">(215)</span>
+              </div>
+              <h3
+                class="font-semibold text-sm leading-tight text-navy-dark line-clamp-2">Philips
+                Barista Touch Smart Coffee Machine</h3>
+              <div class="pt-1">
+                <div class="flex items-baseline gap-2">
+                  <span
+                    class="font-headline text-base font-bold text-navy-dark">16,800
+                    EGP</span>
+                  <span class="text-slate-400 text-xs line-through">19,800
+                    EGP</span>
+                </div>
+              </div>
+              <div class="pt-2">
+                <div
+                  class="flex justify-between text-[11px] text-slate-500 mb-1">
+                  <span>Claimed: 45%</span>
+                  <span class="text-primary font-bold">19 Left</span>
+                </div>
+                <div
+                  class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-mumez-green rounded-full"
+                    style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-navy-dark hover:bg-mumez-green hover:text-navy-dark text-white py-2 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <span
+                class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+          <!-- Flash Item 5 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <span
+              class="absolute top-3 left-3 bg-red-600 text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full z-10 shadow-sm">-22%</span>
+            <button
+              class="absolute top-3 right-3 text-slate-400 hover:text-red-500 transition-colors z-10 p-1"
+              title="Add to Wishlist">
+              <span class="material-symbols-outlined text-lg">favorite</span>
+            </button>
+            <div
+              class="w-full aspect-square bg-slate-50 rounded-lg flex items-center justify-center overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Anker 10,000mAh MagGo Wireless Fast Pack"
+                src="assets/images/anker-pack.jpg" />
+            </div>
+            <div class="space-y-1.5 flex-1">
+              <div
+                class="flex items-center gap-1 text-[11px] text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>4.9</span>
+                <span class="text-slate-400 font-normal">(310)</span>
+              </div>
+              <h3
+                class="font-semibold text-sm leading-tight text-navy-dark line-clamp-2">Anker
+                10,000mAh MagGo Wireless Fast Pack</h3>
+              <div class="pt-1">
+                <div class="flex items-baseline gap-2">
+                  <span
+                    class="font-headline text-base font-bold text-navy-dark">2,350
+                    EGP</span>
+                  <span class="text-slate-400 text-xs line-through">2,999
+                    EGP</span>
+                </div>
+              </div>
+              <div class="pt-2">
+                <div
+                  class="flex justify-between text-[11px] text-slate-500 mb-1">
+                  <span>Claimed: 76%</span>
+                  <span class="text-primary font-bold">14 Left</span>
+                </div>
+                <div
+                  class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-mumez-green rounded-full"
+                    style="width: 76%"></div>
+                </div>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-navy-dark hover:bg-mumez-green hover:text-navy-dark text-white py-2 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+              <span
+                class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- ========================================================================= -->
+      <!-- SHOP BY CATEGORY (6 Clean Cards with Green Highlights)                    -->
+      <!-- ========================================================================= -->
+      <section class="space-y-space-md">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="font-headline text-2xl font-bold text-navy-dark">Shop by
+              Category</h2>
+            <p class="text-xs md:text-sm text-slate-500">Explore certified tech
+              curated across high-demand sectors</p>
+          </div>
+          <a
+            class="text-sm text-primary hover:text-mumez-green-dark font-bold flex items-center gap-1"
+            href="#">
+            <span>All 24 Departments</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </div>
+        <div
+          class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-space-md">
+          <!-- Cat 1 -->
+          <a
+            class="group bg-white rounded-xl border border-slate-200 p-5 flex flex-col items-center text-center hover:border-mumez-green hover:shadow-md transition-all"
+            href="#">
+            <div
+              class="w-16 h-16 rounded-full bg-slate-100 group-hover:bg-mumez-green/20 flex items-center justify-center text-navy-dark group-hover:text-primary group-hover:scale-110 transition-all mb-3">
+              <span class="material-symbols-outlined text-3xl">smartphone</span>
+            </div>
+            <h3 class="text-sm font-bold text-navy-dark">Mobiles &amp;
+              Tablets</h3>
+            <span class="text-xs text-slate-500 mt-1">210+ Items</span>
+          </a>
+          <!-- Cat 2 -->
+          <a
+            class="group bg-white rounded-xl border border-slate-200 p-5 flex flex-col items-center text-center hover:border-mumez-green hover:shadow-md transition-all"
+            href="#">
+            <div
+              class="w-16 h-16 rounded-full bg-slate-100 group-hover:bg-mumez-green/20 flex items-center justify-center text-navy-dark group-hover:text-primary group-hover:scale-110 transition-all mb-3">
+              <span
+                class="material-symbols-outlined text-3xl">laptop_chromebook</span>
+            </div>
+            <h3 class="text-sm font-bold text-navy-dark">Laptops &amp; PCs</h3>
+            <span class="text-xs text-slate-500 mt-1">140+ Items</span>
+          </a>
+          <!-- Cat 3 -->
+          <a
+            class="group bg-white rounded-xl border border-slate-200 p-5 flex flex-col items-center text-center hover:border-mumez-green hover:shadow-md transition-all"
+            href="#">
+            <div
+              class="w-16 h-16 rounded-full bg-slate-100 group-hover:bg-mumez-green/20 flex items-center justify-center text-navy-dark group-hover:text-primary group-hover:scale-110 transition-all mb-3">
+              <span class="material-symbols-outlined text-3xl">headphones</span>
+            </div>
+            <h3 class="text-sm font-bold text-navy-dark">Audio &amp; Sound</h3>
+            <span class="text-xs text-slate-500 mt-1">95+ Items</span>
+          </a>
+          <!-- Cat 4 -->
+          <a
+            class="group bg-white rounded-xl border border-slate-200 p-5 flex flex-col items-center text-center hover:border-mumez-green hover:shadow-md transition-all"
+            href="#">
+            <div
+              class="w-16 h-16 rounded-full bg-slate-100 group-hover:bg-mumez-green/20 flex items-center justify-center text-navy-dark group-hover:text-primary group-hover:scale-110 transition-all mb-3">
+              <span class="material-symbols-outlined text-3xl">tv_gen</span>
+            </div>
+            <h3 class="text-sm font-bold text-navy-dark">Smart TV &amp;
+              Video</h3>
+            <span class="text-xs text-slate-500 mt-1">78+ Items</span>
+          </a>
+          <!-- Cat 5 -->
+          <a
+            class="group bg-white rounded-xl border border-slate-200 p-5 flex flex-col items-center text-center hover:border-mumez-green hover:shadow-md transition-all"
+            href="#">
+            <div
+              class="w-16 h-16 rounded-full bg-slate-100 group-hover:bg-mumez-green/20 flex items-center justify-center text-navy-dark group-hover:text-primary group-hover:scale-110 transition-all mb-3">
+              <span class="material-symbols-outlined text-3xl">microwave</span>
+            </div>
+            <h3 class="text-sm font-bold text-navy-dark">Home Appliances</h3>
+            <span class="text-xs text-slate-500 mt-1">160+ Items</span>
+          </a>
+          <!-- Cat 6 -->
+          <a
+            class="group bg-white rounded-xl border border-slate-200 p-5 flex flex-col items-center text-center hover:border-mumez-green hover:shadow-md transition-all"
+            href="#">
+            <div
+              class="w-16 h-16 rounded-full bg-slate-100 group-hover:bg-mumez-green/20 flex items-center justify-center text-navy-dark group-hover:text-primary group-hover:scale-110 transition-all mb-3">
+              <span
+                class="material-symbols-outlined text-3xl">sports_esports</span>
+            </div>
+            <h3 class="text-sm font-bold text-navy-dark">Gaming Gear</h3>
+            <span class="text-xs text-slate-500 mt-1">115+ Items</span>
+          </a>
+        </div>
+      </section>
+      <!-- ========================================================================= -->
+      <!-- FEATURED PRODUCTS TABS (Rich 4-Column Matrix)                             -->
+      <!-- ========================================================================= -->
+      <section class="space-y-space-md">
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm border-b border-slate-200 pb-3">
+          <div>
+            <h2 class="font-headline text-2xl font-bold text-navy-dark">Featured
+              Tech Collections</h2>
+            <p class="text-xs md:text-sm text-slate-500">Top-rated performance
+              units backed by manufacturer warranties</p>
+          </div>
+          <!-- Category Filter Tabs -->
+          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            <button
+              class="bg-navy-dark text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">Electronics</button>
+            <button
+              class="bg-white hover:bg-slate-100 text-slate-600 hover:text-navy-dark px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-200 transition-colors">Mobiles</button>
+            <button
+              class="bg-white hover:bg-slate-100 text-slate-600 hover:text-navy-dark px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-200 transition-colors">Appliances</button>
+            <button
+              class="bg-white hover:bg-slate-100 text-slate-600 hover:text-navy-dark px-4 py-1.5 rounded-full text-xs font-semibold border border-slate-200 transition-colors">Audio</button>
+          </div>
+        </div>
+        <!-- 4-Column Grid -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+          <!-- Grid Item 1 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <div class="flex justify-between items-start mb-2">
+              <span
+                class="bg-mumez-green/15 text-primary text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border border-mumez-green/30">Official
+                Warranty</span>
+              <button
+                class="text-slate-400 hover:text-red-500 transition-colors p-1"
+                title="Wishlist">
+                <span class="material-symbols-outlined text-lg">favorite</span>
+              </button>
+            </div>
+            <div
+              class="w-full aspect-video bg-slate-50 rounded-lg overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Samsung Odyssey G9 49 OLED"
+                src="assets/images/odyssey.jpg" />
+            </div>
+            <div class="space-y-2 flex-1">
+              <span
+                class="text-[11px] uppercase font-bold text-slate-400 tracking-wider">Displays
+                &amp; Monitors</span>
+              <h3 class="font-bold text-sm text-navy-dark line-clamp-2">Samsung
+                Odyssey G9 49" OLED 240Hz 0.03ms</h3>
+              <div
+                class="flex items-center gap-1.5 text-xs text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>4.9</span>
+                <span class="text-slate-400 font-normal">(48 Reviews)</span>
+              </div>
+              <div class="pt-2 flex items-baseline gap-2">
+                <span
+                  class="font-headline text-lg font-extrabold text-navy-dark">58,900
+                  EGP</span>
+                <span class="text-slate-400 text-xs line-through">65,000
+                  EGP</span>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark text-navy-dark py-2.5 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-2 group-hover:bg-mumez-green group-hover:text-navy-dark">
+              <span
+                class="material-symbols-outlined text-lg">shopping_bag</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+          <!-- Grid Item 2 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <div class="flex justify-between items-start mb-2">
+              <span
+                class="bg-blue-50 text-blue-700 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border border-blue-200">New
+                Arrival</span>
+              <button
+                class="text-slate-400 hover:text-red-500 transition-colors p-1"
+                title="Wishlist">
+                <span class="material-symbols-outlined text-lg">favorite</span>
+              </button>
+            </div>
+            <div
+              class="w-full aspect-video bg-slate-50 rounded-lg overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Apple MacBook Pro 16 M3 Max"
+                src="assets/images/macbook.jpg" />
+            </div>
+            <div class="space-y-2 flex-1">
+              <span
+                class="text-[11px] uppercase font-bold text-slate-400 tracking-wider">Laptops
+                &amp; Mac</span>
+              <h3 class="font-bold text-sm text-navy-dark line-clamp-2">MacBook
+                Pro 16" M3 Max 36GB Unified 1TB</h3>
+              <div
+                class="flex items-center gap-1.5 text-xs text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>5.0</span>
+                <span class="text-slate-400 font-normal">(112 Reviews)</span>
+              </div>
+              <div class="pt-2 flex items-baseline gap-2">
+                <span
+                  class="font-headline text-lg font-extrabold text-navy-dark">124,500
+                  EGP</span>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark text-navy-dark py-2.5 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-2 group-hover:bg-mumez-green group-hover:text-navy-dark">
+              <span
+                class="material-symbols-outlined text-lg">shopping_bag</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+          <!-- Grid Item 3 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <div class="flex justify-between items-start mb-2">
+              <span
+                class="bg-amber-50 text-amber-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border border-amber-200">Best
+                Seller</span>
+              <button
+                class="text-slate-400 hover:text-red-500 transition-colors p-1"
+                title="Wishlist">
+                <span class="material-symbols-outlined text-lg">favorite</span>
+              </button>
+            </div>
+            <div
+              class="w-full aspect-video bg-slate-50 rounded-lg overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="PlayStation 5 Slim 1TB" src="assets/images/ps5.jpg" />
+            </div>
+            <div class="space-y-2 flex-1">
+              <span
+                class="text-[11px] uppercase font-bold text-slate-400 tracking-wider">Gaming
+                Consoles</span>
+              <h3 class="font-bold text-sm text-navy-dark line-clamp-2">Sony
+                PlayStation 5 Slim 1TB + Extra DualSense</h3>
+              <div
+                class="flex items-center gap-1.5 text-xs text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>4.9</span>
+                <span class="text-slate-400 font-normal">(340 Reviews)</span>
+              </div>
+              <div class="pt-2 flex items-baseline gap-2">
+                <span
+                  class="font-headline text-lg font-extrabold text-navy-dark">28,990
+                  EGP</span>
+                <span class="text-slate-400 text-xs line-through">32,000
+                  EGP</span>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark text-navy-dark py-2.5 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-2 group-hover:bg-mumez-green group-hover:text-navy-dark">
+              <span
+                class="material-symbols-outlined text-lg">shopping_bag</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+          <!-- Grid Item 4 -->
+          <div
+            class="bg-white rounded-xl border border-slate-200 p-space-md flex flex-col justify-between group hover:border-mumez-green hover:shadow-lg transition-all relative">
+            <div class="flex justify-between items-start mb-2">
+              <span
+                class="bg-mumez-green text-navy-dark text-[11px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm">-10%
+                Promo</span>
+              <button
+                class="text-slate-400 hover:text-red-500 transition-colors p-1"
+                title="Wishlist">
+                <span class="material-symbols-outlined text-lg">favorite</span>
+              </button>
+            </div>
+            <div
+              class="w-full aspect-video bg-slate-50 rounded-lg overflow-hidden mb-3 group-hover:scale-102 transition-transform border border-slate-100">
+              <img class="w-full h-full object-cover"
+                data-alt="Philips XXL Smart Sensing Digital Airfryer"
+                src="assets/images/airfryer.jpg" />
+            </div>
+            <div class="space-y-2 flex-1">
+              <span
+                class="text-[11px] uppercase font-bold text-slate-400 tracking-wider">Kitchen
+                Smart Living</span>
+              <h3 class="font-bold text-sm text-navy-dark line-clamp-2">Philips
+                XXL Smart Sensing Digital Airfryer</h3>
+              <div
+                class="flex items-center gap-1.5 text-xs text-amber-500 font-semibold">
+                <span class="material-symbols-outlined fill-icon text-sm"
+                  style="font-variation-settings: 'FILL' 1;">star</span>
+                <span>4.8</span>
+                <span class="text-slate-400 font-normal">(86 Reviews)</span>
+              </div>
+              <div class="pt-2 flex items-baseline gap-2">
+                <span
+                  class="font-headline text-lg font-extrabold text-navy-dark">11,250
+                  EGP</span>
+                <span class="text-slate-400 text-xs line-through">12,500
+                  EGP</span>
+              </div>
+            </div>
+            <button
+              class="mt-4 w-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark text-navy-dark py-2.5 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-2 group-hover:bg-mumez-green group-hover:text-navy-dark">
+              <span
+                class="material-symbols-outlined text-lg">shopping_bag</span>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- ========================================================================= -->
+      <!-- DUAL MARKETING SHOWCASE (Wide Contrast Banners)                           -->
+      <!-- ========================================================================= -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+        <!-- Promo 1 -->
+        <div
+          class="rounded-xl bg-gradient-to-r from-navy-dark via-navy-slate to-navy-surface text-white border border-slate-800 p-space-lg flex flex-col justify-between min-h-[260px] relative overflow-hidden group shadow-md">
+          <div class="relative z-10 max-w-sm space-y-2">
+            <span
+              class="bg-mumez-green text-navy-dark px-3 py-0.5 rounded-full text-xs font-extrabold uppercase">Upgrade
+              Pass</span>
+            <h3
+              class="font-headline text-xl md:text-2xl font-bold text-white">Pro
+              PC Building &amp; Workstations</h3>
+            <p class="text-xs text-slate-300">Custom assembly with certified
+              stress testing and 3-year door-to-door AlMumez warranty.</p>
+          </div>
+          <div class="relative z-10 pt-4">
+            <a
+              class="inline-flex items-center gap-2 bg-mumez-green hover:bg-mumez-green-dark text-navy-dark hover:text-white px-5 py-2.5 rounded-full text-xs font-extrabold mumez-glow transition-all"
+              href="#">
+              <span>Configure Setup</span>
+              <span class="material-symbols-outlined text-sm">tune</span>
+            </a>
+          </div>
+          <div
+            class="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none text-mumez-green">
+            <span class="material-symbols-outlined text-[180px]">memory</span>
+          </div>
+        </div>
+        <!-- Promo 2 -->
+        <div
+          class="rounded-xl bg-white border border-slate-200 p-space-lg flex flex-col justify-between min-h-[260px] relative overflow-hidden group shadow-sm hover:border-mumez-green transition-all">
+          <div class="relative z-10 max-w-sm space-y-2">
+            <span
+              class="bg-navy-dark text-white px-3 py-0.5 rounded-full text-xs font-extrabold uppercase">Smart
+              Home Bundle</span>
+            <h3
+              class="font-headline text-xl md:text-2xl font-bold text-navy-dark">Smart
+              Kitchen Ecosystems</h3>
+            <p class="text-xs text-slate-500">Save an extra 2,000 EGP when
+              pairing any smart refrigerator with multi-cooker appliances.</p>
+          </div>
+          <div class="relative z-10 pt-4">
+            <a
+              class="inline-flex items-center gap-2 bg-navy-dark hover:bg-navy-slate text-white px-5 py-2.5 rounded-full text-xs font-bold transition-all"
+              href="#">
+              <span>Explore Bundles</span>
+              <span class="material-symbols-outlined text-sm">kitchen</span>
+            </a>
+          </div>
+          <div
+            class="absolute -right-8 -bottom-8 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none text-navy-dark">
+            <span class="material-symbols-outlined text-[180px]">blender</span>
+          </div>
+        </div>
+      </section>
+      <!-- ========================================================================= -->
+      <!-- AUTHORIZED BRAND RETAILER BADGES & SOCIAL PROOF                           -->
+      <!-- ========================================================================= -->
+      <section class="space-y-space-md py-space-sm">
+        <div class="text-center space-y-1">
+          <span
+            class="text-xs uppercase tracking-widest text-primary font-bold">Authenticity
+            Guaranteed</span>
+          <h2
+            class="font-headline text-xl md:text-2xl font-bold text-navy-dark">Authorized
+            Regional Partner Brands</h2>
+        </div>
+        <!-- Brand Logos Ribbon -->
+        <div
+          class="flex flex-wrap items-center justify-center gap-6 md:gap-12 py-5 px-6 bg-white rounded-xl border border-slate-200 shadow-sm text-slate-700">
+          <span
+            class="font-headline text-xl font-extrabold tracking-tight hover:text-primary transition-colors cursor-pointer">Apple</span>
+          <span
+            class="font-headline text-xl font-extrabold tracking-tight hover:text-primary transition-colors cursor-pointer">SAMSUNG</span>
+          <span
+            class="font-headline text-xl font-extrabold tracking-tight hover:text-primary transition-colors cursor-pointer">DELL</span>
+          <span
+            class="font-headline text-xl font-extrabold tracking-tight hover:text-primary transition-colors cursor-pointer">SONY</span>
+          <span
+            class="font-headline text-xl font-extrabold tracking-tight hover:text-primary transition-colors cursor-pointer">Lenovo</span>
+          <span
+            class="font-headline text-xl font-extrabold tracking-tight hover:text-primary transition-colors cursor-pointer">LG</span>
+          <span
+            class="font-headline text-xl font-extrabold tracking-tight hover:text-primary transition-colors cursor-pointer">PHILIPS</span>
+        </div>
+        <!-- Customer Testimonials -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-2">
+          <div
+            class="bg-white p-space-md rounded-xl border border-slate-200 space-y-2 shadow-xs">
+            <div class="flex items-center gap-1 text-amber-500">
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p
+              class="text-xs text-slate-600 italic">"Ordered my iPhone 15 Pro Max at 11 PM and it was delivered to New Cairo before 2 PM next day with genuine regional warranty stamps from AlMumez."</p>
+            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+              <span
+                class="material-symbols-outlined text-primary text-base">verified_user</span>
+              <span class="text-xs font-bold text-navy-dark">Tamer M.,
+                Cairo</span>
+            </div>
+          </div>
+          <div
+            class="bg-white p-space-md rounded-xl border border-slate-200 space-y-2 shadow-xs">
+            <div class="flex items-center gap-1 text-amber-500">
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p
+              class="text-xs text-slate-600 italic">"ValU 0% interest payment was completely seamless during checkout. No hidden processing charges. AlMumez Store is truly our premier tech destination."</p>
+            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+              <span
+                class="material-symbols-outlined text-primary text-base">verified_user</span>
+              <span class="text-xs font-bold text-navy-dark">Nourhan S.,
+                Giza</span>
+            </div>
+          </div>
+          <div
+            class="bg-white p-space-md rounded-xl border border-slate-200 space-y-2 shadow-xs">
+            <div class="flex items-center gap-1 text-amber-500">
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined fill-icon text-sm"
+                style="font-variation-settings: 'FILL' 1;">star</span>
+            </div>
+            <p
+              class="text-xs text-slate-600 italic">"Replaced an open-box display adapter within 24 hours under their 14-day policy without any hassle. Exceptional customer care team at AlMumez."</p>
+            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+              <span
+                class="material-symbols-outlined text-primary text-base">verified_user</span>
+              <span class="text-xs font-bold text-navy-dark">Ahmed K.,
+                Alexandria</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ========================================================================= -->
+      <!-- NEWSLETTER VIP CLUB BANNER                                                -->
+      <!-- ========================================================================= -->
+      <section
+        class="rounded-xl bg-gradient-to-r from-navy-dark via-navy-slate to-navy-surface text-white border border-slate-800 p-space-lg md:p-space-xl flex flex-col lg:flex-row items-center justify-between gap-space-lg relative overflow-hidden shadow-lg">
+        <div class="relative z-10 max-w-xl space-y-2 text-center lg:text-left">
+          <div
+            class="inline-flex items-center gap-1.5 text-mumez-green text-xs font-bold uppercase tracking-wider">
+            <span class="material-symbols-outlined text-sm">mail</span>
+            <span>AlMumez Priority Insider</span>
+          </div>
+          <h2
+            class="font-headline text-2xl md:text-3xl font-extrabold text-white">Get
+            200 EGP Off Your First Order</h2>
+          <p class="text-slate-300 text-xs md:text-sm">Subscribe for flash drop
+            notifications, exclusive warehouse sale invites, and member-only
+            tech vouchers.</p>
+        </div>
+        <div
+          class="relative z-10 w-full lg:w-auto flex flex-col sm:flex-row items-center gap-2">
+          <input
+            class="w-full sm:w-80 bg-white/10 border border-white/20 rounded-full px-5 py-3 text-sm text-white placeholder:text-slate-400 focus:border-mumez-green focus:ring-2 focus:ring-mumez-green/40 backdrop-blur-sm"
+            placeholder="Enter your email address..." type="email" />
+          <button
+            class="w-full sm:w-auto bg-mumez-green hover:bg-mumez-green-dark text-navy-dark hover:text-white px-7 py-3 rounded-full text-xs font-extrabold mumez-glow transition-all shrink-0 shadow-md">
+            Claim Voucher
+          </button>
+        </div>
+      </section>
+    </main>
+    <!-- ========================================================================= -->
+    <!-- FOOTER (AlMumez Clean Branded Layout)                                     -->
+    <!-- ========================================================================= -->
+    <footer class="bg-white border-t border-slate-200 mt-space-xl">
+      <div
+        class="w-full max-w-7xl mx-auto px-margin py-space-xl space-y-space-lg">
+        <!-- Top Grid: Brand & Category Columns -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-space-lg">
+          <!-- Brand Summary Column -->
+          <div class="col-span-2 space-y-space-sm pr-4">
+            <div class="inline-block bg-white rounded-lg p-1">
+              <img alt="AlMumez Online Store"
+                class="h-10 w-auto object-contain block"
+                src="assets/images/logo.png" />
+            </div>
+            <p class="text-xs text-slate-500 max-w-sm leading-relaxed">
+              المميز ستور - AlMumez Online Store is Egypt and the region's
+              certified premier distributor for genuine consumer electronics,
+              premium computing hardware, and smart lifestyle tech.
+            </p>
+            <div class="flex items-center gap-2.5 pt-2">
+              <a
+                class="w-8 h-8 rounded-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark flex items-center justify-center text-slate-600 transition-colors"
+                href="#" title="Facebook">
+                <span class="material-symbols-outlined text-base">public</span>
+              </a>
+              <a
+                class="w-8 h-8 rounded-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark flex items-center justify-center text-slate-600 transition-colors"
+                href="#" title="Instagram">
+                <span
+                  class="material-symbols-outlined text-base">photo_camera</span>
+              </a>
+              <a
+                class="w-8 h-8 rounded-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark flex items-center justify-center text-slate-600 transition-colors"
+                href="#" title="LinkedIn">
+                <span
+                  class="material-symbols-outlined text-base">business_center</span>
+              </a>
+              <a
+                class="w-8 h-8 rounded-full bg-slate-100 hover:bg-mumez-green hover:text-navy-dark flex items-center justify-center text-slate-600 transition-colors"
+                href="#" title="YouTube">
+                <span
+                  class="material-symbols-outlined text-base">play_circle</span>
+              </a>
+            </div>
+          </div>
+          <!-- Col 2: Company -->
+          <div class="space-y-space-sm">
+            <h4
+              class="font-headline text-sm font-bold text-navy-dark">Company</h4>
+            <ul class="space-y-2 text-xs">
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">About Us</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Careers</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Press Releases</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Privacy Policy</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+          <!-- Col 3: Customer Care -->
+          <div class="space-y-space-sm">
+            <h4 class="font-headline text-sm font-bold text-navy-dark">Customer
+              Care</h4>
+            <ul class="space-y-2 text-xs">
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Help Center</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Returns &amp; Refunds</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Track Order</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Shipping &amp; Delivery</a></li>
+              <li><a class="text-slate-500 hover:text-primary transition-colors"
+                  href="#">Contact Support</a></li>
+            </ul>
+          </div>
+          <!-- Col 4: Payment Partners -->
+          <div class="space-y-space-sm">
+            <h4 class="font-headline text-sm font-bold text-navy-dark">Payment
+              Options</h4>
+            <div class="flex flex-wrap gap-1.5 text-slate-600">
+              <span
+                class="bg-slate-100 px-2 py-1 rounded text-[11px] font-bold border border-slate-200">Visa</span>
+              <span
+                class="bg-slate-100 px-2 py-1 rounded text-[11px] font-bold border border-slate-200">Mastercard</span>
+              <span
+                class="bg-slate-100 px-2 py-1 rounded text-[11px] font-bold border border-slate-200">Meeza</span>
+              <span
+                class="bg-slate-100 px-2 py-1 rounded text-[11px] font-bold border border-slate-200">ValU</span>
+              <span
+                class="bg-slate-100 px-2 py-1 rounded text-[11px] font-bold border border-slate-200">Cash
+                on Delivery</span>
+            </div>
+            <div class="pt-3 text-[11px] text-slate-500 space-y-0.5">
+              <span class="block">Commercial Registry: #198273</span>
+              <span class="block">Tax Registration: 492-811-002</span>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Copyright Strip -->
+        <div
+          class="border-t border-slate-200 pt-space-md flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-xs text-slate-500">
+          <p>© 2025 AlMumez Online Store (المميز ستور). All rights reserved.
+            Authorized Regional Tech Distributor.</p>
+          <div class="flex items-center gap-space-md font-medium">
+            <span class="flex items-center gap-1 text-primary">
+              <span
+                class="material-symbols-outlined text-xs text-primary">lock</span>
+              256-Bit SSL Encrypted
+            </span>
+            <span>•</span>
+            <span>Cairo, Egypt</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- ========================================================================= -->
+    <!-- FLOATING WHATSAPP & SUPPORT WIDGET                                       -->
+    <!-- ========================================================================= -->
+    <aside class="fixed bottom-6 right-6 z-40 flex items-center gap-2 group">
+      <div
+        class="hidden md:flex items-center bg-navy-dark text-white px-3 py-1.5 rounded-full shadow-lg text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity border border-slate-700">
+        <span>تواصل مع أخصائي المميز ستور</span>
+      </div>
+      <a
+        class="w-14 h-14 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all duration-200"
+        href="#" title="Contact WhatsApp Support">
+        <span class="material-symbols-outlined text-3xl">chat</span>
+      </a>
+    </aside>
+    <script src="main.js"></script></body></html>
