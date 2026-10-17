@@ -1,0 +1,16 @@
+const fs=require('fs');
+const sourcePath='D:/store-websit/New folder/Accessories/code.html';
+let source=fs.readFileSync(sourcePath,'utf8');
+const home=fs.readFileSync('index.html','utf8');
+const urls=[...source.matchAll(/https:\/\/lh3\.googleusercontent\.com[^"']+/g)].map(match=>match[0]).filter((url,index,all)=>all.indexOf(url)===index);
+const names=['logo.png','accessory-iphone.jpg','galaxy-s24.jpg','xiaomi-14.jpg','pixel-8.jpg','oneplus-12.jpg','ipad-pro.jpg','macbook-air.jpg','sony-wh.jpg','watch-ultra.jpg'];
+urls.forEach((url,index)=>source=source.replaceAll(url,`assets/images/${names[index]}`));
+const config=source.match(/<script id="tailwind-config">([\s\S]*?)<\/script>/)[1].replace('tailwind.config = {','module.exports = {\ncontent: ["./accessories.html"],');
+fs.writeFileSync('tailwind.accessories.config.cjs',config);
+source=source.replace(/<link[^>]+(?:fonts\.googleapis|fonts\.gstatic)[^>]*>\s*/g,'').replace(/<!-- Tailwind CSS -->\s*<script[^>]+cdn\.tailwindcss\.com[^>]*><\/script>\s*/,'').replace(/<script id="tailwind-config">[\s\S]*?<\/script>\s*/,'').replace(/<style>[\s\S]*?<\/style>/,'<link href="assets/fonts/fonts.css" rel="stylesheet"/>\n<link href="style.css" rel="stylesheet"/>');
+source=source.replace('<body class="','<body data-page="accessories" class="theme-home ');
+const sharedHeader=home.match(/<header\b[\s\S]*?<\/header>/)[0];
+const sharedFooter=home.match(/<footer\b[\s\S]*?<\/footer>/)[0];
+source=source.replace(/<!-- ================= TOP IDENTITY BAR ================= -->[\s\S]*?<\/header>/,sharedHeader).replace(/<footer\b[\s\S]*?<\/footer>/,sharedFooter).replace('</body>','<script src="main.js"></script>\n</body>');
+fs.writeFileSync('accessories.html',source);
+fs.writeFileSync('accessories.utilities.css','@tailwind utilities;\n');

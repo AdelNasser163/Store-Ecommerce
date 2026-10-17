@@ -55,8 +55,654 @@
 }
 
 /* Store interactions */
-button.home-cart-button{font:inherit;cursor:pointer}.store-drawer-backdrop{position:fixed;inset:0;background:rgba(7,20,38,.5);opacity:0;visibility:hidden;transition:.2s;z-index:90}.store-drawer-backdrop.open{opacity:1;visibility:visible}.store-drawer{position:fixed;top:0;right:0;width:min(430px,100%);height:100dvh;background:#fff;z-index:100;transform:translateX(105%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-16px 0 40px rgba(13,32,63,.18)}.store-drawer.open{transform:translateX(0)}.store-drawer>header{position:static;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #e2e8f0;box-shadow:none}.store-drawer>header h2{font-size:22px;font-weight:800;color:#0b192e}.store-drawer>header button{font-size:30px;line-height:1;border:0;background:none}.store-drawer-content{padding:8px 22px;overflow:auto;flex:1}.store-drawer>footer{padding:18px 22px;border-top:1px solid #e2e8f0}.store-drawer>footer>div{display:flex;justify-content:space-between;font-size:18px;margin-bottom:14px}.store-checkout,.move-to-cart{display:flex;align-items:center;justify-content:center;width:100%;background:#8bc34a;color:#0b192e;padding:12px 16px;border-radius:9999px;font-weight:800;border:0}.drawer-item{display:grid;grid-template-columns:72px 1fr auto;gap:12px;padding:15px 0;border-bottom:1px solid #e2e8f0}.drawer-item img{width:72px;height:72px;object-fit:cover;border-radius:12px;background:#f1f5f9}.drawer-item h3{font-size:12px;line-height:1.4;margin:0 0 5px;color:#0f172a}.drawer-item strong{font-size:12px;color:#3e6a00}.quantity{display:flex;align-items:center;gap:10px;margin-top:8px}.quantity button{width:27px;height:27px;border:1px solid #cbd5e1;background:#fff;border-radius:50%;font-weight:800}.remove-item{align-self:start;border:0;background:none;color:#ba1a1a;font-family:'Material Symbols Outlined';font-size:20px}.move-to-cart{width:auto;padding:7px 13px;margin-top:8px;font-size:11px}.drawer-empty{text-align:center;color:#64748b;padding:50px 10px}.drawer-open{overflow:hidden}.wishlist-active{color:#ef233c!important}.store-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,25px);padding:11px 18px;border-radius:9999px;background:#0b192e;color:#fff;font-size:12px;font-weight:700;opacity:0;visibility:hidden;transition:.2s;z-index:120;box-shadow:0 8px 30px -6px rgba(13,32,63,.3)}.store-toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}.product-empty{padding:35px;text-align:center;border:1px dashed #cbd5e1;border-radius:18px;color:#64748b;background:#fff}.filter-active{background:#0b192e!important;color:#fff!important;border-color:#0b192e!important}.language-toggle{cursor:pointer}.is-arabic .store-drawer{right:auto;left:0;transform:translateX(-105%);direction:rtl}.is-arabic .store-drawer.open{transform:translateX(0)}
-@media(max-width:600px){.store-drawer{width:100%}.store-toast{white-space:nowrap;max-width:calc(100% - 24px)}.drawer-item{grid-template-columns:62px 1fr auto}.drawer-item img{width:62px;height:62px}}
+button.home-cart-button {
+    font: inherit;
+    cursor: pointer
+}
+
+.store-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(7, 20, 38, .5);
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s;
+    z-index: 90
+}
+
+.store-drawer-backdrop.open {
+    opacity: 1;
+    visibility: visible
+}
+
+.store-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(430px, 100%);
+    height: 100dvh;
+    background: #fff;
+    z-index: 100;
+    transform: translateX(105%);
+    transition: transform .25s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -16px 0 40px rgba(13, 32, 63, .18)
+}
+
+.store-drawer.open {
+    transform: translateX(0)
+}
+
+.store-drawer>header {
+    position: static;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: none
+}
+
+.store-drawer>header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0b192e
+}
+
+.store-drawer>header button {
+    font-size: 30px;
+    line-height: 1;
+    border: 0;
+    background: none
+}
+
+.store-drawer-content {
+    padding: 8px 22px;
+    overflow: auto;
+    flex: 1
+}
+
+.store-drawer>footer {
+    padding: 18px 22px;
+    border-top: 1px solid #e2e8f0
+}
+
+.store-drawer>footer>div {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    margin-bottom: 14px
+}
+
+.store-checkout,
+.move-to-cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: #8bc34a;
+    color: #0b192e;
+    padding: 12px 16px;
+    border-radius: 9999px;
+    font-weight: 800;
+    border: 0
+}
+
+.drawer-item {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e8f0
+}
+
+.drawer-item img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #f1f5f9
+}
+
+.drawer-item h3 {
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0 0 5px;
+    color: #0f172a
+}
+
+.drawer-item strong {
+    font-size: 12px;
+    color: #3e6a00
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px
+}
+
+.quantity button {
+    width: 27px;
+    height: 27px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 50%;
+    font-weight: 800
+}
+
+.remove-item {
+    align-self: start;
+    border: 0;
+    background: none;
+    color: #ba1a1a;
+    font-family: 'Material Symbols Outlined';
+    font-size: 20px
+}
+
+.move-to-cart {
+    width: auto;
+    padding: 7px 13px;
+    margin-top: 8px;
+    font-size: 11px
+}
+
+.drawer-empty {
+    text-align: center;
+    color: #64748b;
+    padding: 50px 10px
+}
+
+.drawer-open {
+    overflow: hidden
+}
+
+.wishlist-active {
+    color: #ef233c !important
+}
+
+.store-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 25px);
+    padding: 11px 18px;
+    border-radius: 9999px;
+    background: #0b192e;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s;
+    z-index: 120;
+    box-shadow: 0 8px 30px -6px rgba(13, 32, 63, .3)
+}
+
+.store-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0)
+}
+
+.product-empty {
+    padding: 35px;
+    text-align: center;
+    border: 1px dashed #cbd5e1;
+    border-radius: 18px;
+    color: #64748b;
+    background: #fff
+}
+
+.filter-active {
+    background: #0b192e !important;
+    color: #fff !important;
+    border-color: #0b192e !important
+}
+
+.language-toggle {
+    cursor: pointer
+}
+
+.is-arabic .store-drawer {
+    right: auto;
+    left: 0;
+    transform: translateX(-105%);
+    direction: rtl
+}
+
+.is-arabic .store-drawer.open {
+    transform: translateX(0)
+}
+
+@media(max-width:600px) {
+    .store-drawer {
+        width: 100%
+    }
+
+    .store-toast {
+        white-space: nowrap;
+        max-width: calc(100% - 24px)
+    }
+
+    .drawer-item {
+        grid-template-columns: 62px 1fr auto
+    }
+
+    .drawer-item img {
+        width: 62px;
+        height: 62px
+    }
+}
+
+/* Compact home header actions */
+.home-header-actions {
+    gap: 14px
+}
+
+.home-action-icon {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #334155;
+    border: 0;
+    background: transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color .15s ease, background-color .15s ease, transform .15s ease
+}
+
+.home-action-icon:hover {
+    color: #3e6a00;
+    background: #f1f5f9;
+    transform: translateY(-1px)
+}
+
+.home-action-icon>.material-symbols-outlined {
+    font-size: 27px
+}
+
+.home-language-toggle .sr-only {
+    display: none !important
+}
+
+.home-wishlist-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #8bc34a;
+    color: #0b192e;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+    border: 2px solid #fff
+}
+
+.home-cart-button {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 7px 18px;
+    border-radius: 9999px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    color: #0b192e;
+    box-shadow: 0 2px 10px rgba(13, 32, 63, .08);
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease
+}
+
+.home-cart-button:hover {
+    border-color: #8bc34a;
+    box-shadow: 0 5px 15px rgba(13, 32, 63, .13);
+    transform: translateY(-1px)
+}
+
+.home-cart-icon {
+    font-size: 26px !important;
+    color: #8bc34a;
+    font-variation-settings: 'FILL' 1 !important
+}
+
+.home-cart-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+    white-space: nowrap
+}
+
+.home-cart-meta {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b
+}
+
+.home-cart-total {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0b192e
+}
+
+@media(max-width:767px) {
+    .home-header-actions {
+        gap: 2px
+    }
+
+    .home-action-icon {
+        width: 34px;
+        height: 34px
+    }
+
+    .home-action-icon>.material-symbols-outlined {
+        font-size: 23px
+    }
+
+    .home-cart-button {
+        min-height: 40px;
+        padding: 6px 10px
+    }
+
+    .home-cart-copy {
+        display: none
+    }
+
+    .home-cart-icon {
+        font-size: 23px !important
+    }
+}
+
+@media(max-width:420px) {
+    .home-header-actions {
+        gap: 0
+    }
+
+    .home-action-icon {
+        width: 31px;
+        height: 34px
+    }
+
+    .home-wishlist-count {
+        right: -1px
+    }
+
+    .home-cart-button {
+        padding: 5px 9px
+    }
+}
+
+/* Keep Material Symbols working inside RTL Arabic layouts. */
+.material-symbols-outlined {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+    font-family: 'Material Symbols Outlined' !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-feature-settings: 'liga' 1 !important;
+    -webkit-font-feature-settings: 'liga' 1 !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+    word-wrap: normal !important;
+    letter-spacing: normal !important;
+}
+
+/* Product details page */
+body[data-page="product"] {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #f8fbec;
+    color: #191d14
+}
+
+body[data-page="product"] .custom-shadow-card {
+    box-shadow: 0 4px 20px -4px rgba(13, 32, 63, .06)
+}
+
+body[data-page="product"] .custom-shadow-elevated {
+    box-shadow: 0 8px 30px -6px rgba(13, 32, 63, .12)
+}
+
+body[data-page="product"] button {
+    font: inherit
+}
+
+body[data-page="product"] .product-cart-button {
+    appearance: none
+}
+
+body[data-page="product"] [hidden] {
+    display: none !important
+}
+
+body[data-page="product"] .wishlist-active .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1 !important
+}
+
+body[data-page="product"].is-arabic {
+    direction: rtl
+}
+
+body[data-page="product"].is-arabic .left-3\.5 {
+    left: auto;
+    right: .875rem
+}
+
+body[data-page="product"].is-arabic .right-1\.5 {
+    right: auto;
+    left: .375rem
+}
+
+body[data-page="product"].is-arabic input {
+    padding-left: 5.5rem;
+    padding-right: 2.5rem
+}
+
+@media(max-width:767px) {
+    body[data-page="product"] aside:first-child {
+        display: none
+    }
+
+    body[data-page="product"] header>div {
+        padding-left: 1rem;
+        padding-right: 1rem
+    }
+
+    body[data-page="product"] header>div>div:first-child {
+        flex-wrap: wrap
+    }
+
+    body[data-page="product"] header .max-w-xl {
+        order: 3;
+        max-width: none;
+        width: 100%;
+        margin: 0
+    }
+
+    body[data-page="product"] header nav {
+        gap: 1rem;
+        padding-bottom: .25rem
+    }
+
+    body[data-page="product"] main,
+    body[data-page="product"] nav[aria-label="Breadcrumb"] {
+        padding-left: 1rem;
+        padding-right: 1rem
+    }
+
+    body[data-page="product"] nav[aria-label="Breadcrumb"] ol {
+        overflow: auto;
+        white-space: nowrap
+    }
+
+    body[data-page="product"] main>div>section {
+        padding: 1rem
+    }
+
+    body[data-page="product"] main section.mt-space-xl {
+        padding: 1rem
+    }
+
+    body[data-page="product"] main section:last-of-type>div:first-child {
+        gap: 1rem;
+        overflow: auto
+    }
+
+    body[data-page="product"] main section:last-of-type>div:first-child button {
+        font-size: 14px;
+        white-space: nowrap
+    }
+
+    body[data-page="product"] footer {
+        padding-left: 1rem;
+        padding-right: 1rem
+    }
+}
+
+/* Shared AlMumez palette on the product page. The product structure remains unchanged. */
+body[data-page="product"].theme-home {
+    background: #f8fafc;
+    color: #0b192e
+}
+
+body[data-page="product"].theme-home .bg-background {
+    background-color: #f8fafc
+}
+
+body[data-page="product"].theme-home .bg-surface-container {
+    background-color: #f8fafc
+}
+
+body[data-page="product"].theme-home .bg-surface-container-low {
+    background-color: #f1f5f9
+}
+
+body[data-page="product"].theme-home .bg-surface-container-low\/30 {
+    background-color: rgba(241, 245, 249, .3)
+}
+
+body[data-page="product"].theme-home .bg-surface-container-low\/60 {
+    background-color: rgba(241, 245, 249, .6)
+}
+
+body[data-page="product"].theme-home .bg-surface-container-high {
+    background-color: #e2e8f0
+}
+
+body[data-page="product"].theme-home .bg-surface-container-high\/40 {
+    background-color: rgba(226, 232, 240, .4)
+}
+
+body[data-page="product"].theme-home .bg-surface-container-lowest {
+    background-color: #fff
+}
+
+body[data-page="product"].theme-home .bg-inverse-surface {
+    background-color: #0b192e
+}
+
+body[data-page="product"].theme-home .bg-primary-container {
+    background-color: #8bc34a
+}
+
+body[data-page="product"].theme-home .bg-primary-container\/10 {
+    background-color: rgba(139, 195, 74, .1)
+}
+
+body[data-page="product"].theme-home .bg-primary-container\/15 {
+    background-color: rgba(139, 195, 74, .15)
+}
+
+body[data-page="product"].theme-home .bg-primary-container\/20 {
+    background-color: rgba(139, 195, 74, .2)
+}
+
+body[data-page="product"].theme-home .text-on-surface,
+body[data-page="product"].theme-home .text-inverse-surface {
+    color: #0b192e
+}
+
+body[data-page="product"].theme-home .text-on-surface-variant {
+    color: #475569
+}
+
+body[data-page="product"].theme-home .text-outline {
+    color: #64748b
+}
+
+body[data-page="product"].theme-home .text-outline-variant {
+    color: #cbd5e1
+}
+
+body[data-page="product"].theme-home .text-primary {
+    color: #3e6a00
+}
+
+body[data-page="product"].theme-home .text-primary-container {
+    color: #8bc34a
+}
+
+body[data-page="product"].theme-home .text-on-primary-container {
+    color: #0b192e
+}
+
+body[data-page="product"].theme-home .text-secondary {
+    color: #334155
+}
+
+body[data-page="product"].theme-home .border-surface-container-high {
+    border-color: #e2e8f0
+}
+
+body[data-page="product"].theme-home .border-surface-container-high\/60 {
+    border-color: rgba(226, 232, 240, .6)
+}
+
+body[data-page="product"].theme-home .border-surface-variant,
+body[data-page="product"].theme-home .border-outline-variant {
+    border-color: #cbd5e1
+}
+
+body[data-page="product"].theme-home [data-component="site-header"],
+body[data-page="product"].theme-home [data-component="site-footer"] {
+    font-family: 'Plus Jakarta Sans', sans-serif
+}
+
+body[data-page="product"].theme-home [data-component="site-header"] .rounded-xl,
+body[data-page="product"].theme-home [data-component="site-footer"] .rounded-xl {
+    border-radius: 1.75rem
+}
+
+body[data-page="product"].theme-home [data-component="site-header"] .rounded,
+body[data-page="product"].theme-home [data-component="site-footer"] .rounded {
+    border-radius: .75rem
+}
+
+.home-header-wishlist {
+    display: inline-flex !important
+}
+
+.product-card-link .product-click-target,
+.product-card-link h3 {
+    cursor: pointer
+}
+
+.product-card-link h3:focus-visible {
+    outline: 2px solid #8bc34a;
+    outline-offset: 3px;
+    border-radius: 4px
+}
 
 ::backdrop {
     --tw-border-spacing-x: 0;
@@ -822,7 +1468,8 @@ video {
 .space-y-space-lg>:not([hidden])~:not([hidden]) {
     --tw-space-y-reverse: 0;
     margin-top: calc(1.5rem*(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(1.5rem*var(--tw-space-y-reverse))
+    margin-bottom: calc(1.5rem*var(--tw-space-y-reverse));
+    flex-direction: row;
 }
 
 .space-y-space-md>:not([hidden])~:not([hidden]) {
@@ -2165,5 +2812,2722 @@ body {
 
     .lg\:opacity-25 {
         opacity: .25
+    }
+}
+
+/* Product page utilities generated from Stitch source */
+body[data-page="product"] .visible {
+    visibility: visible
+}
+
+body[data-page="product"] .absolute {
+    position: absolute
+}
+
+body[data-page="product"] .relative {
+    position: relative
+}
+
+body[data-page="product"] .sticky {
+    position: sticky
+}
+
+body[data-page="product"] .bottom-3 {
+    bottom: .75rem
+}
+
+body[data-page="product"] .left-3\.5 {
+    left: .875rem
+}
+
+body[data-page="product"] .left-4 {
+    left: 1rem
+}
+
+body[data-page="product"] .right-1 {
+    right: .25rem
+}
+
+body[data-page="product"] .right-1\.5 {
+    right: .375rem
+}
+
+body[data-page="product"] .right-3 {
+    right: .75rem
+}
+
+body[data-page="product"] .right-4 {
+    right: 1rem
+}
+
+body[data-page="product"] .top-0 {
+    top: 0
+}
+
+body[data-page="product"] .top-1 {
+    top: .25rem
+}
+
+body[data-page="product"] .top-4 {
+    top: 1rem
+}
+
+body[data-page="product"] .z-10 {
+    z-index: 10
+}
+
+body[data-page="product"] .z-50 {
+    z-index: 50
+}
+
+body[data-page="product"] .mx-4 {
+    margin-left: 1rem;
+    margin-right: 1rem
+}
+
+body[data-page="product"] .mx-auto {
+    margin-left: auto;
+    margin-right: auto
+}
+
+body[data-page="product"] .mb-2 {
+    margin-bottom: .5rem
+}
+
+body[data-page="product"] .mb-4 {
+    margin-bottom: 1rem
+}
+
+body[data-page="product"] .mb-6 {
+    margin-bottom: 1.5rem
+}
+
+body[data-page="product"] .mt-1 {
+    margin-top: .25rem
+}
+
+body[data-page="product"] .mt-3 {
+    margin-top: .75rem
+}
+
+body[data-page="product"] .mt-3\.5 {
+    margin-top: .875rem
+}
+
+body[data-page="product"] .mt-6 {
+    margin-top: 1.5rem
+}
+
+body[data-page="product"] .mt-8 {
+    margin-top: 2rem
+}
+
+body[data-page="product"] .mt-space-xl {
+    margin-top: 2.5rem
+}
+
+body[data-page="product"] .inline-block {
+    display: inline-block
+}
+
+body[data-page="product"] .flex {
+    display: flex
+}
+
+body[data-page="product"] .grid {
+    display: grid
+}
+
+body[data-page="product"] .hidden {
+    display: none
+}
+
+body[data-page="product"] .aspect-square {
+    aspect-ratio: 1/1
+}
+
+body[data-page="product"] .h-10 {
+    height: 2.5rem
+}
+
+body[data-page="product"] .h-14 {
+    height: 3.5rem
+}
+
+body[data-page="product"] .h-16 {
+    height: 4rem
+}
+
+body[data-page="product"] .h-2 {
+    height: .5rem
+}
+
+body[data-page="product"] .h-4 {
+    height: 1rem
+}
+
+body[data-page="product"] .h-4\/5 {
+    height: 80%
+}
+
+body[data-page="product"] .h-8 {
+    height: 2rem
+}
+
+body[data-page="product"] .h-9 {
+    height: 2.25rem
+}
+
+body[data-page="product"] .min-h-screen {
+    min-height: 100vh
+}
+
+body[data-page="product"] .w-10 {
+    width: 2.5rem
+}
+
+body[data-page="product"] .w-14 {
+    width: 3.5rem
+}
+
+body[data-page="product"] .w-16 {
+    width: 4rem
+}
+
+body[data-page="product"] .w-2 {
+    width: .5rem
+}
+
+body[data-page="product"] .w-4 {
+    width: 1rem
+}
+
+body[data-page="product"] .w-4\/5 {
+    width: 80%
+}
+
+body[data-page="product"] .w-64 {
+    width: 16rem
+}
+
+body[data-page="product"] .w-8 {
+    width: 2rem
+}
+
+body[data-page="product"] .w-9 {
+    width: 2.25rem
+}
+
+body[data-page="product"] .w-auto {
+    width: auto
+}
+
+body[data-page="product"] .w-full {
+    width: 100%
+}
+
+body[data-page="product"] .min-w-\[260px\] {
+    min-width: 260px
+}
+
+body[data-page="product"] .max-w-7xl {
+    max-width: 80rem
+}
+
+body[data-page="product"] .max-w-sm {
+    max-width: 24rem
+}
+
+body[data-page="product"] .max-w-xl {
+    max-width: 36rem
+}
+
+body[data-page="product"] .max-w-xs {
+    max-width: 20rem
+}
+
+body[data-page="product"] .flex-1 {
+    flex: 1 1 0%
+}
+
+body[data-page="product"] .shrink-0 {
+    flex-shrink: 0
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .5
+    }
+}
+
+body[data-page="product"] .animate-pulse {
+    animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite
+}
+
+body[data-page="product"] .cursor-crosshair {
+    cursor: crosshair
+}
+
+body[data-page="product"] .cursor-pointer {
+    cursor: pointer
+}
+
+body[data-page="product"] .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr))
+}
+
+body[data-page="product"] .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body[data-page="product"] .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr))
+}
+
+body[data-page="product"] .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr))
+}
+body[data-page="product"] .grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr))
+}
+
+body[data-page="product"] .flex-col {
+    flex-direction: column
+}
+
+body[data-page="product"] .flex-wrap {
+    flex-wrap: wrap
+}
+
+/* Bundle Product Card */
+.bundle-item-1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 320px;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 110px;
+
+    padding: 14px 16px;
+    box-sizing: border-box;
+
+    border-radius: 60px;
+    overflow: hidden;
+}
+
+/* Product Image */
+.bundle-item-1 img {
+    width: 72px;
+    height: 64px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+/* Product Details */
+.bundle-item-1 > div {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* Product Name */
+.bundle-item-1 > div p:first-child {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Product Description */
+.bundle-item-1 > div p:nth-child(2) {
+    font-size: 13px;
+    line-height: 1.5;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Product Price */
+.bundle-item-1 > div p:last-child {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+    .bundle-item-1 {
+        width: 290px;
+        min-height: 100px;
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .bundle-item-1 img {
+        width: 65px;
+        height: 60px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .bundle-item-1 {
+        width: 100%;
+        max-width: 100%;
+        min-height: 90px;
+        padding: 12px;
+        gap: 10px;
+        border-radius: 30px;
+    }
+
+    .bundle-item-1 img {
+        width: 60px;
+        height: 55px;
+    }
+
+    .bundle-item-1 > div p:first-child {
+        font-size: 12px;
+    }
+
+    .bundle-item-1 > div p:nth-child(2) {
+        font-size: 11px;
+    }
+
+    .bundle-item-1 > div p:last-child {
+        font-size: 12px;
+    }
+}
+
+/* Mobile Product Actions */
+@media (max-width: 640px) {
+
+    .product-actions-mobile {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "quantity wishlist"
+            "cart cart";
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* Quantity Counter */
+    .product-actions-mobile > div:first-child {
+        grid-area: quantity;
+        display: flex;
+        align-items: center;
+        justify-self: start;
+        flex-shrink: 0;
+        min-height: 48px;
+    }
+
+    /* Add To Cart Button */
+    .product-actions-mobile > button[data-add-to-cart] {
+        grid-area: cart;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        width: 100%;
+        min-width: 0;
+        min-height: 50px;
+
+        padding: 12px 16px;
+        flex: none;
+
+        font-size: 15px;
+        line-height: 1.4;
+        white-space: nowrap;
+        text-align: center;
+        border-radius: 9999px;
+    }
+
+    /* Add To Cart Icon */
+    .product-actions-mobile > button[data-add-to-cart] svg {
+        flex-shrink: 0;
+    }
+
+    /* Wishlist Button */
+    .product-actions-mobile > button[data-toggle-wishlist] {
+        grid-area: wishlist;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 48px;
+        height: 48px;
+        padding: 0;
+
+        justify-self: end;
+        flex-shrink: 0;
+        border-radius: 50%;
+    }
+
+}
+
+body[data-page="product"] .items-start {
+    align-items: flex-start
+}
+
+body[data-page="product"] .items-center {
+    align-items: center
+}
+
+body[data-page="product"] .items-baseline {
+    align-items: baseline
+}
+
+body[data-page="product"] .justify-center {
+    justify-content: center
+}
+
+body[data-page="product"] .justify-between {
+    justify-content: space-between
+}
+
+body[data-page="product"] .gap-1 {
+    gap: .25rem
+}
+
+body[data-page="product"] .gap-1\.5 {
+    gap: .375rem
+}
+
+body[data-page="product"] .gap-2 {
+    gap: .5rem
+}
+
+body[data-page="product"] .gap-2\.5 {
+    gap: .625rem
+}
+
+body[data-page="product"] .gap-3 {
+    gap: .75rem
+}
+
+body[data-page="product"] .gap-4 {
+    gap: 1rem
+}
+
+body[data-page="product"] .gap-5 {
+    gap: 1.25rem
+}
+
+body[data-page="product"] .gap-6 {
+    gap: 1.5rem
+}
+
+body[data-page="product"] .gap-8 {
+    gap: 2rem
+}
+
+body[data-page="product"] .gap-gutter {
+    gap: 1.5rem
+}
+
+body[data-page="product"] .gap-space-sm {
+    gap: .5rem
+}
+
+body[data-page="product"] .gap-x-8 {
+    -moz-column-gap: 2rem;
+    column-gap: 2rem
+}
+
+body[data-page="product"] .gap-y-4 {
+    row-gap: 1rem
+}
+
+body[data-page="product"] .space-x-2>:not([hidden])~:not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(.5rem*var(--tw-space-x-reverse));
+    margin-left: calc(.5rem*(1 - var(--tw-space-x-reverse)))
+}
+
+body[data-page="product"] .overflow-hidden {
+    overflow: hidden
+}
+
+body[data-page="product"] .overflow-x-auto {
+    overflow-x: auto
+}
+
+body[data-page="product"] .truncate {
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+body[data-page="product"] .truncate,
+body[data-page="product"] .whitespace-nowrap {
+    white-space: nowrap
+}
+
+body[data-page="product"] .rounded,
+body[data-page="product"] .rounded-2xl {
+    border-radius: 1rem
+}
+
+body[data-page="product"] .rounded-full {
+    border-radius: 9999px
+}
+
+body[data-page="product"] .rounded-xl {
+    border-radius: 3rem
+}
+
+body[data-page="product"] .border {
+    border-width: 1px
+}
+
+body[data-page="product"] .border-2 {
+    border-width: 2px
+}
+
+body[data-page="product"] .border-b {
+    border-bottom-width: 1px
+}
+
+body[data-page="product"] .border-b-2 {
+    border-bottom-width: 2px
+}
+
+body[data-page="product"] .border-t {
+    border-top-width: 1px
+}
+
+body[data-page="product"] .border-outline-variant {
+    --tw-border-opacity: 1;
+    border-color: rgb(194 201 180/var(--tw-border-opacity, 1))
+}
+
+body[data-page="product"] .border-primary-container {
+    --tw-border-opacity: 1;
+    border-color: rgb(139 195 74/var(--tw-border-opacity, 1))
+}
+
+body[data-page="product"] .border-surface-container-high {
+    --tw-border-opacity: 1;
+    border-color: rgb(231 234 220/var(--tw-border-opacity, 1))
+}
+
+body[data-page="product"] .border-surface-container-high\/60 {
+    border-color: hsla(73, 25%, 89%, .6)
+}
+
+body[data-page="product"] .border-surface-variant {
+    --tw-border-opacity: 1;
+    border-color: rgb(225 228 214/var(--tw-border-opacity, 1))
+}
+
+body[data-page="product"] .border-surface-variant\/40 {
+    border-color: hsla(73, 21%, 87%, .4)
+}
+
+body[data-page="product"] .border-surface-variant\/50 {
+    border-color: hsla(73, 21%, 87%, .5)
+}
+
+body[data-page="product"] .bg-\[\#2E3033\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(46 48 51/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-\[\#3B4450\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(59 68 80/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-\[\#B8B3A8\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(184 179 168/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-\[\#E5E6E8\] {
+    --tw-bg-opacity: 1;
+    background-color: rgb(229 230 232/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-background {
+    --tw-bg-opacity: 1;
+    background-color: rgb(248 251 236/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-inverse-surface {
+    --tw-bg-opacity: 1;
+    background-color: rgb(46 50 40/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-primary-container {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-primary-container\/10 {
+    background-color: rgba(139, 195, 74, .1)
+}
+
+body[data-page="product"] .bg-primary-container\/15 {
+    background-color: rgba(139, 195, 74, .15)
+}
+
+body[data-page="product"] .bg-primary-container\/20 {
+    background-color: rgba(139, 195, 74, .2)
+}
+
+body[data-page="product"] .bg-primary-fixed\/40 {
+    background-color: hsla(88, 85%, 71%, .4)
+}
+
+body[data-page="product"] .bg-secondary {
+    --tw-bg-opacity: 1;
+    background-color: rgb(78 94 129/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-secondary-container {
+    --tw-bg-opacity: 1;
+    background-color: rgb(198 215 255/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-surface-container {
+    --tw-bg-opacity: 1;
+    background-color: rgb(237 239 225/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-surface-container-high {
+    --tw-bg-opacity: 1;
+    background-color: rgb(231 234 220/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-surface-container-high\/40 {
+    background-color: hsla(73, 25%, 89%, .4)
+}
+
+body[data-page="product"] .bg-surface-container-low {
+    --tw-bg-opacity: 1;
+    background-color: rgb(242 245 231/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-surface-container-low\/30 {
+    background-color: hsla(73, 41%, 93%, .3)
+}
+
+body[data-page="product"] .bg-surface-container-low\/60 {
+    background-color: hsla(73, 41%, 93%, .6)
+}
+
+body[data-page="product"] .bg-surface-container-lowest {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .bg-surface-container-lowest\/80 {
+    background-color: hsla(0, 0%, 100%, .8)
+}
+
+body[data-page="product"] .bg-surface-container-lowest\/90 {
+    background-color: hsla(0, 0%, 100%, .9)
+}
+
+body[data-page="product"] .object-contain {
+    -o-object-fit: contain;
+    object-fit: contain
+}
+
+body[data-page="product"] .p-1\.5 {
+    padding: .375rem
+}
+
+body[data-page="product"] .p-2 {
+    padding: .5rem
+}
+
+body[data-page="product"] .p-3 {
+    padding: .75rem
+}
+
+body[data-page="product"] .p-4 {
+    padding: 1rem
+}
+
+body[data-page="product"] .p-5 {
+    padding: 1.25rem
+}
+
+body[data-page="product"] .p-6 {
+    padding: 1.5rem
+}
+
+body[data-page="product"] .px-1\.5 {
+    padding-left: .375rem;
+    padding-right: .375rem
+}
+
+body[data-page="product"] .px-2 {
+    padding-left: .5rem;
+    padding-right: .5rem
+}
+
+body[data-page="product"] .px-2\.5 {
+    padding-left: .625rem;
+    padding-right: .625rem
+}
+
+body[data-page="product"] .px-3 {
+    padding-left: .75rem;
+    padding-right: .75rem
+}
+
+body[data-page="product"] .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem
+}
+
+body[data-page="product"] .px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem
+}
+
+body[data-page="product"] .px-margin {
+    padding-left: 2rem;
+    padding-right: 2rem
+}
+
+body[data-page="product"] .py-0\.5 {
+    padding-top: .125rem;
+    padding-bottom: .125rem
+}
+
+body[data-page="product"] .py-1 {
+    padding-top: .25rem;
+    padding-bottom: .25rem
+}
+
+body[data-page="product"] .py-1\.5 {
+    padding-top: .375rem;
+    padding-bottom: .375rem
+}
+
+body[data-page="product"] .py-2\.5 {
+    padding-top: .625rem;
+    padding-bottom: .625rem
+}
+
+body[data-page="product"] .py-3 {
+    padding-top: .75rem;
+    padding-bottom: .75rem
+}
+
+body[data-page="product"] .py-3\.5 {
+    padding-top: .875rem;
+    padding-bottom: .875rem
+}
+
+body[data-page="product"] .py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem
+}
+
+body[data-page="product"] .py-space-sm {
+    padding-top: .5rem;
+    padding-bottom: .5rem
+}
+
+body[data-page="product"] .py-space-xl {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem
+}
+
+body[data-page="product"] .pb-1 {
+    padding-bottom: .25rem
+}
+
+body[data-page="product"] .pb-10 {
+    padding-bottom: 2.5rem
+}
+
+body[data-page="product"] .pb-3 {
+    padding-bottom: .75rem
+}
+
+body[data-page="product"] .pl-10 {
+    padding-left: 2.5rem
+}
+
+body[data-page="product"] .pr-4 {
+    padding-right: 1rem
+}
+
+body[data-page="product"] .pt-1 {
+    padding-top: .25rem
+}
+
+body[data-page="product"] .pt-2 {
+    padding-top: .5rem
+}
+
+body[data-page="product"] .pt-3 {
+    padding-top: .75rem
+}
+
+body[data-page="product"] .pt-3\.5 {
+    padding-top: .875rem
+}
+
+body[data-page="product"] .pt-6 {
+    padding-top: 1.5rem
+}
+
+body[data-page="product"] .text-left {
+    text-align: left
+}
+
+body[data-page="product"] .text-center {
+    text-align: center
+}
+
+body[data-page="product"] .text-right {
+    text-align: right
+}
+
+body[data-page="product"] .font-body-md,
+body[data-page="product"] .font-body-sm {
+    font-family: Plus Jakarta Sans
+}
+
+body[data-page="product"] .font-headline-lg,
+body[data-page="product"] .font-headline-md,
+body[data-page="product"] .font-headline-sm {
+    font-family: Bricolage Grotesque
+}
+
+body[data-page="product"] .font-label-lg,
+body[data-page="product"] .font-label-md,
+body[data-page="product"] .font-label-sm {
+    font-family: Plus Jakarta Sans
+}
+
+body[data-page="product"] .font-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace
+}
+
+body[data-page="product"] .text-\[10px\] {
+    font-size: 10px
+}
+
+body[data-page="product"] .text-\[11px\] {
+    font-size: 11px
+}
+
+body[data-page="product"] .text-\[12px\] {
+    font-size: 12px
+}
+
+body[data-page="product"] .text-base {
+    font-size: 1rem;
+    line-height: 1.5rem
+}
+
+body[data-page="product"] .text-body-md {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400
+}
+
+body[data-page="product"] .text-body-sm {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400
+}
+
+body[data-page="product"] .text-headline-lg {
+    font-size: 36px;
+    line-height: 44px;
+    font-weight: 700
+}
+
+body[data-page="product"] .text-headline-md {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700
+}
+
+body[data-page="product"] .text-headline-sm {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 600
+}
+
+body[data-page="product"] .text-label-lg {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600
+}
+
+body[data-page="product"] .text-label-md {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600
+}
+
+body[data-page="product"] .text-label-sm {
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 700
+}
+
+body[data-page="product"] .text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem
+}
+
+body[data-page="product"] .text-sm {
+    font-size: .875rem;
+    line-height: 1.25rem
+}
+
+body[data-page="product"] .text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem
+}
+
+body[data-page="product"] .text-xs {
+    font-size: .75rem;
+    line-height: 1rem
+}
+
+body[data-page="product"] .font-bold {
+    font-weight: 700
+}
+
+body[data-page="product"] .font-medium {
+    font-weight: 500
+}
+
+body[data-page="product"] .font-semibold {
+    font-weight: 600
+}
+
+body[data-page="product"] .uppercase {
+    text-transform: uppercase
+}
+
+body[data-page="product"] .leading-snug {
+    line-height: 1.375
+}
+
+body[data-page="product"] .leading-tight {
+    line-height: 1.25
+}
+
+body[data-page="product"] .tracking-tight {
+    letter-spacing: -.025em
+}
+
+body[data-page="product"] .tracking-wide {
+    letter-spacing: .025em
+}
+
+body[data-page="product"] .tracking-wider {
+    letter-spacing: .05em
+}
+
+body[data-page="product"] .tracking-widest {
+    letter-spacing: .1em
+}
+
+body[data-page="product"] .text-error {
+    --tw-text-opacity: 1;
+    color: rgb(186 26 26/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-inverse-on-surface {
+    --tw-text-opacity: 1;
+    color: rgb(239 242 228/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-inverse-surface {
+    --tw-text-opacity: 1;
+    color: rgb(46 50 40/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-on-primary {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-on-primary-container {
+    --tw-text-opacity: 1;
+    color: rgb(45 78 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-on-secondary-container {
+    --tw-text-opacity: 1;
+    color: rgb(76 93 128/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-on-surface {
+    --tw-text-opacity: 1;
+    color: rgb(25 29 20/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-on-surface-variant {
+    --tw-text-opacity: 1;
+    color: rgb(66 73 57/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-outline {
+    --tw-text-opacity: 1;
+    color: rgb(115 122 103/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-outline-variant {
+    --tw-text-opacity: 1;
+    color: rgb(194 201 180/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-primary {
+    --tw-text-opacity: 1;
+    color: rgb(62 106 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-primary-container {
+    --tw-text-opacity: 1;
+    color: rgb(139 195 74/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-primary-fixed {
+    --tw-text-opacity: 1;
+    color: rgb(185 244 116/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-secondary {
+    --tw-text-opacity: 1;
+    color: rgb(78 94 129/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-tertiary {
+    --tw-text-opacity: 1;
+    color: rgb(155 54 132/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .underline {
+    text-decoration-line: underline
+}
+
+body[data-page="product"] .line-through {
+    text-decoration-line: line-through
+}
+
+body[data-page="product"] .antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+body[data-page="product"] .shadow-md {
+    --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color)
+}
+
+body[data-page="product"] .shadow-md,
+body[data-page="product"] .shadow-sm {
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+}
+
+body[data-page="product"] .shadow-sm {
+    --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color)
+}
+
+body[data-page="product"] .ring {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color)
+}
+
+body[data-page="product"] .ring,
+body[data-page="product"] .ring-2 {
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+}
+
+body[data-page="product"] .ring-2 {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color)
+}
+
+body[data-page="product"] .ring-primary-container {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgb(139 195 74/var(--tw-ring-opacity, 1))
+}
+
+body[data-page="product"] .ring-offset-2 {
+    --tw-ring-offset-width: 2px
+}
+
+body[data-page="product"] .backdrop-blur-md {
+    --tw-backdrop-blur: blur(12px);
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)
+}
+
+body[data-page="product"] .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s
+}
+
+body[data-page="product"] .transition-colors {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s
+}
+
+body[data-page="product"] .transition-transform {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1)
+}
+
+body[data-page="product"] .duration-150,
+body[data-page="product"] .transition-transform {
+    transition-duration: .15s
+}
+
+body[data-page="product"] .duration-200 {
+    transition-duration: .2s
+}
+
+body[data-page="product"] .duration-500 {
+    transition-duration: .5s
+}
+
+body[data-page="product"] .selection\:bg-primary-container ::-moz-selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .selection\:bg-primary-container ::selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .selection\:text-on-primary-container ::-moz-selection {
+    --tw-text-opacity: 1;
+    color: rgb(45 78 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .selection\:text-on-primary-container ::selection {
+    --tw-text-opacity: 1;
+    color: rgb(45 78 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .selection\:bg-primary-container::-moz-selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .selection\:bg-primary-container::selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .selection\:text-on-primary-container::-moz-selection {
+    --tw-text-opacity: 1;
+    color: rgb(45 78 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .selection\:text-on-primary-container::selection {
+    --tw-text-opacity: 1;
+    color: rgb(45 78 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .hover\:scale-105:hover {
+    --tw-scale-x: 1.05;
+    --tw-scale-y: 1.05;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+body[data-page="product"] .hover\:border-error:hover {
+    --tw-border-opacity: 1;
+    border-color: rgb(186 26 26/var(--tw-border-opacity, 1))
+}
+
+body[data-page="product"] .hover\:border-primary-container:hover {
+    --tw-border-opacity: 1;
+    border-color: rgb(139 195 74/var(--tw-border-opacity, 1))
+}
+
+body[data-page="product"] .hover\:bg-on-surface:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(25 29 20/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .hover\:bg-surface-container-lowest:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="product"] .hover\:text-error:hover {
+    --tw-text-opacity: 1;
+    color: rgb(186 26 26/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .hover\:text-on-surface:hover {
+    --tw-text-opacity: 1;
+    color: rgb(25 29 20/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .hover\:text-primary-container:hover {
+    --tw-text-opacity: 1;
+    color: rgb(139 195 74/var(--tw-text-opacity, 1))
+}
+
+body[data-page="product"] .hover\:brightness-105:hover {
+    --tw-brightness: brightness(1.05);
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+}
+
+body[data-page="product"] .focus\:outline-none:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px
+}
+
+body[data-page="product"] .focus\:ring-2:focus {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+}
+
+body[data-page="product"] .focus\:ring-primary-container:focus {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgb(139 195 74/var(--tw-ring-opacity, 1))
+}
+
+body[data-page="product"] .active\:scale-95:active {
+    --tw-scale-x: .95;
+    --tw-scale-y: .95
+}
+
+body[data-page="product"] .active\:scale-95:active,
+body[data-page="product"] .group:hover .group-hover\:scale-105 {
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+body[data-page="product"] .group:hover .group-hover\:scale-105 {
+    --tw-scale-x: 1.05;
+    --tw-scale-y: 1.05
+}
+
+@media (min-width:640px) {
+    body[data-page="product"] .sm\:inline-block {
+        display: inline-block
+    }
+
+    body[data-page="product"] .sm\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+
+    body[data-page="product"] .sm\:flex-row {
+        flex-direction: row
+    }
+}
+
+@media (min-width:768px) {
+    body[data-page="product"] .md\:flex {
+        display: flex
+    }
+
+    body[data-page="product"] .md\:max-w-none {
+        max-width: none
+    }
+
+    body[data-page="product"] .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+}
+
+@media (min-width:1024px) {
+    body[data-page="product"] .lg\:col-span-2 {
+        grid-column: span 2/span 2
+    }
+
+    body[data-page="product"] .lg\:col-span-5 {
+        grid-column: span 5/span 5
+    }
+
+    body[data-page="product"] .lg\:col-span-7 {
+        grid-column: span 7/span 7
+    }
+
+    body[data-page="product"] .lg\:block {
+        display: block
+    }
+
+    body[data-page="product"] .lg\:grid-cols-12 {
+        grid-template-columns: repeat(12, minmax(0, 1fr))
+    }
+
+    body[data-page="product"] .lg\:grid-cols-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr))
+    }
+
+    body[data-page="product"] .lg\:flex-row {
+        flex-direction: row
+    }
+
+    body[data-page="product"] .lg\:items-end {
+        align-items: flex-end
+    }
+
+    body[data-page="product"] .lg\:p-8 {
+        padding: 2rem
+    }
+}
+
+/* Accessories page: scoped Stitch utilities and AlMumez shared theme */
+body[data-page="accessories"] .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0
+}
+
+body[data-page="accessories"] .pointer-events-none {
+    pointer-events: none
+}
+
+body[data-page="accessories"] .absolute {
+    position: absolute
+}
+
+body[data-page="accessories"] .relative {
+    position: relative
+}
+
+body[data-page="accessories"] .sticky {
+    position: sticky
+}
+
+body[data-page="accessories"] .left-2\.5 {
+    left: .625rem
+}
+
+body[data-page="accessories"] .right-2\.5 {
+    right: .625rem
+}
+
+body[data-page="accessories"] .top-0 {
+    top: 0
+}
+
+body[data-page="accessories"] .top-2\.5 {
+    top: .625rem
+}
+
+body[data-page="accessories"] .top-44 {
+    top: 11rem
+}
+
+body[data-page="accessories"] .z-50 {
+    z-index: 50
+}
+
+body[data-page="accessories"] .col-span-2 {
+    grid-column: span 2/span 2
+}
+
+body[data-page="accessories"] .mx-auto {
+    margin-left: auto;
+    margin-right: auto
+}
+
+body[data-page="accessories"] .mb-0\.5 {
+    margin-bottom: .125rem
+}
+
+body[data-page="accessories"] .mb-1 {
+    margin-bottom: .25rem
+}
+
+body[data-page="accessories"] .mb-1\.5 {
+    margin-bottom: .375rem
+}
+
+body[data-page="accessories"] .mb-2 {
+    margin-bottom: .5rem
+}
+
+body[data-page="accessories"] .mb-2\.5 {
+    margin-bottom: .625rem
+}
+
+body[data-page="accessories"] .mb-3 {
+    margin-bottom: .75rem
+}
+
+body[data-page="accessories"] .ml-1 {
+    margin-left: .25rem
+}
+
+body[data-page="accessories"] .ml-auto {
+    margin-left: auto
+}
+
+body[data-page="accessories"] .mr-1 {
+    margin-right: .25rem
+}
+
+body[data-page="accessories"] .mr-2 {
+    margin-right: .5rem
+}
+
+body[data-page="accessories"] .mt-0\.5 {
+    margin-top: .125rem
+}
+
+body[data-page="accessories"] .mt-1 {
+    margin-top: .25rem
+}
+
+body[data-page="accessories"] .mt-1\.5 {
+    margin-top: .375rem
+}
+
+body[data-page="accessories"] .mt-3 {
+    margin-top: .75rem
+}
+
+body[data-page="accessories"] .mt-4 {
+    margin-top: 1rem
+}
+
+body[data-page="accessories"] .mt-8 {
+    margin-top: 2rem
+}
+
+body[data-page="accessories"] .mt-space-xl {
+    margin-top: 2.5rem
+}
+
+body[data-page="accessories"] .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1
+}
+
+body[data-page="accessories"] .block {
+    display: block
+}
+
+body[data-page="accessories"] .inline-block {
+    display: inline-block
+}
+
+body[data-page="accessories"] .flex {
+    display: flex
+}
+
+body[data-page="accessories"] .inline-flex {
+    display: inline-flex
+}
+
+body[data-page="accessories"] .grid {
+    display: grid
+}
+
+body[data-page="accessories"] .hidden {
+    display: none
+}
+
+body[data-page="accessories"] .size-10 {
+    width: 2.5rem
+}
+
+body[data-page="accessories"] .h-10,
+body[data-page="accessories"] .size-10 {
+    height: 2.5rem
+}
+
+body[data-page="accessories"] .h-2 {
+    height: .5rem
+}
+
+body[data-page="accessories"] .h-52 {
+    height: 13rem
+}
+
+body[data-page="accessories"] .h-8 {
+    height: 2rem
+}
+
+body[data-page="accessories"] .h-full {
+    height: 100%
+}
+
+body[data-page="accessories"] .min-h-screen {
+    min-height: 100vh
+}
+
+body[data-page="accessories"] .w-2 {
+    width: .5rem
+}
+
+body[data-page="accessories"] .w-8 {
+    width: 2rem
+}
+
+body[data-page="accessories"] .w-auto {
+    width: auto
+}
+
+body[data-page="accessories"] .w-full {
+    width: 100%
+}
+
+body[data-page="accessories"] .max-w-7xl {
+    max-width: 80rem
+}
+
+body[data-page="accessories"] .max-w-sm {
+    max-width: 24rem
+}
+
+body[data-page="accessories"] .max-w-xl {
+    max-width: 36rem
+}
+
+body[data-page="accessories"] .flex-1 {
+    flex: 1 1 0%
+}
+
+body[data-page="accessories"] .shrink-0 {
+    flex-shrink: 0
+}
+
+body[data-page="accessories"] .cursor-pointer {
+    cursor: pointer
+}
+
+body[data-page="accessories"] .appearance-none {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none
+}
+
+body[data-page="accessories"] .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr))
+}
+
+body[data-page="accessories"] .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+}
+
+body[data-page="accessories"] .flex-col {
+    flex-direction: column
+}
+
+body[data-page="accessories"] .flex-wrap {
+    flex-wrap: wrap
+}
+
+body[data-page="accessories"] .items-center {
+    align-items: center
+}
+
+body[data-page="accessories"] .items-baseline {
+    align-items: baseline
+}
+
+body[data-page="accessories"] .justify-center {
+    justify-content: center
+}
+
+body[data-page="accessories"] .justify-between {
+    justify-content: space-between
+}
+
+body[data-page="accessories"] .gap-1 {
+    gap: .25rem
+}
+
+body[data-page="accessories"] .gap-1\.5 {
+    gap: .375rem
+}
+
+body[data-page="accessories"] .gap-2 {
+    gap: .5rem
+}
+
+body[data-page="accessories"] .gap-2\.5 {
+    gap: .625rem
+}
+
+body[data-page="accessories"] .gap-3 {
+    gap: .75rem
+}
+
+body[data-page="accessories"] .gap-4 {
+    gap: 1rem
+}
+
+body[data-page="accessories"] .gap-5 {
+    gap: 1.25rem
+}
+
+body[data-page="accessories"] .gap-8 {
+    gap: 2rem
+}
+
+body[data-page="accessories"] .gap-space-lg {
+    gap: 1.5rem
+}
+
+body[data-page="accessories"] .gap-space-md {
+    gap: 1rem
+}
+
+body[data-page="accessories"] .space-y-0\.5>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(.125rem*(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(.125rem*var(--tw-space-y-reverse))
+}
+
+body[data-page="accessories"] .space-y-1\.5>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(.375rem*(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(.375rem*var(--tw-space-y-reverse))
+}
+
+body[data-page="accessories"] .space-y-2>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(.5rem*(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(.5rem*var(--tw-space-y-reverse))
+}
+
+body[data-page="accessories"] .space-y-3\.5>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(.875rem*(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(.875rem*var(--tw-space-y-reverse))
+}
+
+body[data-page="accessories"] .space-y-5>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1.25rem*(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1.25rem*var(--tw-space-y-reverse))
+}
+
+body[data-page="accessories"] .space-y-6>:not([hidden])~:not([hidden]),
+body[data-page="accessories"] .space-y-space-lg>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1.5rem*(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1.5rem*var(--tw-space-y-reverse))
+}
+
+body[data-page="accessories"] .space-y-space-sm>:not([hidden])~:not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(.5rem*(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(.5rem*var(--tw-space-y-reverse))
+}
+
+body[data-page="accessories"] .overflow-hidden {
+    overflow: hidden
+}
+
+body[data-page="accessories"] .overflow-x-auto {
+    overflow-x: auto
+}
+
+body[data-page="accessories"] .scroll-smooth {
+    scroll-behavior: smooth
+}
+
+body[data-page="accessories"] .whitespace-nowrap {
+    white-space: nowrap
+}
+
+body[data-page="accessories"] .rounded {
+    border-radius: 1rem
+}
+
+body[data-page="accessories"] .rounded-full {
+    border-radius: 9999px
+}
+
+body[data-page="accessories"] .rounded-lg {
+    border-radius: 1.5rem
+}
+
+body[data-page="accessories"] .rounded-md {
+    border-radius: .375rem
+}
+
+body[data-page="accessories"] .rounded-xl {
+    border-radius: 2rem
+}
+
+body[data-page="accessories"] .border {
+    border-width: 1px
+}
+
+body[data-page="accessories"] .border-0 {
+    border-width: 0
+}
+
+body[data-page="accessories"] .border-b {
+    border-bottom-width: 1px
+}
+
+body[data-page="accessories"] .border-b-2 {
+    border-bottom-width: 2px
+}
+
+body[data-page="accessories"] .border-t {
+    border-top-width: 1px
+}
+
+body[data-page="accessories"] .border-none {
+    border-style: none
+}
+
+body[data-page="accessories"] .border-brand-green {
+    --tw-border-opacity: 1;
+    border-color: rgb(139 195 74/var(--tw-border-opacity, 1))
+}
+
+body[data-page="accessories"] .border-brand-green\/30 {
+    border-color: rgba(139, 195, 74, .3)
+}
+
+body[data-page="accessories"] .border-brand-green\/40 {
+    border-color: rgba(139, 195, 74, .4)
+}
+
+body[data-page="accessories"] .border-outline-variant {
+    --tw-border-opacity: 1;
+    border-color: rgb(194 201 180/var(--tw-border-opacity, 1))
+}
+
+body[data-page="accessories"] .border-outline-variant\/30 {
+    border-color: hsla(80, 16%, 75%, .3)
+}
+
+body[data-page="accessories"] .border-outline-variant\/40 {
+    border-color: hsla(80, 16%, 75%, .4)
+}
+
+body[data-page="accessories"] .border-outline-variant\/50 {
+    border-color: hsla(80, 16%, 75%, .5)
+}
+
+body[data-page="accessories"] .border-outline-variant\/60 {
+    border-color: hsla(80, 16%, 75%, .6)
+}
+
+body[data-page="accessories"] .border-outline-variant\/70 {
+    border-color: hsla(80, 16%, 75%, .7)
+}
+
+body[data-page="accessories"] .border-slate-100 {
+    --tw-border-opacity: 1;
+    border-color: rgb(241 245 249/var(--tw-border-opacity, 1))
+}
+
+body[data-page="accessories"] .border-slate-200 {
+    --tw-border-opacity: 1;
+    border-color: rgb(226 232 240/var(--tw-border-opacity, 1))
+}
+
+body[data-page="accessories"] .border-slate-200\/90 {
+    border-color: rgba(226, 232, 240, .9)
+}
+
+body[data-page="accessories"] .bg-background {
+    --tw-bg-opacity: 1;
+    background-color: rgb(248 251 236/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-blue-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(37 99 235/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-brand-green {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-brand-green\/10 {
+    background-color: rgba(139, 195, 74, .1)
+}
+
+body[data-page="accessories"] .bg-brand-green\/15 {
+    background-color: rgba(139, 195, 74, .15)
+}
+
+body[data-page="accessories"] .bg-brand-green\/20 {
+    background-color: rgba(139, 195, 74, .2)
+}
+
+body[data-page="accessories"] .bg-red-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(220 38 38/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-slate-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(241 245 249/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-slate-50 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(248 250 252/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-surface-container-high {
+    --tw-bg-opacity: 1;
+    background-color: rgb(231 234 220/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-surface-container-low {
+    --tw-bg-opacity: 1;
+    background-color: rgb(242 245 231/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-transparent {
+    background-color: transparent
+}
+
+body[data-page="accessories"] .bg-white {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .bg-white\/90 {
+    background-color: hsla(0, 0%, 100%, .9)
+}
+
+body[data-page="accessories"] .bg-white\/95 {
+    background-color: hsla(0, 0%, 100%, .95)
+}
+
+body[data-page="accessories"] .object-contain {
+    -o-object-fit: contain;
+    object-fit: contain
+}
+
+body[data-page="accessories"] .p-0 {
+    padding: 0
+}
+
+body[data-page="accessories"] .p-1 {
+    padding: .25rem
+}
+
+body[data-page="accessories"] .p-1\.5 {
+    padding: .375rem
+}
+
+body[data-page="accessories"] .p-2 {
+    padding: .5rem
+}
+
+body[data-page="accessories"] .p-3 {
+    padding: .75rem
+}
+
+body[data-page="accessories"] .p-4 {
+    padding: 1rem
+}
+
+body[data-page="accessories"] .p-5 {
+    padding: 1.25rem
+}
+
+body[data-page="accessories"] .px-1 {
+    padding-left: .25rem;
+    padding-right: .25rem
+}
+
+body[data-page="accessories"] .px-2 {
+    padding-left: .5rem;
+    padding-right: .5rem
+}
+
+body[data-page="accessories"] .px-3 {
+    padding-left: .75rem;
+    padding-right: .75rem
+}
+
+body[data-page="accessories"] .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem
+}
+
+body[data-page="accessories"] .px-5 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem
+}
+
+body[data-page="accessories"] .px-margin {
+    padding-left: 2rem;
+    padding-right: 2rem
+}
+
+body[data-page="accessories"] .py-0\.5 {
+    padding-top: .125rem;
+    padding-bottom: .125rem
+}
+
+body[data-page="accessories"] .py-1 {
+    padding-top: .25rem;
+    padding-bottom: .25rem
+}
+
+body[data-page="accessories"] .py-1\.5 {
+    padding-top: .375rem;
+    padding-bottom: .375rem
+}
+
+body[data-page="accessories"] .py-2 {
+    padding-top: .5rem;
+    padding-bottom: .5rem
+}
+
+body[data-page="accessories"] .py-2\.5 {
+    padding-top: .625rem;
+    padding-bottom: .625rem
+}
+
+body[data-page="accessories"] .py-3 {
+    padding-top: .75rem;
+    padding-bottom: .75rem
+}
+
+body[data-page="accessories"] .py-5 {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem
+}
+
+body[data-page="accessories"] .py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem
+}
+
+body[data-page="accessories"] .py-space-xl {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem
+}
+
+body[data-page="accessories"] .pb-1 {
+    padding-bottom: .25rem
+}
+
+body[data-page="accessories"] .pb-3 {
+    padding-bottom: .75rem
+}
+
+body[data-page="accessories"] .pl-3 {
+    padding-left: .75rem
+}
+
+body[data-page="accessories"] .pr-4 {
+    padding-right: 1rem
+}
+
+body[data-page="accessories"] .pr-9 {
+    padding-right: 2.25rem
+}
+
+body[data-page="accessories"] .pt-1 {
+    padding-top: .25rem
+}
+
+body[data-page="accessories"] .pt-2 {
+    padding-top: .5rem
+}
+
+body[data-page="accessories"] .pt-3 {
+    padding-top: .75rem
+}
+
+body[data-page="accessories"] .pt-space-md {
+    padding-top: 1rem
+}
+
+body[data-page="accessories"] .text-center {
+    text-align: center
+}
+
+body[data-page="accessories"] .font-body-md,
+body[data-page="accessories"] .font-body-sm {
+    font-family: Plus Jakarta Sans, sans-serif
+}
+
+body[data-page="accessories"] .font-headline-lg,
+body[data-page="accessories"] .font-headline-sm {
+    font-family: Bricolage Grotesque, sans-serif
+}
+
+body[data-page="accessories"] .font-label-lg,
+body[data-page="accessories"] .font-label-md,
+body[data-page="accessories"] .font-label-sm {
+    font-family: Plus Jakarta Sans, sans-serif
+}
+
+body[data-page="accessories"] .text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem
+}
+
+body[data-page="accessories"] .text-\[10px\] {
+    font-size: 10px
+}
+
+body[data-page="accessories"] .text-\[11px\] {
+    font-size: 11px
+}
+
+body[data-page="accessories"] .text-\[14px\] {
+    font-size: 14px
+}
+
+body[data-page="accessories"] .text-\[15px\] {
+    font-size: 15px
+}
+
+body[data-page="accessories"] .text-\[16px\] {
+    font-size: 16px
+}
+
+body[data-page="accessories"] .text-\[17px\] {
+    font-size: 17px
+}
+
+body[data-page="accessories"] .text-\[18px\] {
+    font-size: 18px
+}
+
+body[data-page="accessories"] .text-\[20px\] {
+    font-size: 20px
+}
+
+body[data-page="accessories"] .text-base {
+    font-size: 1rem;
+    line-height: 1.5rem
+}
+
+body[data-page="accessories"] .text-sm {
+    font-size: .875rem;
+    line-height: 1.25rem
+}
+
+body[data-page="accessories"] .text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem
+}
+
+body[data-page="accessories"] .text-xs {
+    font-size: .75rem;
+    line-height: 1rem
+}
+
+body[data-page="accessories"] .font-bold {
+    font-weight: 700
+}
+
+body[data-page="accessories"] .font-extrabold {
+    font-weight: 800
+}
+
+body[data-page="accessories"] .font-medium {
+    font-weight: 500
+}
+
+body[data-page="accessories"] .font-semibold {
+    font-weight: 600
+}
+
+body[data-page="accessories"] .uppercase {
+    text-transform: uppercase
+}
+
+body[data-page="accessories"] .leading-none {
+    line-height: 1
+}
+
+body[data-page="accessories"] .leading-relaxed {
+    line-height: 1.625
+}
+
+body[data-page="accessories"] .leading-snug {
+    line-height: 1.375
+}
+
+body[data-page="accessories"] .tracking-tight {
+    letter-spacing: -.025em
+}
+
+body[data-page="accessories"] .tracking-wider {
+    letter-spacing: .05em
+}
+
+body[data-page="accessories"] .text-amber-500 {
+    --tw-text-opacity: 1;
+    color: rgb(245 158 11/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-brand-green {
+    --tw-text-opacity: 1;
+    color: rgb(139 195 74/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-error {
+    --tw-text-opacity: 1;
+    color: rgb(186 26 26/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-navy-brand {
+    --tw-text-opacity: 1;
+    color: rgb(15 32 56/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-on-surface {
+    --tw-text-opacity: 1;
+    color: rgb(25 29 20/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-on-surface-variant {
+    --tw-text-opacity: 1;
+    color: rgb(66 73 57/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-outline {
+    --tw-text-opacity: 1;
+    color: rgb(115 122 103/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-primary {
+    --tw-text-opacity: 1;
+    color: rgb(62 106 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-slate-400 {
+    --tw-text-opacity: 1;
+    color: rgb(148 163 184/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-slate-500 {
+    --tw-text-opacity: 1;
+    color: rgb(100 116 139/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-slate-600 {
+    --tw-text-opacity: 1;
+    color: rgb(71 85 105/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-slate-800 {
+    --tw-text-opacity: 1;
+    color: rgb(30 41 59/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .text-white {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .line-through {
+    text-decoration-line: line-through
+}
+
+body[data-page="accessories"] .antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+body[data-page="accessories"] .accent-\[\#8bc34a\] {
+    accent-color: #8bc34a
+}
+
+body[data-page="accessories"] .shadow-inner {
+    --tw-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, .05);
+    --tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color)
+}
+
+body[data-page="accessories"] .shadow-inner,
+body[data-page="accessories"] .shadow-sm {
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+}
+
+body[data-page="accessories"] .shadow-sm {
+    --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color)
+}
+
+body[data-page="accessories"] .filter {
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+}
+
+body[data-page="accessories"] .backdrop-blur {
+    --tw-backdrop-blur: blur(8px)
+}
+
+body[data-page="accessories"] .backdrop-blur,
+body[data-page="accessories"] .backdrop-blur-md {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)
+}
+
+body[data-page="accessories"] .backdrop-blur-md {
+    --tw-backdrop-blur: blur(12px)
+}
+
+body[data-page="accessories"] .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s
+}
+
+body[data-page="accessories"] .transition-colors {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+    transition-duration: .15s
+}
+
+body[data-page="accessories"] .transition-transform {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(.4, 0, .2, 1)
+}
+
+body[data-page="accessories"] .duration-150,
+body[data-page="accessories"] .transition-transform {
+    transition-duration: .15s
+}
+
+body[data-page="accessories"] .duration-200 {
+    transition-duration: .2s
+}
+
+body[data-page="accessories"] .duration-300 {
+    transition-duration: .3s
+}
+
+body[data-page="accessories"] .selection\:bg-brand-green ::-moz-selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .selection\:bg-brand-green ::selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .selection\:text-white ::-moz-selection {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .selection\:text-white ::selection {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .selection\:bg-brand-green::-moz-selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .selection\:bg-brand-green::selection {
+    --tw-bg-opacity: 1;
+    background-color: rgb(139 195 74/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .selection\:text-white::-moz-selection {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .selection\:text-white::selection {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .placeholder\:text-slate-400::-moz-placeholder {
+    --tw-text-opacity: 1;
+    color: rgb(148 163 184/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .placeholder\:text-slate-400::placeholder {
+    --tw-text-opacity: 1;
+    color: rgb(148 163 184/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .focus-within\:ring-2:focus-within {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+}
+
+body[data-page="accessories"] .hover\:border-brand-green:hover {
+    --tw-border-opacity: 1;
+    border-color: rgb(139 195 74/var(--tw-border-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:bg-\[\#7cb342\]:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(124 179 66/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:bg-slate-100\/90:hover {
+    background-color: rgba(241, 245, 249, .9)
+}
+
+body[data-page="accessories"] .hover\:bg-surface-container:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(237 239 225/var(--tw-bg-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:text-brand-green:hover {
+    --tw-text-opacity: 1;
+    color: rgb(139 195 74/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:text-on-surface:hover {
+    --tw-text-opacity: 1;
+    color: rgb(25 29 20/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:text-primary:hover {
+    --tw-text-opacity: 1;
+    color: rgb(62 106 0/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:text-red-600:hover {
+    --tw-text-opacity: 1;
+    color: rgb(220 38 38/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:text-white:hover {
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255/var(--tw-text-opacity, 1))
+}
+
+body[data-page="accessories"] .hover\:underline:hover {
+    text-decoration-line: underline
+}
+
+body[data-page="accessories"] .hover\:opacity-80:hover {
+    opacity: .8
+}
+
+body[data-page="accessories"] .hover\:shadow-md:hover {
+    --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+}
+
+body[data-page="accessories"] .focus\:border-brand-green:focus {
+    --tw-border-opacity: 1;
+    border-color: rgb(139 195 74/var(--tw-border-opacity, 1))
+}
+
+body[data-page="accessories"] .focus\:outline-none:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px
+}
+
+body[data-page="accessories"] .focus\:ring-0:focus {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(var(--tw-ring-offset-width)) var(--tw-ring-color)
+}
+
+body[data-page="accessories"] .focus\:ring-0:focus,
+body[data-page="accessories"] .focus\:ring-1:focus {
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+}
+
+body[data-page="accessories"] .focus\:ring-1:focus {
+    --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+    --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color)
+}
+
+body[data-page="accessories"] .focus\:ring-brand-green:focus {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgb(139 195 74/var(--tw-ring-opacity, 1))
+}
+
+body[data-page="accessories"] .active\:scale-95:active {
+    --tw-scale-x: .95;
+    --tw-scale-y: .95;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+body[data-page="accessories"] .disabled\:opacity-40:disabled {
+    opacity: .4
+}
+
+body[data-page="accessories"] .group:hover .group-hover\:scale-105 {
+    --tw-scale-x: 1.05;
+    --tw-scale-y: 1.05;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+}
+
+body[data-page="accessories"] .group:hover .group-hover\:text-primary {
+    --tw-text-opacity: 1;
+    color: rgb(62 106 0/var(--tw-text-opacity, 1))
+}
+
+@media (min-width:640px) {
+    body[data-page="accessories"] .sm\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    body[data-page="accessories"] .sm\:flex-row {
+        flex-direction: row
+    }
+
+    body[data-page="accessories"] .sm\:gap-3 {
+        gap: .75rem
+    }
+
+    body[data-page="accessories"] .sm\:p-5 {
+        padding: 1.25rem
+    }
+
+    body[data-page="accessories"] .sm\:px-6 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem
+    }
+
+    body[data-page="accessories"] .sm\:text-3xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem
+    }
+
+    body[data-page="accessories"] .sm\:text-sm {
+        font-size: .875rem;
+        line-height: 1.25rem
+    }
+}
+
+@media (min-width:768px) {
+    body[data-page="accessories"] .md\:flex {
+        display: flex
+    }
+
+    body[data-page="accessories"] .md\:hidden {
+        display: none
+    }
+
+    body[data-page="accessories"] .md\:h-12 {
+        height: 3rem
+    }
+
+    body[data-page="accessories"] .md\:grid-cols-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr))
+    }
+
+    body[data-page="accessories"] .md\:flex-row {
+        flex-direction: row
+    }
+
+    body[data-page="accessories"] .md\:items-center {
+        align-items: center
+    }
+
+    body[data-page="accessories"] .md\:justify-between {
+        justify-content: space-between
+    }
+
+    body[data-page="accessories"] .md\:text-left {
+        text-align: left
+    }
+}
+
+@media (min-width:1024px) {
+    body[data-page="accessories"] .lg\:col-span-3 {
+        grid-column: span 3/span 3
+    }
+
+    body[data-page="accessories"] .lg\:col-span-9 {
+        grid-column: span 9/span 9
+    }
+
+    body[data-page="accessories"] .lg\:grid-cols-12 {
+        grid-template-columns: repeat(12, minmax(0, 1fr))
+    }
+
+    body[data-page="accessories"] .lg\:px-8 {
+        padding-left: 2rem;
+        padding-right: 2rem
+    }
+}
+
+@media (min-width:1280px) {
+    body[data-page="accessories"] .xl\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+}
+
+body[data-page="accessories"] {
+    background: #f8fafc;
+    color: #0b192e
+}
+
+body[data-page="accessories"].theme-home .bg-background {
+    background-color: #f8fafc
+}
+
+body[data-page="accessories"].theme-home .bg-surface-container-low {
+    background-color: #f1f5f9
+}
+
+body[data-page="accessories"].theme-home .bg-surface-container {
+    background-color: #e2e8f0
+}
+
+body[data-page="accessories"].theme-home .bg-surface-container-high {
+    background-color: #e2e8f0
+}
+
+body[data-page="accessories"].theme-home .bg-surface-container-lowest {
+    background-color: #fff
+}
+
+body[data-page="accessories"].theme-home .bg-inverse-surface {
+    background-color: #0b192e
+}
+
+body[data-page="accessories"].theme-home .text-on-surface {
+    color: #0b192e
+}
+
+body[data-page="accessories"].theme-home .text-on-surface-variant {
+    color: #475569
+}
+
+body[data-page="accessories"].theme-home .text-outline {
+    color: #64748b
+}
+
+body[data-page="accessories"].theme-home .text-primary {
+    color: #3e6a00
+}
+
+body[data-page="accessories"].theme-home .border-outline-variant/50,
+body[data-page="accessories"].theme-home .border-outline-variant/60,
+body[data-page="accessories"].theme-home .border-outline-variant/70,
+body[data-page="accessories"].theme-home .border-outline-variant/80 {
+    border-color: rgba(203, 213, 225, .75)
+}
+
+body[data-page="accessories"] input[type=range]::-webkit-slider-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #8bc34a;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -6px;
+    box-shadow: 0 1px 4px rgba(62, 106, 0, .4);
+    border: 2px solid #fff
+}
+
+body[data-page="accessories"] input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: #e2e8f0;
+    border-radius: 9999px
+}
+
+body[data-page="accessories"] [data-component="site-header"] .rounded-xl,
+body[data-page="accessories"] [data-component="site-footer"] .rounded-xl {
+    border-radius: 1.75rem
+}
+
+body[data-page="accessories"] [data-component="site-header"] .rounded,
+body[data-page="accessories"] [data-component="site-footer"] .rounded {
+    border-radius: .75rem
+}
+
+@media(max-width:1023px) {
+    body[data-page="accessories"] main>div.grid {
+        grid-template-columns: 1fr
+    }
+
+    body[data-page="accessories"] main>div.grid>aside {
+        display: none
+    }
+}
+
+body[data-page="accessories"] [data-component="site-header"] a[href="index.html"] {
+    color: #475569;
+    border-bottom-color: transparent
+}
+
+body[data-page="accessories"] [data-component="site-header"] a[href="accessories.html"] {
+    color: #3e6a00;
+    font-weight: 700;
+    border-bottom: 2px solid #8bc34a
+}
+
+body[data-page="accessories"] .accessory-view-active {
+    background: #fff;
+    color: #3e6a00;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .08)
+}
+
+body[data-page="accessories"] .accessories-compact-view {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 1rem
+}
+
+body[data-page="accessories"] .accessories-list-view {
+    grid-template-columns: 1fr !important
+}
+
+body[data-page="accessories"] .accessories-list-view>.group {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1rem
+}
+
+body[data-page="accessories"] .accessories-list-view>.group>div:first-child {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1rem
+}
+
+body[data-page="accessories"] .accessories-list-view>.group>div:first-child>div:first-child {
+    margin: 0
+}
+
+@media(max-width:767px) {
+    body[data-page="accessories"] .accessories-compact-view {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important
+    }
+
+    body[data-page="accessories"] .accessories-list-view>.group,
+    body[data-page="accessories"] .accessories-list-view>.group>div:first-child {
+        display: flex;
+        flex-direction: column
     }
 }
