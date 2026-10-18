@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const CART_KEY = "almumez-cart",
+  const CART_KEY = "cartItems",
     WISHLIST_KEY = "almumez-wishlist",
     LANGUAGE_KEY = "almumez-language",
     CATALOG_KEY = "almumez-catalog",
@@ -145,7 +145,81 @@
         storedSelected) ||
       defaultProduct
     : null;
-  let purchaseQuantity = 1;
+  const productDetails = activeProduct
+    ? {
+        ...activeProduct,
+        baseStorage: Number(
+          activeProduct.name.match(/(\d+)\s*(?:GB|TB)/i)?.[1] || 256,
+        ),
+        storagePrices: {
+          256: activeProduct.price,
+          512: activeProduct.price + 7500,
+          1024: activeProduct.price + 15000,
+        },
+        storageOldPrices: {
+          256: activeProduct.oldPrice || 0,
+          512: (activeProduct.oldPrice || activeProduct.price) + 7500,
+          1024: (activeProduct.oldPrice || activeProduct.price) + 15000,
+        },
+        images: /iphone/i.test(activeProduct.name)
+          ? [
+              "assets/images/iphone-main.jpg",
+              "assets/images/iphone-front.jpg",
+              "assets/images/iphone-camera.jpg",
+              "assets/images/iphone-side.jpg",
+            ]
+          : Array(4).fill(activeProduct.image),
+        bundleDiscount: 650,
+        suggestions: [
+          {
+            id: "apple-20w-usb-c-adapter",
+            name: "Apple 20W USB-C Power Adapter",
+            subtitle: "Apple Original",
+            price: 899,
+            oldPrice: 999,
+            image: "assets/images/adapter-20w.jpg",
+            category: "accessories",
+          },
+          {
+            id: "apple-magsafe-clear-case",
+            name: "Apple MagSafe Clear Case",
+            subtitle: "Drop Protection",
+            price: 1450,
+            oldPrice: 1599,
+            image: "assets/images/magsafe-case.jpg",
+            category: "accessories",
+          },
+        ],
+      }
+    : null;
+  const storageParam = Number(
+      new URLSearchParams(location.search).get("storage"),
+    ),
+    validStorages = [256, 512, 1024];
+  let selectedProductStorage = validStorages.includes(storageParam)
+      ? storageParam
+      : 256,
+    purchaseQuantity = 1;
+  const storageLabel = (value) => (value === 1024 ? "1 TB" : `${value} GB`);
+  const configuredProduct = () => ({
+    ...activeProduct,
+    storage: selectedProductStorage,
+    price:
+      productDetails?.storagePrices[selectedProductStorage] ||
+      activeProduct.price,
+    oldPrice: productDetails?.storageOldPrices[selectedProductStorage] || 0,
+    name: activeProduct.name.replace(
+      /(?:256|512)\s*GB|1\s*TB/i,
+      storageLabel(selectedProductStorage),
+    ),
+    sku: `${activeProduct.id
+      .toUpperCase()
+      .replace(/[^A-Z0-9]+/g, "-")
+      .slice(
+        0,
+        22,
+      )}-${selectedProductStorage === 1024 ? "1TB" : `${selectedProductStorage}GB`}`,
+  });
   if (isProductPage) {
     products.push(activeProduct);
     products.push({
@@ -285,9 +359,7 @@
     }
     if (activeProduct.id !== defaultProduct.id) {
       [...(details?.querySelectorAll("div.flex.flex-col") || [])]
-        .filter((node) =>
-          /^Finish:|^Storage Capacity:/.test(node.textContent.trim()),
-        )
+        .filter((node) => /^Finish:/.test(node.textContent.trim()))
         .forEach((node) => (node.hidden = true));
       const sourceText = [...document.querySelectorAll("p")].find((node) =>
         node.textContent.includes("Direct Apple Authorized Source"),
@@ -343,7 +415,10 @@
         reviewsGrid.innerHTML = `<div class="p-4 rounded-xl bg-surface-container-low border border-surface-container-high"><p class="font-body-sm text-body-sm text-on-surface-variant">Rated <strong>${(activeProduct.rating || 4.8).toFixed(1)} out of 5</strong> from ${activeProduct.reviews || 0} customer ratings.</p></div>`;
     }
   }
-  let cart = load(CART_KEY),
+  let cart = load(CART_KEY, load("almumez-cart", [])).map((item) => ({
+      ...item,
+      key: item.key || `${item.id}::${item.storage || "default"}`,
+    })),
     wishlist = load(WISHLIST_KEY),
     language =
       new URLSearchParams(location.search).get("lang") ||
@@ -396,37 +471,47 @@
   wishlistHeader?.setAttribute("aria-label", "Open wishlist");
 
   let renderCheckout = () => {};
-  function changeQuantity(id, amount) {
-    const item = cart.find((entry) => entry.id === id);
+  function changeQuantity(key, amount) {
+    const item = cart.find((entry) => (entry.key || entry.id) === key);
     if (!item) return;
     item.quantity += amount;
-    if (item.quantity < 1) cart = cart.filter((entry) => entry.id !== id);
+    if (item.quantity < 1)
+      cart = cart.filter((entry) => (entry.key || entry.id) !== key);
     save(CART_KEY, cart);
     renderState();
     renderCheckout();
   }
-  function addToCart(id) {
+  function addToCart(id, options = {}) {
     const product = products.find((item) => item.id === id);
     if (!product) return;
-    const amount =
-      isProductPage && id === activeProduct?.id ? purchaseQuantity : 1;
-    const existing = cart.find((item) => item.id === id);
+    const isActive = isProductPage && id === activeProduct?.id,
+      configured = isActive ? configuredProduct() : product,
+      storage = options.storage ?? (isActive ? selectedProductStorage : null),
+      amount = options.quantity ?? (isActive ? purchaseQuantity : 1),
+      key = `${id}::${storage || "default"}`;
+    const existing = cart.find(
+      (item) =>
+        (item.key || `${item.id}::${item.storage || "default"}`) === key,
+    );
     if (existing) existing.quantity += amount;
     else
       cart.push({
+        key,
         id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
+        storage,
+        name: configured.name,
+        price: options.price ?? configured.price,
+        image: configured.image,
         quantity: amount,
       });
     save(CART_KEY, cart);
     renderState();
-    toast(
-      language === "ar"
-        ? "تمت إضافة المنتج إلى السلة"
-        : "Product added to cart",
-    );
+    if (!options.silent)
+      toast(
+        language === "ar"
+          ? "تمت إضافة المنتج إلى السلة"
+          : "Product added to cart",
+      );
   }
   function toggleWishlist(id) {
     const product = products.find((item) => item.id === id);
@@ -488,7 +573,7 @@
       ? cart
           .map(
             (item) =>
-              `<article class="drawer-item"><img src="${item.image}" alt=""><div><h3>${item.name}</h3><strong>${money(item.price)}</strong><div class="quantity"><button data-quantity="-1" data-id="${item.id}">−</button><span>${item.quantity}</span><button data-quantity="1" data-id="${item.id}">+</button></div></div><button class="remove-item" data-remove-cart="${item.id}" aria-label="Remove">delete</button></article>`,
+              `<article class="drawer-item"><img src="${item.image}" alt=""><div><h3>${item.name}</h3>${item.storage ? `<small>${storageLabel(item.storage)}</small>` : ""}<strong>${money(item.price)}</strong><div class="quantity"><button data-quantity="-1" data-id="${item.key || item.id}">−</button><span>${item.quantity}</span><button data-quantity="1" data-id="${item.key || item.id}">+</button></div></div><button class="remove-item" data-remove-cart="${item.key || item.id}" aria-label="Remove">delete</button></article>`,
           )
           .join("")
       : `<p class="drawer-empty">${language === "ar" ? "السلة فارغة." : "Your cart is empty."}</p>`;
@@ -512,6 +597,7 @@
       document.querySelectorAll("[data-product-wishlist]").forEach((button) => {
         const active = wishlist.some((item) => item.id === activeProduct.id);
         button.classList.toggle("wishlist-active", active);
+        button.setAttribute("aria-pressed", String(active));
         const icon = button.querySelector(".material-symbols-outlined");
         if (icon)
           icon.style.fontVariationSettings = active ? "'FILL' 1" : "'FILL' 0";
@@ -869,8 +955,55 @@
     }),
   );
   Object.entries({
-    "Secure Checkout":"إتمام الطلب بأمان","3 quick steps — your order arrives tomorrow with Express.":"3 خطوات سريعة — طلبك يصلك غدًا مع التوصيل السريع.","Shipping":"الشحن","Payment":"الدفع","Review":"المراجعة","Contact & address":"بيانات التواصل والعنوان","Full name":"الاسم بالكامل","Phone (WhatsApp)":"رقم الهاتف (واتساب)","Email":"البريد الإلكتروني","Street address":"عنوان الشارع","City":"المدينة","Apartment / Floor (optional)":"الشقة / الدور (اختياري)","Delivery method":"طريقة التوصيل","Express (24h)":"توصيل سريع (24 ساعة)","Cairo & Giza only":"القاهرة والجيزة فقط","Standard":"توصيل عادي","2–4 business days":"من يومين إلى 4 أيام عمل","Store pickup":"الاستلام من المتجر","Ready in 2 hours":"جاهز خلال ساعتين","Free":"مجاني","Continue to payment":"المتابعة إلى الدفع","Payment method":"طريقة الدفع","Choose your preferred secure payment option.":"اختر وسيلة الدفع الآمنة المناسبة لك.","Credit or debit card":"بطاقة ائتمان أو خصم","Visa, Mastercard and Meeza":"فيزا وماستركارد وميزة","ValU installments":"تقسيط فاليو","Cash on delivery":"الدفع عند الاستلام","Review order":"مراجعة الطلب","Review & confirm":"المراجعة والتأكيد","Check your delivery and payment details before placing the order.":"راجع بيانات التوصيل والدفع قبل تأكيد الطلب.","I agree to the terms of service and return policy.":"أوافق على شروط الخدمة وسياسة الاسترجاع.","Place order securely":"تأكيد الطلب بأمان","Order summary":"ملخص الطلب","Promo code":"كود الخصم","Apply":"تطبيق","Subtotal":"المجموع الفرعي","Discount":"الخصم","VAT (included)":"ضريبة القيمة المضافة (مشمولة)","Total":"الإجمالي","Genuine warranty":"ضمان أصلي","14-day returns":"إرجاع خلال 14 يومًا","Secure payment":"دفع آمن","Order confirmed!":"تم تأكيد الطلب!","Continue shopping":"متابعة التسوق"
-  }).forEach(([english,arabic])=>translations.set(english,arabic));
+    "Secure Checkout": "إتمام الطلب بأمان",
+    "3 quick steps — your order arrives tomorrow with Express.":
+      "3 خطوات سريعة — طلبك يصلك غدًا مع التوصيل السريع.",
+    Shipping: "الشحن",
+    Payment: "الدفع",
+    Review: "المراجعة",
+    "Contact & address": "بيانات التواصل والعنوان",
+    "Full name": "الاسم بالكامل",
+    "Phone (WhatsApp)": "رقم الهاتف (واتساب)",
+    Email: "البريد الإلكتروني",
+    "Street address": "عنوان الشارع",
+    City: "المدينة",
+    "Apartment / Floor (optional)": "الشقة / الدور (اختياري)",
+    "Delivery method": "طريقة التوصيل",
+    "Express (24h)": "توصيل سريع (24 ساعة)",
+    "Cairo & Giza only": "القاهرة والجيزة فقط",
+    Standard: "توصيل عادي",
+    "2–4 business days": "من يومين إلى 4 أيام عمل",
+    "Store pickup": "الاستلام من المتجر",
+    "Ready in 2 hours": "جاهز خلال ساعتين",
+    Free: "مجاني",
+    "Continue to payment": "المتابعة إلى الدفع",
+    "Payment method": "طريقة الدفع",
+    "Choose your preferred secure payment option.":
+      "اختر وسيلة الدفع الآمنة المناسبة لك.",
+    "Credit or debit card": "بطاقة ائتمان أو خصم",
+    "Visa, Mastercard and Meeza": "فيزا وماستركارد وميزة",
+    "ValU installments": "تقسيط فاليو",
+    "Cash on delivery": "الدفع عند الاستلام",
+    "Review order": "مراجعة الطلب",
+    "Review & confirm": "المراجعة والتأكيد",
+    "Check your delivery and payment details before placing the order.":
+      "راجع بيانات التوصيل والدفع قبل تأكيد الطلب.",
+    "I agree to the terms of service and return policy.":
+      "أوافق على شروط الخدمة وسياسة الاسترجاع.",
+    "Place order securely": "تأكيد الطلب بأمان",
+    "Order summary": "ملخص الطلب",
+    "Promo code": "كود الخصم",
+    Apply: "تطبيق",
+    Subtotal: "المجموع الفرعي",
+    Discount: "الخصم",
+    "VAT (included)": "ضريبة القيمة المضافة (مشمولة)",
+    Total: "الإجمالي",
+    "Genuine warranty": "ضمان أصلي",
+    "14-day returns": "إرجاع خلال 14 يومًا",
+    "Secure payment": "دفع آمن",
+    "Order confirmed!": "تم تأكيد الطلب!",
+    "Continue shopping": "متابعة التسوق",
+  }).forEach(([english, arabic]) => translations.set(english, arabic));
   const mobileNav = document.querySelector(".home-navigation > div");
   if (mobileNav && !mobileNav.querySelector(".mobile-menu-login"))
     mobileNav.insertAdjacentHTML(
@@ -1310,94 +1443,677 @@
     reset();
   }
   if (isCheckoutPage) {
-    const form=document.querySelector("#checkout-form"),stages=[...document.querySelectorAll("[data-stage]")],stepButtons=[...document.querySelectorAll("[data-checkout-step]")],itemsList=document.querySelector("[data-checkout-items]"),promoInput=document.querySelector(".checkout-promo input"),promoButton=document.querySelector(".checkout-promo button"),promoMessage=document.querySelector(".checkout-promo-message"),success=document.querySelector(".checkout-success");
-    let currentStep=1,delivery="express",shipping=150,payment="card",discount=0;
-    const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
-    const error=(input,message="")=>{const label=input.closest("label"),small=label?.querySelector("small");label?.classList.toggle("has-error",Boolean(message));if(small)small.textContent=message};
-    const validateContact=()=>{let valid=true;form.querySelectorAll('[data-stage="1"] input[required]').forEach(input=>{let message="";if(!input.value.trim())message=language==="ar"?"هذا الحقل مطلوب":"This field is required";else if(!input.checkValidity())message=language==="ar"?"أدخل بيانات صحيحة":"Enter a valid value";error(input,message);if(message)valid=false});return valid};
-    const validatePayment=()=>{if(payment!=="card")return true;const checks=[[form.elements.cardNumber,/^\d{16}$/],[form.elements.expiry,/^(0[1-9]|1[0-2])\/\d{2}$/],[form.elements.cvv,/^\d{3,4}$/]];let valid=true;checks.forEach(([input,pattern])=>{const value=input.name==="cardNumber"?input.value.replace(/\s/g,""):input.value,message=pattern.test(value)?"":language==="ar"?"أدخل بيانات البطاقة بشكل صحيح":"Enter valid card details";error(input,message);if(message)valid=false});return valid};
-    const renderReview=()=>{const data=new FormData(form),box=document.querySelector("[data-checkout-review]");box.innerHTML=`<article><span class="material-symbols-outlined">local_shipping</span><div><b>Delivery</b><p>${esc(data.get("fullName"))} · ${esc(data.get("phone"))}<br>${esc(data.get("address"))}, ${esc(data.get("city"))}<br>${delivery==="express"?"Express (24h)":delivery==="standard"?"Standard delivery":"Store pickup"}</p></div><button type="button" data-edit-step="1">Edit</button></article><article><span class="material-symbols-outlined">payments</span><div><b>Payment</b><p>${payment==="card"?"Card ending in "+esc(String(data.get("cardNumber")).replace(/\s/g,"").slice(-4)):payment==="valu"?"ValU installments":"Cash on delivery"}</p></div><button type="button" data-edit-step="2">Edit</button></article>`};
-    const goStep=step=>{currentStep=step;stages.forEach(stage=>{const active=Number(stage.dataset.stage)===step;stage.hidden=!active;stage.classList.toggle("is-active",active)});stepButtons.forEach((button,index)=>{const number=index+1;button.disabled=number>step;button.classList.toggle("is-active",number===step);button.classList.toggle("is-complete",number<step)});if(step===3)renderReview();document.querySelector(".checkout-steps")?.scrollIntoView({behavior:"smooth",block:"start"})};
-    renderCheckout=()=>{const subtotal=cart.reduce((sum,item)=>sum+item.price*item.quantity,0),total=Math.max(0,subtotal+shipping-discount);itemsList.innerHTML=cart.length?cart.map(item=>`<li><div><img src="${item.image}" alt="${esc(item.name)}"><span>${item.quantity}</span></div><p>${esc(item.name)}</p><strong>${money(item.price*item.quantity)}</strong></li>`).join(""):`<li class="checkout-summary-empty">${language==="ar"?"سلة التسوق فارغة":"Your cart is empty"}</li>`;document.querySelector("[data-checkout-subtotal]").textContent=money(subtotal);document.querySelector("[data-checkout-shipping]").textContent=shipping?money(shipping):language==="ar"?"مجاني":"Free";document.querySelector("[data-checkout-discount]").textContent=discount?`-${money(discount)}`:"0 EGP";document.querySelector("[data-checkout-total]").textContent=money(total)};
-    document.querySelectorAll("[data-delivery]").forEach(button=>button.addEventListener("click",()=>{delivery=button.dataset.delivery;shipping=Number(button.dataset.price);document.querySelectorAll("[data-delivery]").forEach(item=>item.classList.toggle("is-selected",item===button));renderCheckout()}));
-    document.querySelectorAll("[data-payment]").forEach(button=>button.addEventListener("click",()=>{payment=button.dataset.payment;document.querySelectorAll("[data-payment]").forEach(item=>item.classList.toggle("is-selected",item===button));document.querySelector("[data-card-fields]").hidden=payment!=="card"}));
-    document.querySelectorAll("[data-checkout-next]").forEach(button=>button.addEventListener("click",()=>{const next=Number(button.dataset.checkoutNext);if(!cart.length)return toast(language==="ar"?"السلة فارغة":"Your cart is empty");if(currentStep===1&&!validateContact())return toast(language==="ar"?"راجع بيانات الشحن":"Check your shipping details");if(currentStep===2&&!validatePayment())return toast(language==="ar"?"راجع بيانات الدفع":"Check your payment details");goStep(next)}));
-    document.querySelectorAll("[data-checkout-back]").forEach(button=>button.addEventListener("click",()=>goStep(Number(button.dataset.checkoutBack))));
-    form.addEventListener("input",event=>{if(!event.target.matches("input"))return;error(event.target);if(event.target.name==="cardNumber")event.target.value=event.target.value.replace(/\D/g,"").slice(0,16).replace(/(.{4})/g,"$1 ").trim();if(event.target.name==="expiry"){const digits=event.target.value.replace(/\D/g,"").slice(0,4);event.target.value=digits.length>2?`${digits.slice(0,2)}/${digits.slice(2)}`:digits}if(event.target.name==="cvv")event.target.value=event.target.value.replace(/\D/g,"").slice(0,4)});
-    promoButton.addEventListener("click",()=>{const valid=promoInput.value.trim().toUpperCase()==="MUMEZ25";discount=valid&&cart.length?Math.min(500,cart.reduce((sum,item)=>sum+item.price*item.quantity,0)):0;promoMessage.textContent=valid?language==="ar"?"تم تطبيق خصم 500 جنيه":"500 EGP discount applied":language==="ar"?"كود الخصم غير صحيح":"Invalid promo code";promoMessage.classList.toggle("is-error",!valid);renderCheckout()});
-    document.querySelector("[data-checkout-review]").addEventListener("click",event=>{const edit=event.target.closest("[data-edit-step]");if(edit)goStep(Number(edit.dataset.editStep))});
-    document.querySelector("[data-open-cart]")?.addEventListener("click",event=>{event.preventDefault();openDrawer("cart")});
-    form.addEventListener("submit",event=>{event.preventDefault();if(!form.elements.terms.checked)return toast(language==="ar"?"وافق على الشروط أولًا":"Please accept the terms first");if(!cart.length)return toast(language==="ar"?"السلة فارغة":"Your cart is empty");form.hidden=true;success.hidden=false;cart=[];save(CART_KEY,cart);renderState();renderCheckout();success.scrollIntoView({behavior:"smooth",block:"center"})});
+    const form = document.querySelector("#checkout-form"),
+      stages = [...document.querySelectorAll("[data-stage]")],
+      stepButtons = [...document.querySelectorAll("[data-checkout-step]")],
+      itemsList = document.querySelector("[data-checkout-items]"),
+      promoInput = document.querySelector(".checkout-promo input"),
+      promoButton = document.querySelector(".checkout-promo button"),
+      promoMessage = document.querySelector(".checkout-promo-message"),
+      success = document.querySelector(".checkout-success");
+    let currentStep = 1,
+      delivery = "express",
+      shipping = 150,
+      payment = "card",
+      discount = 0;
+    const esc = (value) =>
+      String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;",
+          })[char],
+      );
+    const error = (input, message = "") => {
+      const label = input.closest("label"),
+        small = label?.querySelector("small");
+      label?.classList.toggle("has-error", Boolean(message));
+      if (small) small.textContent = message;
+    };
+    const validateContact = () => {
+      let valid = true;
+      form
+        .querySelectorAll('[data-stage="1"] input[required]')
+        .forEach((input) => {
+          let message = "";
+          if (!input.value.trim())
+            message =
+              language === "ar" ? "هذا الحقل مطلوب" : "This field is required";
+          else if (!input.checkValidity())
+            message =
+              language === "ar" ? "أدخل بيانات صحيحة" : "Enter a valid value";
+          error(input, message);
+          if (message) valid = false;
+        });
+      return valid;
+    };
+    const validatePayment = () => {
+      if (payment !== "card") return true;
+      const checks = [
+        [form.elements.cardNumber, /^\d{16}$/],
+        [form.elements.expiry, /^(0[1-9]|1[0-2])\/\d{2}$/],
+        [form.elements.cvv, /^\d{3,4}$/],
+      ];
+      let valid = true;
+      checks.forEach(([input, pattern]) => {
+        const value =
+            input.name === "cardNumber"
+              ? input.value.replace(/\s/g, "")
+              : input.value,
+          message = pattern.test(value)
+            ? ""
+            : language === "ar"
+              ? "أدخل بيانات البطاقة بشكل صحيح"
+              : "Enter valid card details";
+        error(input, message);
+        if (message) valid = false;
+      });
+      return valid;
+    };
+    const renderReview = () => {
+      const data = new FormData(form),
+        box = document.querySelector("[data-checkout-review]");
+      box.innerHTML = `<article><span class="material-symbols-outlined">local_shipping</span><div><b>Delivery</b><p>${esc(data.get("fullName"))} · ${esc(data.get("phone"))}<br>${esc(data.get("address"))}, ${esc(data.get("city"))}<br>${delivery === "express" ? "Express (24h)" : delivery === "standard" ? "Standard delivery" : "Store pickup"}</p></div><button type="button" data-edit-step="1">Edit</button></article><article><span class="material-symbols-outlined">payments</span><div><b>Payment</b><p>${payment === "card" ? "Card ending in " + esc(String(data.get("cardNumber")).replace(/\s/g, "").slice(-4)) : payment === "valu" ? "ValU installments" : "Cash on delivery"}</p></div><button type="button" data-edit-step="2">Edit</button></article>`;
+    };
+    const goStep = (step) => {
+      currentStep = step;
+      stages.forEach((stage) => {
+        const active = Number(stage.dataset.stage) === step;
+        stage.hidden = !active;
+        stage.classList.toggle("is-active", active);
+      });
+      stepButtons.forEach((button, index) => {
+        const number = index + 1;
+        button.disabled = number > step;
+        button.classList.toggle("is-active", number === step);
+        button.classList.toggle("is-complete", number < step);
+      });
+      if (step === 3) renderReview();
+      document
+        .querySelector(".checkout-steps")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    renderCheckout = () => {
+      const subtotal = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0,
+        ),
+        total = Math.max(0, subtotal + shipping - discount);
+      itemsList.innerHTML = cart.length
+        ? cart
+            .map(
+              (item) =>
+                `<li><div><img src="${item.image}" alt="${esc(item.name)}"><span>${item.quantity}</span></div><p>${esc(item.name)}</p><strong>${money(item.price * item.quantity)}</strong></li>`,
+            )
+            .join("")
+        : `<li class="checkout-summary-empty">${language === "ar" ? "سلة التسوق فارغة" : "Your cart is empty"}</li>`;
+      document.querySelector("[data-checkout-subtotal]").textContent =
+        money(subtotal);
+      document.querySelector("[data-checkout-shipping]").textContent = shipping
+        ? money(shipping)
+        : language === "ar"
+          ? "مجاني"
+          : "Free";
+      document.querySelector("[data-checkout-discount]").textContent = discount
+        ? `-${money(discount)}`
+        : "0 EGP";
+      document.querySelector("[data-checkout-total]").textContent =
+        money(total);
+    };
+    document.querySelectorAll("[data-delivery]").forEach((button) =>
+      button.addEventListener("click", () => {
+        delivery = button.dataset.delivery;
+        shipping = Number(button.dataset.price);
+        document
+          .querySelectorAll("[data-delivery]")
+          .forEach((item) =>
+            item.classList.toggle("is-selected", item === button),
+          );
+        renderCheckout();
+      }),
+    );
+    document.querySelectorAll("[data-payment]").forEach((button) =>
+      button.addEventListener("click", () => {
+        payment = button.dataset.payment;
+        document
+          .querySelectorAll("[data-payment]")
+          .forEach((item) =>
+            item.classList.toggle("is-selected", item === button),
+          );
+        document.querySelector("[data-card-fields]").hidden =
+          payment !== "card";
+      }),
+    );
+    document.querySelectorAll("[data-checkout-next]").forEach((button) =>
+      button.addEventListener("click", () => {
+        const next = Number(button.dataset.checkoutNext);
+        if (!cart.length)
+          return toast(
+            language === "ar" ? "السلة فارغة" : "Your cart is empty",
+          );
+        if (currentStep === 1 && !validateContact())
+          return toast(
+            language === "ar"
+              ? "راجع بيانات الشحن"
+              : "Check your shipping details",
+          );
+        if (currentStep === 2 && !validatePayment())
+          return toast(
+            language === "ar"
+              ? "راجع بيانات الدفع"
+              : "Check your payment details",
+          );
+        goStep(next);
+      }),
+    );
+    document
+      .querySelectorAll("[data-checkout-back]")
+      .forEach((button) =>
+        button.addEventListener("click", () =>
+          goStep(Number(button.dataset.checkoutBack)),
+        ),
+      );
+    form.addEventListener("input", (event) => {
+      if (!event.target.matches("input")) return;
+      error(event.target);
+      if (event.target.name === "cardNumber")
+        event.target.value = event.target.value
+          .replace(/\D/g, "")
+          .slice(0, 16)
+          .replace(/(.{4})/g, "$1 ")
+          .trim();
+      if (event.target.name === "expiry") {
+        const digits = event.target.value.replace(/\D/g, "").slice(0, 4);
+        event.target.value =
+          digits.length > 2
+            ? `${digits.slice(0, 2)}/${digits.slice(2)}`
+            : digits;
+      }
+      if (event.target.name === "cvv")
+        event.target.value = event.target.value.replace(/\D/g, "").slice(0, 4);
+    });
+    promoButton.addEventListener("click", () => {
+      const valid = promoInput.value.trim().toUpperCase() === "MUMEZ25";
+      discount =
+        valid && cart.length
+          ? Math.min(
+              500,
+              cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+            )
+          : 0;
+      promoMessage.textContent = valid
+        ? language === "ar"
+          ? "تم تطبيق خصم 500 جنيه"
+          : "500 EGP discount applied"
+        : language === "ar"
+          ? "كود الخصم غير صحيح"
+          : "Invalid promo code";
+      promoMessage.classList.toggle("is-error", !valid);
+      renderCheckout();
+    });
+    document
+      .querySelector("[data-checkout-review]")
+      .addEventListener("click", (event) => {
+        const edit = event.target.closest("[data-edit-step]");
+        if (edit) goStep(Number(edit.dataset.editStep));
+      });
+    document
+      .querySelector("[data-open-cart]")
+      ?.addEventListener("click", (event) => {
+        event.preventDefault();
+        openDrawer("cart");
+      });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.elements.terms.checked)
+        return toast(
+          language === "ar"
+            ? "وافق على الشروط أولًا"
+            : "Please accept the terms first",
+        );
+      if (!cart.length)
+        return toast(language === "ar" ? "السلة فارغة" : "Your cart is empty");
+      form.hidden = true;
+      success.hidden = false;
+      cart = [];
+      save(CART_KEY, cart);
+      renderState();
+      renderCheckout();
+      success.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
     renderCheckout();
   }
   if (isProductPage) {
-    const buttons = [...document.querySelectorAll("main button")];
-    const pageLinks = {
-      Home: "index.html",
-      "About Us": "about.html",
-      "Help Center": "contact.html",
-      "Contact Support": "contact.html",
-      "Privacy Policy": "about.html",
-    };
-    document.querySelectorAll("a").forEach((link) => {
-      const label = link.textContent.trim();
-      if (pageLinks[label]) link.href = pageLinks[label];
-    });
-    const byText = (text) =>
-      buttons.find((button) => button.textContent.includes(text));
-    const addButton = byText("Add to Cart"),
+    const buttons = [...document.querySelectorAll("main button")],
+      byText = (text) =>
+        buttons.find((button) => button.textContent.includes(text)),
+      addButton = byText("Add to Cart"),
       buyButton = byText("Buy Now"),
-      bundleButton = byText("Add All 3");
+      bundleSection = [...document.querySelectorAll("main section")].find(
+        (section) => section.textContent.includes("Frequently Bought Together"),
+      ),
+      mainImage = document.querySelector("#mainProductImage"),
+      thumbButtons = [
+        ...document.querySelectorAll(
+          "main section:first-child .grid.grid-cols-4 button",
+        ),
+      ],
+      storageButtons = [...document.querySelectorAll("main [data-storage]")];
+    productDetails.suggestions.forEach((item) => {
+      if (!products.some((product) => product.id === item.id))
+        products.push(item);
+    });
     if (addButton) addButton.dataset.addToCart = activeProduct.id;
     const productWishlist = buttons.find((button) =>
-      /Wishlist/.test(button.title || ""),
-    );
-    if (productWishlist) {
-      productWishlist.dataset.toggleWishlist = activeProduct.id;
-      productWishlist.dataset.productWishlist = "true";
-    }
-    const floatingWishlist = document
-      .querySelector("#mainProductImage")
-      ?.closest(".group")
-      ?.querySelector("button");
-    if (floatingWishlist) {
-      floatingWishlist.dataset.toggleWishlist = activeProduct.id;
-      floatingWishlist.dataset.productWishlist = "true";
-    }
-    const counter = addButton?.parentElement?.querySelector(".rounded-full");
-    const counterValue = counter?.querySelector(
-      "span:not(.material-symbols-outlined)",
-    );
-    counter?.querySelectorAll("button").forEach((button) =>
+        /Wishlist/.test(button.title || ""),
+      ),
+      floatingWishlist = mainImage?.closest(".group")?.querySelector("button");
+    [productWishlist, floatingWishlist].filter(Boolean).forEach((button) => {
+      button.dataset.toggleWishlist = activeProduct.id;
+      button.dataset.productWishlist = "true";
+      button.setAttribute(
+        "aria-pressed",
+        String(wishlist.some((item) => item.id === activeProduct.id)),
+      );
+    });
+    const counter = addButton?.parentElement?.querySelector(".rounded-full"),
+      counterValue = counter?.querySelector(
+        "span:not(.material-symbols-outlined)",
+      );
+    counter?.querySelectorAll("button").forEach((button) => {
+      button.type = "button";
+      button.setAttribute(
+        "aria-label",
+        button.textContent.trim() === "add"
+          ? "Increase quantity"
+          : "Decrease quantity",
+      );
       button.addEventListener("click", () => {
         purchaseQuantity = Math.max(
           1,
           purchaseQuantity + (button.textContent.trim() === "add" ? 1 : -1),
         );
-        if (counterValue) counterValue.textContent = purchaseQuantity;
-      }),
+        counterValue.textContent = purchaseQuantity;
+      });
+    });
+    let galleryIndex = 0,
+      touchStartX = 0;
+    productDetails.images.forEach((src) => {
+      const image = new Image();
+      image.src = src;
+    });
+    const showGalleryImage = (index, fromLightbox = false) => {
+      galleryIndex =
+        (index + productDetails.images.length) % productDetails.images.length;
+      const src = productDetails.images[galleryIndex];
+      mainImage.classList.add("product-image-fade");
+      setTimeout(() => {
+        mainImage.src = src;
+        mainImage.alt = `${configuredProduct().name} — view ${galleryIndex + 1}`;
+        mainImage.classList.remove("product-image-fade");
+      }, 120);
+      thumbButtons.forEach((button, i) => {
+        const active = i === galleryIndex;
+        button.classList.toggle("border-2", active);
+        button.classList.toggle("border-primary-container", active);
+        button.classList.toggle("border", !active);
+        button.classList.toggle("border-surface-container-high", !active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      if (fromLightbox) {
+        const lightboxImage = document.querySelector(".product-lightbox img"),
+          counter = document.querySelector(".product-lightbox-counter");
+        if (lightboxImage) lightboxImage.src = src;
+        if (counter)
+          counter.textContent = `${galleryIndex + 1} / ${productDetails.images.length}`;
+      }
+    };
+    thumbButtons.forEach((button, index) => {
+      const image = button.querySelector("img");
+      if (image) {
+        image.src = productDetails.images[index];
+        image.alt = `${activeProduct.name} view ${index + 1}`;
+      }
+      button.type = "button";
+      button.setAttribute("aria-label", `Show product image ${index + 1}`);
+      button.setAttribute("aria-pressed", String(index === 0));
+      button.addEventListener("click", () => showGalleryImage(index));
+    });
+    const galleryCard = mainImage?.parentElement,
+      zoomButton = galleryCard?.querySelector(".absolute.bottom-3");
+    document.body.insertAdjacentHTML(
+      "beforeend",
+      `<div class="product-lightbox" hidden role="dialog" aria-modal="true" aria-label="Product image viewer"><button type="button" class="product-lightbox-close" aria-label="Close image viewer">×</button><button type="button" class="product-lightbox-arrow prev" aria-label="Previous image">‹</button><figure><img src="${productDetails.images[0]}" alt="${activeProduct.name}"><figcaption class="product-lightbox-counter">1 / ${productDetails.images.length}</figcaption></figure><button type="button" class="product-lightbox-arrow next" aria-label="Next image">›</button></div>`,
     );
-    document
-      .querySelectorAll("#mainProductImage ~ *, #mainProductImage")
-      .forEach(() => {});
-    const mainImage = document.querySelector("#mainProductImage");
-    document
-      .querySelectorAll("main section:first-child .grid.grid-cols-4 button")
-      .forEach((button) =>
-        button.addEventListener("click", () => {
-          document
-            .querySelectorAll(
-              "main section:first-child .grid.grid-cols-4 button",
-            )
-            .forEach((item) => {
-              item.classList.remove("border-2", "border-primary-container");
-              item.classList.add("border", "border-surface-container-high");
-            });
-          button.classList.add("border-2", "border-primary-container");
-          button.classList.remove("border", "border-surface-container-high");
-          mainImage.src = button.querySelector("img").src;
-        }),
+    const lightbox = document.querySelector(".product-lightbox"),
+      closeLightbox = () => {
+        lightbox.hidden = true;
+        document.body.classList.remove("drawer-open");
+      },
+      openLightbox = () => {
+        showGalleryImage(galleryIndex, true);
+        lightbox.hidden = false;
+        document.body.classList.add("drawer-open");
+        lightbox.querySelector(".product-lightbox-close").focus();
+      };
+    zoomButton?.setAttribute("role", "button");
+    zoomButton?.setAttribute("tabindex", "0");
+    zoomButton?.setAttribute("aria-label", "Zoom product image");
+    zoomButton?.addEventListener("click", openLightbox);
+    zoomButton?.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLightbox();
+      }
+    });
+    lightbox
+      .querySelector(".prev")
+      .addEventListener("click", () =>
+        showGalleryImage(galleryIndex - 1, true),
       );
+    lightbox
+      .querySelector(".next")
+      .addEventListener("click", () =>
+        showGalleryImage(galleryIndex + 1, true),
+      );
+    lightbox
+      .querySelector(".product-lightbox-close")
+      .addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.target.matches("input,textarea,select")) return;
+      if (event.key === "Escape" && !lightbox.hidden) closeLightbox();
+      if (event.key === "ArrowRight")
+        showGalleryImage(galleryIndex + 1, !lightbox.hidden);
+      if (event.key === "ArrowLeft")
+        showGalleryImage(galleryIndex - 1, !lightbox.hidden);
+    });
+    galleryCard?.addEventListener(
+      "touchstart",
+      (event) => (touchStartX = event.changedTouches[0].clientX),
+      { passive: true },
+    );
+    galleryCard?.addEventListener(
+      "touchend",
+      (event) => {
+        const delta = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(delta) > 45)
+          showGalleryImage(galleryIndex + (delta < 0 ? 1 : -1));
+      },
+      { passive: true },
+    );
+    galleryCard?.addEventListener("mousemove", (event) => {
+      if (matchMedia("(hover:hover) and (pointer:fine)").matches) {
+        const rect = galleryCard.getBoundingClientRect();
+        mainImage.style.transformOrigin = `${((event.clientX - rect.left) / rect.width) * 100}% ${((event.clientY - rect.top) / rect.height) * 100}%`;
+        mainImage.style.transform = "scale(1.1)";
+      }
+    });
+    galleryCard?.addEventListener("mouseleave", () => {
+      mainImage.style.transform = "";
+      mainImage.style.transformOrigin = "";
+    });
+    const specRows = [
+        ...document.querySelectorAll("main section:last-of-type > .mt-6 > div"),
+      ],
+      currentPriceRow = specRows.find((row) =>
+        /Current Price/i.test(row.textContent),
+      ),
+      previousPriceRow = specRows.find((row) =>
+        /Previous Price/i.test(row.textContent),
+      ),
+      title = document.querySelector("main h1"),
+      breadcrumb = document.querySelector(
+        'nav[aria-label="Breadcrumb"] li:last-child',
+      ),
+      skuNode = [...document.querySelectorAll("main .text-outline")].find(
+        (node) => node.textContent.includes("SKU:"),
+      ),
+      priceNode = document.querySelector("main .text-headline-lg"),
+      oldPriceNode = priceNode?.parentElement?.querySelector(".line-through"),
+      discountNode = priceNode?.parentElement?.querySelector(
+        ".bg-primary-container",
+      ),
+      monthlyNode = [...document.querySelectorAll("main strong")].find((node) =>
+        /EGP\/month/.test(node.textContent),
+      );
+    const selectedSuggestions = new Set(
+      productDetails.suggestions.map((item) => item.id),
+    );
+    let renderBundle = () => {};
+    const updateProductPricing = () => {
+      const configured = configuredProduct(),
+        saving = Math.max(0, configured.oldPrice - configured.price);
+      [
+        priceNode,
+        monthlyNode,
+        currentPriceRow?.querySelector("span:last-child"),
+        previousPriceRow?.querySelector("span:last-child"),
+      ]
+        .filter(Boolean)
+        .forEach((node) => {
+          node.classList.add("price-updating");
+          setTimeout(() => node.classList.remove("price-updating"), 260);
+        });
+      priceNode.textContent = money(configured.price);
+      if (oldPriceNode) {
+        oldPriceNode.textContent = configured.oldPrice
+          ? money(configured.oldPrice)
+          : "";
+        oldPriceNode.hidden = !configured.oldPrice;
+      }
+      if (discountNode)
+        discountNode.textContent = saving
+          ? `Save ${money(saving)}`
+          : "Best Price";
+      if (monthlyNode)
+        monthlyNode.textContent = `${money(Math.ceil(configured.price / 12))}/month`;
+      if (currentPriceRow?.querySelector("span:last-child"))
+        currentPriceRow.querySelector("span:last-child").textContent = money(
+          configured.price,
+        );
+      if (previousPriceRow?.querySelector("span:last-child"))
+        previousPriceRow.querySelector("span:last-child").textContent =
+          configured.oldPrice ? money(configured.oldPrice) : "—";
+      if (title) title.textContent = configured.name;
+      if (breadcrumb) breadcrumb.textContent = configured.name;
+      if (skuNode) skuNode.textContent = `SKU: ${configured.sku}`;
+      storageButtons.forEach((button, index) => {
+        const value = [256, 512, 1024][index],
+          active = value === selectedProductStorage;
+        button.classList.toggle("border-2", active);
+        button.classList.toggle("border-primary-container", active);
+        button.classList.toggle("bg-primary-container/10", active);
+        button.classList.toggle("border", !active);
+        button.classList.toggle("border-surface-container-high", !active);
+        button.setAttribute("aria-pressed", String(active));
+        const price = button.querySelector("span:last-child");
+        if (price)
+          price.textContent =
+            value === 256
+              ? money(productDetails.storagePrices[value])
+              : `+${money(productDetails.storagePrices[value] - productDetails.storagePrices[256])}`;
+      });
+      const url = new URL(location.href);
+      url.searchParams.set("id", activeProduct.id);
+      url.searchParams.set("storage", selectedProductStorage);
+      history.replaceState(null, "", url);
+      renderBundle();
+    };
+    storageButtons.forEach((button) => {
+      const value = Number(button.dataset.storage);
+      button.type = "button";
+      button.setAttribute(
+        "aria-label",
+        `Select ${storageLabel(value)} storage`,
+      );
+      button.addEventListener("click", () => {
+        selectedProductStorage = value;
+        updateProductPricing();
+      });
+    });
+    if (bundleSection) {
+      const itemsWrap = bundleSection.querySelector(
+          ".flex.flex-wrap.items-center.justify-center",
+        ),
+        pricing = [...bundleSection.querySelectorAll("div")].find(
+          (node) =>
+            node.textContent.includes("Bundle Total") &&
+            node.querySelector("button"),
+        ),
+        totalNode = pricing?.querySelector(".font-headline-sm"),
+        originalNode = pricing?.querySelector(".line-through"),
+        labelNode = pricing?.querySelector("p.text-xs"),
+        bundleButton = pricing?.querySelector("button"),
+        saveBadge = [...bundleSection.querySelectorAll("span")].find((node) =>
+          /Save .* Extra/.test(node.textContent),
+        );
+      renderBundle = () => {
+        const configured = configuredProduct(),
+          entries = [
+            {
+              ...configured,
+              subtitle: storageLabel(selectedProductStorage),
+              fixed: true,
+            },
+            ...productDetails.suggestions,
+          ],
+          chosen = entries.filter(
+            (item) => item.fixed || selectedSuggestions.has(item.id),
+          ),
+          original = chosen.reduce(
+            (sum, item) => sum + (item.oldPrice || item.price),
+            0,
+          ),
+          raw = chosen.reduce((sum, item) => sum + item.price, 0),
+          discountValue = selectedSuggestions.size
+            ? Math.min(productDetails.bundleDiscount, raw)
+            : 0,
+          total = raw - discountValue;
+        itemsWrap.innerHTML = entries
+          .map(
+            (item, index) =>
+              `<${item.fixed ? "div" : "button"} class="bundle-item-1 bundle-choice ${item.fixed || selectedSuggestions.has(item.id) ? "is-selected" : ""}" ${item.fixed ? 'aria-label="Main product always included"' : `type="button" data-bundle-toggle="${item.id}" aria-pressed="${selectedSuggestions.has(item.id)}"`}><span class="bundle-check material-symbols-outlined">${item.fixed || selectedSuggestions.has(item.id) ? "check_circle" : "radio_button_unchecked"}</span><img src="${item.fixed ? productDetails.images[0] : item.image}" alt="${item.name}" data-bundle-open="${item.id}"><div><p class="font-label-md text-label-md font-bold text-on-surface" data-bundle-open="${item.id}">${item.name}</p><p class="text-xs text-outline">${item.subtitle || item.category}</p><p class="font-label-sm text-label-sm font-bold text-inverse-surface mt-1">${money(item.price)}</p></div></${item.fixed ? "div" : "button"}>${index < entries.length - 1 ? '<span class="bundle-plus">+</span>' : ""}`,
+          )
+          .join("");
+        if (labelNode)
+          labelNode.textContent = `Bundle Total (${chosen.length} item${chosen.length === 1 ? "" : "s"}):`;
+        if (totalNode) totalNode.textContent = money(total);
+        if (originalNode) {
+          originalNode.textContent = money(original);
+          originalNode.hidden = !discountValue;
+        }
+        if (saveBadge)
+          saveBadge.textContent = discountValue
+            ? `Save ${money(discountValue)} Extra`
+            : "Choose extras to save";
+        bundleButton.disabled = !selectedSuggestions.size;
+        bundleButton.textContent = selectedSuggestions.size
+          ? `Add All ${chosen.length} to Cart`
+          : "Select an extra item";
+      };
+      itemsWrap.addEventListener("click", (event) => {
+        const open = event.target.closest("[data-bundle-open]");
+        if (open && event.target.closest("[data-bundle-toggle]") == null) {
+          const item = entries.find(
+            (entry) => entry.id === open.dataset.bundleOpen,
+          );
+          if (item && !item.fixed) {
+            save(SELECTED_PRODUCT_KEY, item);
+            location.href = `product.html?id=${encodeURIComponent(item.id)}`;
+          }
+          return;
+        }
+        const toggle = event.target.closest("[data-bundle-toggle]");
+        if (!toggle) return;
+        selectedSuggestions.has(toggle.dataset.bundleToggle)
+          ? selectedSuggestions.delete(toggle.dataset.bundleToggle)
+          : selectedSuggestions.add(toggle.dataset.bundleToggle);
+        renderBundle();
+      });
+      bundleButton.addEventListener("click", () => {
+        if (!selectedSuggestions.size) return;
+        addToCart(activeProduct.id, {
+          storage: selectedProductStorage,
+          price: configuredProduct().price,
+          quantity: 1,
+        });
+        productDetails.suggestions
+          .filter((item) => selectedSuggestions.has(item.id))
+          .forEach((item) =>
+            addToCart(item.id, { price: item.price, quantity: 1 }),
+          );
+        toast(
+          language === "ar"
+            ? "تمت إضافة الباقة إلى السلة"
+            : "Bundle added to cart",
+        );
+      });
+    }
+    const syncBundleBeforeDiscount = () => {
+      if (!bundleSection) return;
+      const pricing = [...bundleSection.querySelectorAll("div")].find(
+          (node) =>
+            node.textContent.includes("Bundle Total") &&
+            node.querySelector("button"),
+        ),
+        total = pricing?.querySelector(".font-headline-sm"),
+        before = pricing?.querySelector(".line-through"),
+        action = pricing?.querySelector("button");
+      if (action) action.setAttribute("aria-disabled", String(action.disabled));
+      if (!total || !before) return;
+      const totalValue = Number(total.textContent.replace(/[^0-9]/g, ""));
+      before.textContent = money(
+        totalValue +
+          (selectedSuggestions.size ? productDetails.bundleDiscount : 0),
+      );
+    };
+    const bundleTotalNode = bundleSection?.querySelector(".font-headline-sm");
+    if (bundleTotalNode)
+      new MutationObserver(syncBundleBeforeDiscount).observe(bundleTotalNode, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+    syncBundleBeforeDiscount();
+    bundleSection?.addEventListener(
+      "click",
+      (event) => {
+        const open = event.target.closest("[data-bundle-open]");
+        if (!open) return;
+        const item = productDetails.suggestions.find(
+          (entry) => entry.id === open.dataset.bundleOpen,
+        );
+        if (!item) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        save(SELECTED_PRODUCT_KEY, item);
+        location.href = `product.html?id=${encodeURIComponent(item.id)}`;
+      },
+      true,
+    );
+    bundleSection?.addEventListener(
+      "keydown",
+      (event) => {
+        const open = event.target.closest("[data-bundle-open]");
+        if (!open || !(event.key === "Enter" || event.key === " ")) return;
+        const item = productDetails.suggestions.find(
+          (entry) => entry.id === open.dataset.bundleOpen,
+        );
+        if (!item) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        save(SELECTED_PRODUCT_KEY, item);
+        location.href = `product.html?id=${encodeURIComponent(item.id)}`;
+      },
+      true,
+    );
     buttons
       .filter((button) =>
         [
@@ -1432,42 +2148,9 @@
           );
         }),
       );
-    buttons
-      .filter((button) =>
-        /^(256 GB|512 GB|1 TB)/.test(button.textContent.trim()),
-      )
-      .forEach((button) =>
-        button.addEventListener("click", () => {
-          buttons
-            .filter((item) =>
-              /^(256 GB|512 GB|1 TB)/.test(item.textContent.trim()),
-            )
-            .forEach((item) => {
-              item.classList.remove(
-                "border-2",
-                "border-primary-container",
-                "bg-primary-container/10",
-              );
-              item.classList.add("border", "border-surface-container-high");
-            });
-          button.classList.add(
-            "border-2",
-            "border-primary-container",
-            "bg-primary-container/10",
-          );
-          button.classList.remove("border", "border-surface-container-high");
-        }),
-      );
     buyButton?.addEventListener("click", () => {
       addToCart(activeProduct.id);
       location.href = "checkout.html";
-    });
-    bundleButton?.addEventListener("click", () => {
-      [
-        activeProduct.id,
-        "apple-20w-usb-c-adapter",
-        "apple-magsafe-clear-case",
-      ].forEach(addToCart);
     });
     const tabButtons = [
         ...document.querySelectorAll(
@@ -1488,11 +2171,8 @@
         tabPanels.forEach((panel, i) => (panel.hidden = i !== index));
       }),
     );
-    document
-      .querySelector(".product-language-button")
-      ?.addEventListener("click", () =>
-        applyLanguage(language === "en" ? "ar" : "en"),
-      );
+    showGalleryImage(0);
+    updateProductPricing();
   }
   document.addEventListener("click", (event) => {
     const add = event.target.closest("[data-add-to-cart]"),
@@ -1513,11 +2193,9 @@
       openDrawer("wishlist");
     }
     if (event.target.closest("[data-remove-cart]")) {
-      cart = cart.filter(
-        (item) =>
-          item.id !==
-          event.target.closest("[data-remove-cart]").dataset.removeCart,
-      );
+      const removeKey =
+        event.target.closest("[data-remove-cart]").dataset.removeCart;
+      cart = cart.filter((item) => (item.key || item.id) !== removeKey);
       save(CART_KEY, cart);
       renderState();
       renderCheckout();
@@ -1555,7 +2233,3 @@
   });
   applyLanguage(language);
 })();
-
-
-
-

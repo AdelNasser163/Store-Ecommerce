@@ -7,6 +7,7 @@
     <!-- Google Fonts & Material Symbols -->
     <link href="assets/fonts/fonts.css" rel="stylesheet" />
     <link href="style.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="assets/images/logo.png" />
   </head>
   <body data-page="product"
     class="theme-home bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
@@ -355,7 +356,7 @@
                 deciding?</a>
             </div>
             <div class="grid grid-cols-3 gap-3">
-              <button
+              <button data-storage="256"
                 class="py-2.5 px-3 rounded-xl border-2 border-primary-container bg-primary-container/10 flex flex-col items-center justify-center transition-all">
                 <span
                   class="font-label-lg text-label-lg font-bold text-inverse-surface">256
@@ -364,14 +365,14 @@
                   class="text-xs text-on-primary-container font-semibold">54,999
                   EGP</span>
               </button>
-              <button
+              <button data-storage="512"
                 class="py-2.5 px-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-primary-container flex flex-col items-center justify-center transition-all">
                 <span
                   class="font-label-lg text-label-lg font-bold text-on-surface">512
                   GB</span>
                 <span class="text-xs text-outline">+7,500 EGP</span>
               </button>
-              <button
+              <button data-storage="1024"
                 class="py-2.5 px-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-primary-container flex flex-col items-center justify-center transition-all">
                 <span
                   class="font-label-lg text-label-lg font-bold text-on-surface">1
