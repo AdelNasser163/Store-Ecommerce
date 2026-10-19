@@ -19,7 +19,13 @@
       return fallback;
     }
   };
-  const save = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+  const save = (key, value) => {
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch (error) {
+      const message = error?.name === "QuotaExceededError" ? (document.documentElement.lang === "ar" ? "مساحة المتصفح ممتلئة. لم يتم حفظ التغيير." : "Browser storage is full. The change was not saved.") : (document.documentElement.lang === "ar" ? "تعذر حفظ التغيير." : "The change could not be saved.");
+      console.error(message, error); window.dispatchEvent(new CustomEvent("store:storage-error", {detail:{message,error}})); return false;
+    }
+  };
   const categoryByName = {
     "Sony WF-1000XM5 Wireless Noise Canceling": "audio",
     "Samsung Galaxy Watch 6 Classic 47mm LTE": "mobiles",
@@ -53,7 +59,7 @@
         stockMatch = allText.match(/(\d+)\s*Left/i),
         discountMatch = allText.match(/-\d+%/);
       const product = {
-        id: normalize(productName).replaceAll(" ", "-"),
+        id: card.dataset.productId || normalize(productName).replaceAll(" ", "-"),
         name: productName,
         price: Number(priceText.replace(/[^\d]/g, "")),
         oldPrice: Number(oldPriceText.replace(/[^\d]/g, "")) || 0,
@@ -91,9 +97,15 @@
       return { ...product, card, addButton, wishlistButton };
     })
     .filter(Boolean);
-  const products = [
-    ...new Map(productCards.map((product) => [product.id, product])).values(),
-  ];
+  const centralProducts = window.StoreProducts
+    ? window.StoreProducts.read().map((product) => window.StoreProducts.localized(product, localStorage.getItem(LANGUAGE_KEY) === "ar" ? "ar" : "en"))
+    : [];
+  const products = centralProducts.length
+    ? centralProducts.map(product => {
+        const rendered = productCards.find(card => card.id === product.id);
+        return rendered ? {...product, card: rendered.card, addButton: rendered.addButton, wishlistButton: rendered.wishlistButton} : product;
+      })
+    : [...new Map(productCards.map((product) => [product.id, product])).values()];
   const isProductPage = document.body.dataset.page === "product",
     isAccessoriesPage = document.body.dataset.page === "accessories",
     isCheckoutPage = document.body.dataset.page === "checkout";
@@ -110,12 +122,6 @@
     discount: "-7%",
   };
   if (products.length) {
-    save(
-      CATALOG_KEY,
-      products.map(
-        ({ card, addButton, wishlistButton, ...product }) => product,
-      ),
-    );
     productCards.forEach((product) => {
       const cleanProduct = (({ card, addButton, wishlistButton, ...item }) =>
           item)(product),
@@ -151,17 +157,15 @@
         baseStorage: Number(
           activeProduct.name.match(/(\d+)\s*(?:GB|TB)/i)?.[1] || 256,
         ),
-        storagePrices: {
-          256: activeProduct.price,
-          512: activeProduct.price + 7500,
-          1024: activeProduct.price + 15000,
-        },
-        storageOldPrices: {
-          256: activeProduct.oldPrice || 0,
-          512: (activeProduct.oldPrice || activeProduct.price) + 7500,
-          1024: (activeProduct.oldPrice || activeProduct.price) + 15000,
-        },
-        images: /iphone/i.test(activeProduct.name)
+        storagePrices: activeProduct.variants?.length
+          ? Object.fromEntries(activeProduct.variants.map(variant => [Number(variant.id), Number(variant.price)]))
+          : {256: activeProduct.price, 512: activeProduct.price + 7500, 1024: activeProduct.price + 15000},
+        storageOldPrices: activeProduct.variants?.length
+          ? Object.fromEntries(activeProduct.variants.map(variant => [Number(variant.id), Number(variant.oldPrice || 0)]))
+          : {256: activeProduct.oldPrice || 0, 512: (activeProduct.oldPrice || activeProduct.price) + 7500, 1024: (activeProduct.oldPrice || activeProduct.price) + 15000},
+        images: activeProduct.gallery?.length
+          ? activeProduct.gallery.slice(0, 4)
+          : /iphone/i.test(activeProduct.name)
           ? [
               "assets/images/iphone-main.jpg",
               "assets/images/iphone-front.jpg",
@@ -170,7 +174,9 @@
             ]
           : Array(4).fill(activeProduct.image),
         bundleDiscount: 650,
-        suggestions: [
+        suggestions: activeProduct.relatedIds?.length
+          ? activeProduct.relatedIds.map(id => products.find(product => product.id === id)).filter(Boolean)
+          : [
           {
             id: "apple-20w-usb-c-adapter",
             name: "Apple 20W USB-C Power Adapter",
@@ -200,6 +206,7 @@
       ? storageParam
       : 256,
     purchaseQuantity = 1;
+  if (activeProduct && !activeProduct.variants?.length) selectedProductStorage = null;
   const storageLabel = (value) => (value === 1024 ? "1 TB" : `${value} GB`);
   const configuredProduct = () => ({
     ...activeProduct,
@@ -207,18 +214,15 @@
     price:
       productDetails?.storagePrices[selectedProductStorage] ||
       activeProduct.price,
-    oldPrice: productDetails?.storageOldPrices[selectedProductStorage] || 0,
-    name: activeProduct.name.replace(
-      /(?:256|512)\s*GB|1\s*TB/i,
-      storageLabel(selectedProductStorage),
-    ),
+    oldPrice: selectedProductStorage ? productDetails?.storageOldPrices[selectedProductStorage] || 0 : activeProduct.oldPrice || 0,
+    name: selectedProductStorage ? activeProduct.name.replace(/(?:256|512)\s*GB|1\s*TB/i, storageLabel(selectedProductStorage)) : activeProduct.name,
     sku: `${activeProduct.id
       .toUpperCase()
       .replace(/[^A-Z0-9]+/g, "-")
       .slice(
         0,
         22,
-      )}-${selectedProductStorage === 1024 ? "1TB" : `${selectedProductStorage}GB`}`,
+      )}${selectedProductStorage ? `-${selectedProductStorage === 1024 ? "1TB" : `${selectedProductStorage}GB`}` : ""}`,
   });
   if (isProductPage) {
     products.push(activeProduct);
@@ -383,7 +387,12 @@
             "main section:last-of-type > .mt-6 > div",
           ),
         ],
-        specs = [
+        specificationLanguage = localStorage.getItem(LANGUAGE_KEY) === "ar" ? "ar" : "en",
+        customSpecs = (activeProduct.specifications || []).map((spec) => [
+          spec.label?.[specificationLanguage] || spec.label?.en || "",
+          spec.value?.[specificationLanguage] || spec.value?.en || "",
+        ]),
+        specs = customSpecs.length ? customSpecs : [
           ["Category", categoryLabel],
           ["Product", activeProduct.name],
           ["Current Price", money(activeProduct.price)],
@@ -399,6 +408,11 @@
           ["Warranty", "Official regional warranty"],
           ["Delivery", "24h express delivery in Cairo & Giza"],
         ];
+      while (customSpecs.length > specRows.length && specRows[0]) {
+        const clone = specRows[0].cloneNode(true);
+        specRows[0].parentElement.append(clone);
+        specRows.push(clone);
+      }
       specRows.forEach((row, index) => {
         const values = row.querySelectorAll("span");
         if (specs[index] && values.length > 1) {
@@ -440,6 +454,7 @@
     clearTimeout(toast.timer);
     toast.timer = setTimeout(() => node.classList.remove("show"), 1800);
   };
+  window.addEventListener("store:storage-error", event => toast(event.detail?.message || "The change could not be saved."));
   const openDrawer = (type) => {
     document.querySelector(`#${type}-drawer`).classList.add("open");
     document
@@ -680,17 +695,8 @@
     ),
     searchButton = searchInput?.parentElement.querySelector("button");
   const runSearch = () => {
-    const query = searchInput.value.trim(),
-      matches = filterProducts("all", query);
-    if (query)
-      toast(
-        language === "ar"
-          ? `تم العثور على ${matches} منتج`
-          : `${matches} product${matches === 1 ? "" : "s"} found`,
-      );
-    productCards[0]?.card
-      .closest("section")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const query = searchInput.value.trim();
+    if (query) location.href = `accessories.html?q=${encodeURIComponent(query)}`;
   };
   searchButton?.addEventListener("click", runSearch);
   searchInput?.addEventListener("keydown", (event) => {
@@ -699,6 +705,13 @@
   searchInput?.addEventListener("input", () => {
     if (!searchInput.value) filterProducts();
   });
+  const initialSearch = isAccessoriesPage
+    ? new URLSearchParams(location.search).get("q")
+    : "";
+  if (initialSearch && searchInput) {
+    searchInput.value = initialSearch;
+    filterProducts("all", initialSearch);
+  }
 
   const translations = new Map(
     Object.entries({
@@ -1196,6 +1209,7 @@
       );
     let brandFilterActive = false,
       selectedCategory = "all",
+      accessoryQuery = normalize(new URLSearchParams(location.search).get("q") || ""),
       selectedStorage = new Set(
         storageButtons
           .filter((button) => button.classList.contains("bg-brand-green/20"))
@@ -1278,13 +1292,17 @@
             (!inStock || product.stock > 0) &&
             (!onSale || meta.sale) &&
             (!express || meta.express),
+          searchOk =
+            !accessoryQuery ||
+            product.card.dataset.search.includes(accessoryQuery),
           show =
             brandOk &&
             categoryOk &&
             storageOk &&
             priceOk &&
             ratingOk &&
-            statusOk;
+            statusOk &&
+            searchOk;
         product.card.hidden = !show;
         return show;
       });
@@ -1697,12 +1715,11 @@
         (section) => section.textContent.includes("Frequently Bought Together"),
       ),
       mainImage = document.querySelector("#mainProductImage"),
-      thumbButtons = [
-        ...document.querySelectorAll(
-          "main section:first-child .grid.grid-cols-4 button",
-        ),
-      ],
+      gallerySection = mainImage?.closest("section"),
+      thumbRow = gallerySection?.querySelector(".grid.grid-cols-4"),
+      thumbButtons = [...(thumbRow?.querySelectorAll(":scope > button") || [])],
       storageButtons = [...document.querySelectorAll("main [data-storage]")];
+    if (!activeProduct.variants?.length) storageButtons[0]?.closest(".flex.flex-col")?.setAttribute("hidden", "");
     productDetails.suggestions.forEach((item) => {
       if (!products.some((product) => product.id === item.id))
         products.push(item);
@@ -1742,20 +1759,29 @@
     });
     let galleryIndex = 0,
       touchStartX = 0;
-    productDetails.images.forEach((src) => {
+    productDetails.images.forEach(async (src) => {
       const image = new Image();
-      image.src = src;
+      image.src = src.startsWith?.("idb:")
+        ? (await window.ImageStore?.getImageURL(src)) || window.StoreProducts?.imageFallback || "assets/images/logo.png"
+        : src;
     });
+    const setGallerySource = (image, source) => {
+      if (!image) return;
+      if (source.startsWith?.("idb:")) image.dataset.imageRef = source;
+      else delete image.dataset.imageRef;
+      image.src = source;
+      window.ImageStore?.hydrate(image);
+    };
     const showGalleryImage = (index, fromLightbox = false) => {
       galleryIndex =
         (index + productDetails.images.length) % productDetails.images.length;
       const src = productDetails.images[galleryIndex];
       mainImage.classList.add("product-image-fade");
-      setTimeout(() => {
-        mainImage.src = src;
+      requestAnimationFrame(() => {
+        setGallerySource(mainImage, src);
         mainImage.alt = `${configuredProduct().name} — view ${galleryIndex + 1}`;
-        mainImage.classList.remove("product-image-fade");
-      }, 120);
+        requestAnimationFrame(() => mainImage.classList.remove("product-image-fade"));
+      });
       thumbButtons.forEach((button, i) => {
         const active = i === galleryIndex;
         button.classList.toggle("border-2", active);
@@ -1767,7 +1793,7 @@
       if (fromLightbox) {
         const lightboxImage = document.querySelector(".product-lightbox img"),
           counter = document.querySelector(".product-lightbox-counter");
-        if (lightboxImage) lightboxImage.src = src;
+        if (lightboxImage) setGallerySource(lightboxImage, src);
         if (counter)
           counter.textContent = `${galleryIndex + 1} / ${productDetails.images.length}`;
       }
@@ -1775,13 +1801,20 @@
     thumbButtons.forEach((button, index) => {
       const image = button.querySelector("img");
       if (image) {
-        image.src = productDetails.images[index];
+        setGallerySource(image, productDetails.images[index]);
         image.alt = `${activeProduct.name} view ${index + 1}`;
       }
       button.type = "button";
+      button.dataset.galleryIndex = String(index);
       button.setAttribute("aria-label", `Show product image ${index + 1}`);
       button.setAttribute("aria-pressed", String(index === 0));
-      button.addEventListener("click", () => showGalleryImage(index));
+    });
+    thumbRow?.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-gallery-index]");
+      if (!button || !thumbRow.contains(button)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      showGalleryImage(Number(button.dataset.galleryIndex));
     });
     const galleryCard = mainImage?.parentElement,
       zoomButton = galleryCard?.querySelector(".absolute.bottom-3");
@@ -1942,7 +1975,8 @@
       });
       const url = new URL(location.href);
       url.searchParams.set("id", activeProduct.id);
-      url.searchParams.set("storage", selectedProductStorage);
+      if (selectedProductStorage) url.searchParams.set("storage", selectedProductStorage);
+      else url.searchParams.delete("storage");
       history.replaceState(null, "", url);
       renderBundle();
     };
@@ -2014,6 +2048,8 @@
             ? `Save ${money(discountValue)} Extra`
             : "Choose extras to save";
         bundleButton.disabled = !selectedSuggestions.size;
+        bundleButton.dataset.addBundleToCart = "true";
+        bundleButton.type = "button";
         bundleButton.textContent = selectedSuggestions.size
           ? `Add All ${chosen.length} to Cart`
           : "Select an extra item";
@@ -2021,7 +2057,7 @@
       itemsWrap.addEventListener("click", (event) => {
         const open = event.target.closest("[data-bundle-open]");
         if (open && event.target.closest("[data-bundle-toggle]") == null) {
-          const item = entries.find(
+          const item = productDetails.suggestions.find(
             (entry) => entry.id === open.dataset.bundleOpen,
           );
           if (item && !item.fixed) {
@@ -2037,23 +2073,55 @@
           : selectedSuggestions.add(toggle.dataset.bundleToggle);
         renderBundle();
       });
-      bundleButton.addEventListener("click", () => {
+      bundleButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         if (!selectedSuggestions.size) return;
-        addToCart(activeProduct.id, {
-          storage: selectedProductStorage,
-          price: configuredProduct().price,
-          quantity: 1,
+        const configured = configuredProduct(),
+          selectedItems = [
+            {
+              id: activeProduct.id,
+              storage: selectedProductStorage,
+              name: configured.name,
+              price: configured.price,
+              image: activeProduct.image,
+            },
+            ...productDetails.suggestions.filter((item) =>
+              selectedSuggestions.has(item.id),
+            ),
+          ];
+        selectedItems.forEach((item) => {
+          const storage = item.storage || null,
+            key = `${item.id}::${storage || "default"}`,
+            existing = cart.find(
+              (cartItem) =>
+                (cartItem.key ||
+                  `${cartItem.id}::${cartItem.storage || "default"}`) === key,
+            );
+          if (existing) existing.quantity += 1;
+          else
+            cart.push({
+              key,
+              id: item.id,
+              storage,
+              name: item.name,
+              price: Number(item.price),
+              image:
+                item.image ||
+                window.StoreProducts?.imageFallback ||
+                "assets/images/logo.png",
+              quantity: 1,
+            });
         });
-        productDetails.suggestions
-          .filter((item) => selectedSuggestions.has(item.id))
-          .forEach((item) =>
-            addToCart(item.id, { price: item.price, quantity: 1 }),
-          );
+        save(CART_KEY, cart);
+        renderState();
+        renderCheckout();
         toast(
           language === "ar"
             ? "تمت إضافة الباقة إلى السلة"
             : "Bundle added to cart",
         );
+        openDrawer("cart");
       });
     }
     const syncBundleBeforeDiscount = () => {

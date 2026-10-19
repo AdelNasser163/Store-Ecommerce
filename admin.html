@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Products Dashboard | AlMumez</title>
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin" class="admin-dashboard-page">
+  <section class="admin-login" data-admin-login>
+    <img src="assets/images/logo.png" alt="AlMumez">
+    <h1>Product administration</h1>
+    <p>This is basic client-side protection, not real security.</p>
+    <label>Password<input type="password" autocomplete="current-password" required></label>
+    <small data-login-error aria-live="polite"></small>
+    <button type="button">Open dashboard</button>
+  </section>
+
+  <div class="dashboard-app" data-admin-app hidden>
+    <header class="dashboard-header">
+      <a class="dashboard-brand" href="admin.html"><img src="assets/images/logo.png" alt="AlMumez"><span>Admin</span></a>
+      <div class="dashboard-header-actions">
+        <a class="dashboard-store-link" href="index.html"><span class="material-symbols-outlined">storefront</span>View store</a>
+        <button class="dashboard-icon-button" type="button" data-export aria-label="Export products"><span class="material-symbols-outlined">download</span></button>
+        <label class="dashboard-icon-button" aria-label="Import products"><span class="material-symbols-outlined">upload</span><input type="file" accept="application/json" data-import></label>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+      <div class="dashboard-title-row">
+        <div><p class="dashboard-kicker">PRODUCT MANAGEMENT</p><h1>Products</h1><p>Add, edit and manage product photos and specifications.</p></div>
+        <a class="dashboard-add-button" href="admin-product.html"><span class="material-symbols-outlined">add</span>Add product</a>
+      </div>
+
+      <section class="dashboard-id-report" data-id-changes hidden aria-live="polite"></section>
+
+      <section class="dashboard-stats" aria-label="Product statistics">
+        <article><span class="dashboard-stat-icon green"><span class="material-symbols-outlined">inventory_2</span></span><div><small>Total products</small><strong data-stat-products>0</strong></div></article>
+        <article><span class="dashboard-stat-icon blue"><span class="material-symbols-outlined">deployed_code</span></span><div><small>Units in stock</small><strong data-stat-stock>0</strong></div></article>
+        <article><span class="dashboard-stat-icon amber"><span class="material-symbols-outlined">payments</span></span><div><small>Stock value</small><strong data-stat-value>0 EGP</strong></div></article>
+      </section>
+
+      <section class="dashboard-products-card">
+        <div class="dashboard-card-head">
+          <div><h2>All products</h2><p>Manage your store catalog from one place. <span data-storage-usage>Calculating storage…</span></p></div>
+          <label class="dashboard-search"><span class="material-symbols-outlined">search</span><input type="search" data-admin-search placeholder="Search by name, brand or category"></label>
+        </div>
+        <div class="dashboard-table-wrap">
+          <table class="dashboard-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody data-admin-list></tbody></table>
+        </div>
+        <div class="dashboard-empty" data-admin-empty hidden><span class="material-symbols-outlined">inventory_2</span><h3>No products yet</h3><p>Add your first product to start building the catalog.</p><a href="admin-product.html">Add product</a></div>
+      </section>
+    </main>
+  </div>
+  <script src="data/products.js"></script>
+  <script src="js/image-store.js"></script>
+  <script src="data/store.js"></script>
+  <script src="admin-dashboard.js?v=2"></script>
+</body>
+</html>

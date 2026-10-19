@@ -1,0 +1,116 @@
+<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta
+            name="viewport"
+            content="width=device-width,initial-scale=1"><title>Add product |
+            AlMumez</title><link rel="stylesheet"
+            href="assets/fonts/fonts.css"><link rel="stylesheet"
+            href="style.css"></head><body data-page="admin-product"
+        class="admin-dashboard-page"><div class="dashboard-app"
+            data-admin-app><header class="dashboard-header"><a
+                    class="dashboard-brand" href="admin.html"><img
+                        src="assets/images/logo.png"
+                        alt="AlMumez"><span>Admin</span></a><a
+                    class="dashboard-store-link" href="admin.html"><span
+                        class="material-symbols-outlined">arrow_back</span>Back
+                    to products</a></header><main
+                class="dashboard-main dashboard-form-main"><div
+                    class="dashboard-title-row"><div><p
+                            class="dashboard-kicker">PRODUCT MANAGEMENT</p><h1
+                            data-form-title>Add product</h1><p>Add its
+                            information, cover, gallery and
+                            specifications.</p></div><span
+                        class="admin-id-chip">ID: <b data-generated-id>generated
+                            automatically</b></span></div>
+                <form class="admin-form-card dashboard-product-form"
+                    data-product-form novalidate><input type="hidden"
+                        name="originalId">
+                    <section class="dashboard-form-section"><div
+                            class="dashboard-form-section-title"><span>1</span><div><h2>Basic
+                                    information</h2><p>The product ID is
+                                    generated automatically from its English
+                                    name.</p></div></div><div
+                            class="admin-fields"><label>English name *<input
+                                    name="nameEn" required
+                                    autocomplete="off"></label><label>Arabic
+                                name *<input name="nameAr" dir="rtl" required
+                                    autocomplete="off"></label><label>Brand
+                                *<input name="brand"
+                                    required></label><label>Category *<input
+                                    name="category" required
+                                    placeholder="mobiles"></label><label>English
+                                subcategory *<input name="subEn"
+                                    required></label><label>Arabic subcategory
+                                *<input name="subAr" dir="rtl"
+                                    required></label></div></section>
+                    <section class="dashboard-form-section"><div
+                            class="dashboard-form-section-title"><span>2</span><div><h2>Price
+                                    & stock</h2><p>Set selling price and current
+                                    inventory.</p></div></div><div
+                            class="admin-fields admin-fields-four"><label>Price
+                                *<input name="price" type="number" min="0"
+                                    required></label><label>Old price<input
+                                    name="oldPrice" type="number"
+                                    min="0"></label><label>Stock *<input
+                                    name="stock" type="number" min="0" value="1"
+                                    required></label><label>Badge<select
+                                    name="badge"><option
+                                        value="none">None</option><option
+                                        value="new">New arrival</option><option
+                                        value="best-seller">Best
+                                        seller</option><option
+                                        value="official-warranty">Official
+                                        warranty</option><option
+                                        value="discount">Discount</option></select></label><label>Rating
+                                *<input name="rating" type="number" min="0"
+                                    max="5" step=".1" value="5"
+                                    required></label><label>Reviews<input
+                                    name="reviews" type="number" min="0"
+                                    value="0"></label></div></section>
+                    <section class="dashboard-form-section"><div
+                            class="dashboard-form-section-title"><span>3</span><div><h2>Product
+                                    photos</h2><p>Upload one cover and exactly
+                                    four gallery images.</p></div></div><div
+                            class="admin-image-editor"><label
+                                class="admin-image-drop" data-image-drop><input
+                                    name="imageFile" type="file"
+                                    accept="image/*"><span
+                                    class="material-symbols-outlined">add_photo_alternate</span><b>Choose
+                                    cover image</b><small>PNG, JPG or WEBP ·
+                                    maximum 2 MB</small><img data-upload-preview
+                                    alt="Product cover preview"
+                                    hidden></label><div
+                                class="admin-gallery-heading"><div><h3>Gallery —
+                                        4 images *</h3><p>Shown under the main
+                                        photo on product.html.</p></div><label
+                                    class="admin-gallery-upload"><span
+                                        class="material-symbols-outlined">collections</span>Choose
+                                    4 images<input name="galleryFiles"
+                                        type="file" accept="image/*"
+                                        multiple></label></div><div
+                                class="admin-gallery-preview"
+                                data-gallery-preview></div></div></section>
+                    <section class="dashboard-form-section"><div
+                            class="dashboard-form-section-title"><span>4</span><div><h2>Product
+                                    specifications</h2><p>Add the specification
+                                    name and value in both
+                                    languages.</p></div></div><div
+                            class="admin-section-heading"><span></span><button
+                                type="button" data-add-spec><span
+                                    class="material-symbols-outlined">add</span>Add
+                                specification</button></div><div
+                            data-spec-list></div></section>
+                    <section class="dashboard-form-section"><div
+                            class="dashboard-form-section-title"><span>5</span><div><h2>Product
+                                    placement</h2><p>Select where this product
+                                    should
+                                    appear.</p></div></div><fieldset><legend
+                                class="sr-only">Appears in</legend><div
+                                data-placement-fields></div></fieldset></section><p
+                        class="admin-error" data-form-error
+                        aria-live="polite"></p><div
+                        class="admin-actions dashboard-form-actions"><a
+                            href="admin.html">Cancel</a><button
+                            type="submit">Save
+                            product</button></div></form></main></div><script
+            src="data/products.js"></script><script src="js/image-store.js"></script><script
+            src="data/store.js"></script><script
+            src="admin.js?v=4"></script></body></html>
