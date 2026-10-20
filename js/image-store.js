@@ -131,11 +131,11 @@
   async function resolveImageElement(img, fallback) {
     const currentSource = img.getAttribute("src") || "";
     let reference = "";
-    if (currentSource.startsWith(PREFIX)) {
+    if (img.dataset.imageRef?.startsWith(PREFIX)) {
+      reference = img.dataset.imageRef;
+    } else if (currentSource.startsWith(PREFIX)) {
       reference = currentSource;
       img.dataset.imageRef = reference;
-    } else if (currentSource.startsWith("blob:") && img.dataset.imageRef?.startsWith(PREFIX)) {
-      reference = img.dataset.imageRef;
     } else {
       delete img.dataset.imageRef;
       return;

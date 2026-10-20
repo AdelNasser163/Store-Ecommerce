@@ -8,18 +8,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="admin" class="admin-dashboard-page">
-  <section class="admin-login" data-admin-login>
-    <img src="assets/images/logo.png" alt="AlMumez">
-    <h1>Product administration</h1>
-    <p>This is basic client-side protection, not real security.</p>
-    <label>Password<input type="password" autocomplete="current-password" required></label>
-    <small data-login-error aria-live="polite"></small>
-    <button type="button">Open dashboard</button>
-  </section>
+  <main class="admin-login-screen" data-admin-login>
+    <form class="admin-login-card" data-admin-login-form novalidate>
+      <img src="assets/images/logo.png" alt="AlMumez">
+      <div class="admin-login-copy"><h1 data-login-text="title">Dashboard login</h1><p data-login-text="description">Sign in to manage products and store inventory.</p></div>
+      <label><span data-login-text="username">Username</span><span class="admin-login-field"><span class="material-symbols-outlined">person</span><input name="username" type="text" autocomplete="username" required></span></label>
+      <label><span data-login-text="password">Password</span><span class="admin-login-field"><span class="material-symbols-outlined">lock</span><input name="password" type="password" autocomplete="current-password" required><button class="admin-password-toggle" type="button" aria-label="Show password"><span class="material-symbols-outlined">visibility</span></button></span></label>
+      <small data-login-error aria-live="polite"></small>
+      <button class="admin-login-submit" type="submit"><span data-login-text="submit">Sign in</span><span class="admin-login-spinner" aria-hidden="true"></span></button>
+      <a class="admin-back-store" href="index.html"><span class="material-symbols-outlined">arrow_back</span><span data-login-text="back">Back to store</span></a>
+    </form>
+  </main>
 
   <div class="dashboard-app" data-admin-app hidden>
     <header class="dashboard-header">
-      <a class="dashboard-brand" href="admin.html"><img src="assets/images/logo.png" alt="AlMumez"><span>Admin</span></a>
+      <a class="dashboard-brand" href="index.html"><img src="assets/images/logo.png" alt="AlMumez"><span>Admin</span></a>
       <div class="dashboard-header-actions">
         <a class="dashboard-store-link" href="index.html"><span class="material-symbols-outlined">storefront</span>View store</a>
         <button class="dashboard-icon-button" type="button" data-export aria-label="Export products"><span class="material-symbols-outlined">download</span></button>
@@ -32,8 +35,6 @@
         <div><p class="dashboard-kicker">PRODUCT MANAGEMENT</p><h1>Products</h1><p>Add, edit and manage product photos and specifications.</p></div>
         <a class="dashboard-add-button" href="admin-product.html"><span class="material-symbols-outlined">add</span>Add product</a>
       </div>
-
-      <section class="dashboard-id-report" data-id-changes hidden aria-live="polite"></section>
 
       <section class="dashboard-stats" aria-label="Product statistics">
         <article><span class="dashboard-stat-icon green"><span class="material-symbols-outlined">inventory_2</span></span><div><small>Total products</small><strong data-stat-products>0</strong></div></article>
@@ -53,9 +54,10 @@
       </section>
     </main>
   </div>
+  <script src="admin-ui.js?v=1"></script>
   <script src="data/products.js"></script>
   <script src="js/image-store.js"></script>
-  <script src="data/store.js"></script>
-  <script src="admin-dashboard.js?v=2"></script>
+  <script src="data/store.js?v=8"></script>
+  <script src="admin-dashboard.js?v=3"></script>
 </body>
 </html>

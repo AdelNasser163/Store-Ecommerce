@@ -1,116 +1,17 @@
-<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta
-            name="viewport"
-            content="width=device-width,initial-scale=1"><title>Add product |
-            AlMumez</title><link rel="stylesheet"
-            href="assets/fonts/fonts.css"><link rel="stylesheet"
-            href="style.css"></head><body data-page="admin-product"
-        class="admin-dashboard-page"><div class="dashboard-app"
-            data-admin-app><header class="dashboard-header"><a
-                    class="dashboard-brand" href="admin.html"><img
-                        src="assets/images/logo.png"
-                        alt="AlMumez"><span>Admin</span></a><a
-                    class="dashboard-store-link" href="admin.html"><span
-                        class="material-symbols-outlined">arrow_back</span>Back
-                    to products</a></header><main
-                class="dashboard-main dashboard-form-main"><div
-                    class="dashboard-title-row"><div><p
-                            class="dashboard-kicker">PRODUCT MANAGEMENT</p><h1
-                            data-form-title>Add product</h1><p>Add its
-                            information, cover, gallery and
-                            specifications.</p></div><span
-                        class="admin-id-chip">ID: <b data-generated-id>generated
-                            automatically</b></span></div>
-                <form class="admin-form-card dashboard-product-form"
-                    data-product-form novalidate><input type="hidden"
-                        name="originalId">
-                    <section class="dashboard-form-section"><div
-                            class="dashboard-form-section-title"><span>1</span><div><h2>Basic
-                                    information</h2><p>The product ID is
-                                    generated automatically from its English
-                                    name.</p></div></div><div
-                            class="admin-fields"><label>English name *<input
-                                    name="nameEn" required
-                                    autocomplete="off"></label><label>Arabic
-                                name *<input name="nameAr" dir="rtl" required
-                                    autocomplete="off"></label><label>Brand
-                                *<input name="brand"
-                                    required></label><label>Category *<input
-                                    name="category" required
-                                    placeholder="mobiles"></label><label>English
-                                subcategory *<input name="subEn"
-                                    required></label><label>Arabic subcategory
-                                *<input name="subAr" dir="rtl"
-                                    required></label></div></section>
-                    <section class="dashboard-form-section"><div
-                            class="dashboard-form-section-title"><span>2</span><div><h2>Price
-                                    & stock</h2><p>Set selling price and current
-                                    inventory.</p></div></div><div
-                            class="admin-fields admin-fields-four"><label>Price
-                                *<input name="price" type="number" min="0"
-                                    required></label><label>Old price<input
-                                    name="oldPrice" type="number"
-                                    min="0"></label><label>Stock *<input
-                                    name="stock" type="number" min="0" value="1"
-                                    required></label><label>Badge<select
-                                    name="badge"><option
-                                        value="none">None</option><option
-                                        value="new">New arrival</option><option
-                                        value="best-seller">Best
-                                        seller</option><option
-                                        value="official-warranty">Official
-                                        warranty</option><option
-                                        value="discount">Discount</option></select></label><label>Rating
-                                *<input name="rating" type="number" min="0"
-                                    max="5" step=".1" value="5"
-                                    required></label><label>Reviews<input
-                                    name="reviews" type="number" min="0"
-                                    value="0"></label></div></section>
-                    <section class="dashboard-form-section"><div
-                            class="dashboard-form-section-title"><span>3</span><div><h2>Product
-                                    photos</h2><p>Upload one cover and exactly
-                                    four gallery images.</p></div></div><div
-                            class="admin-image-editor"><label
-                                class="admin-image-drop" data-image-drop><input
-                                    name="imageFile" type="file"
-                                    accept="image/*"><span
-                                    class="material-symbols-outlined">add_photo_alternate</span><b>Choose
-                                    cover image</b><small>PNG, JPG or WEBP ·
-                                    maximum 2 MB</small><img data-upload-preview
-                                    alt="Product cover preview"
-                                    hidden></label><div
-                                class="admin-gallery-heading"><div><h3>Gallery —
-                                        4 images *</h3><p>Shown under the main
-                                        photo on product.html.</p></div><label
-                                    class="admin-gallery-upload"><span
-                                        class="material-symbols-outlined">collections</span>Choose
-                                    4 images<input name="galleryFiles"
-                                        type="file" accept="image/*"
-                                        multiple></label></div><div
-                                class="admin-gallery-preview"
-                                data-gallery-preview></div></div></section>
-                    <section class="dashboard-form-section"><div
-                            class="dashboard-form-section-title"><span>4</span><div><h2>Product
-                                    specifications</h2><p>Add the specification
-                                    name and value in both
-                                    languages.</p></div></div><div
-                            class="admin-section-heading"><span></span><button
-                                type="button" data-add-spec><span
-                                    class="material-symbols-outlined">add</span>Add
-                                specification</button></div><div
-                            data-spec-list></div></section>
-                    <section class="dashboard-form-section"><div
-                            class="dashboard-form-section-title"><span>5</span><div><h2>Product
-                                    placement</h2><p>Select where this product
-                                    should
-                                    appear.</p></div></div><fieldset><legend
-                                class="sr-only">Appears in</legend><div
-                                data-placement-fields></div></fieldset></section><p
-                        class="admin-error" data-form-error
-                        aria-live="polite"></p><div
-                        class="admin-actions dashboard-form-actions"><a
-                            href="admin.html">Cancel</a><button
-                            type="submit">Save
-                            product</button></div></form></main></div><script
-            src="data/products.js"></script><script src="js/image-store.js"></script><script
-            src="data/store.js"></script><script
-            src="admin.js?v=4"></script></body></html>
+<!doctype html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Add product | AlMumez</title><link rel="stylesheet" href="assets/fonts/fonts.css"><link rel="stylesheet" href="style.css"></head>
+<body data-page="admin-product" class="admin-dashboard-page"><div class="dashboard-app" data-admin-app>
+<header class="dashboard-header"><a class="dashboard-brand" href="admin.html"><img src="assets/images/logo.png" alt="AlMumez"><span>Admin</span></a><a class="dashboard-store-link" href="admin.html"><span class="material-symbols-outlined">arrow_back</span>Back to products</a></header>
+<main class="dashboard-main dashboard-form-main"><div class="dashboard-title-row"><div><p class="dashboard-kicker">PRODUCT MANAGEMENT</p><h1 data-form-title>Add product</h1><p>Edit every product detail from one place.</p></div><span class="admin-id-chip">ID: <b data-generated-id>generated automatically</b></span></div>
+<form class="admin-form-card dashboard-product-form" data-product-form novalidate><input type="hidden" name="originalId">
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>1</span><div><h2>Basic information</h2><p>The ID is generated automatically from the English name.</p></div></div><div class="admin-fields"><label>English name *<input name="nameEn" required autocomplete="off"></label><label>Arabic name *<input name="nameAr" dir="rtl" required></label><label>Brand *<input name="brand" required></label><label>Category *<input name="category" required></label><label>English subcategory *<input name="subEn" required></label><label>Arabic subcategory *<input name="subAr" dir="rtl" required></label><label>SKU *<input name="sku" required></label><label class="admin-wide">English description<textarea name="descriptionEn" rows="3"></textarea></label><label class="admin-wide">Arabic description<textarea name="descriptionAr" dir="rtl" rows="3"></textarea></label></div></section>
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>2</span><div><h2>Price & stock</h2><p>Set the regular price and current inventory.</p></div></div><div class="admin-fields admin-fields-four"><label>Regular price *<input name="price" type="number" min="0" required></label><label>Legacy old price<input name="oldPrice" type="number" min="0"></label><label>Stock *<input name="stock" type="number" min="0" step="1" value="1" required></label><label>Badge<select name="badge"><option value="none">None</option><option value="new">New arrival</option><option value="best-seller">Best seller</option><option value="official-warranty">Official warranty</option><option value="discount">Discount</option></select></label><label>Rating *<input name="rating" type="number" min="0" max="5" step=".1" value="5" required></label><label>Reviews<input name="reviews" type="number" min="0" step="1" value="0"></label></div></section>
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>3</span><div><h2>Offer & discount</h2><p>Schedule the offer and its claimed stock.</p></div></div><div class="admin-fields admin-offer-fields"><label class="admin-switch"><input name="isOffer" type="checkbox"> This product is on offer</label><label>Discount type<select name="offerType"><option value="percent">Percentage %</option><option value="fixed">Fixed amount</option><option value="prices">Old price + new price</option></select></label><label>Discount value<input name="offerValue" type="number" min="0" step=".01"></label><label>Offer old price<input name="offerOldPrice" type="number" min="0"></label><label>Offer new price<input name="offerNewPrice" type="number" min="0"></label><label>Starts at<input name="offerStartsAt" type="datetime-local"></label><label>Ends at<input name="offerEndsAt" type="datetime-local"></label><label>Offer quantity<input name="offerTotal" type="number" min="0" step="1"></label><label>Sold<input name="offerSold" type="number" min="0" step="1"></label><label>Manual claimed %<input name="manualClaimed" type="number" min="0" max="100" placeholder="Automatic"></label><label class="admin-switch"><input name="flashDeal" type="checkbox"> Show in Flash Deals while active</label><output class="admin-offer-summary" data-offer-summary></output></div></section>
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>4</span><div><h2>Product photos</h2><p>Upload one cover and exactly four gallery images.</p></div></div><div class="admin-image-editor"><label class="admin-image-drop" data-image-drop><input name="imageFile" type="file" accept="image/*"><span class="material-symbols-outlined">add_photo_alternate</span><b>Choose cover image</b><small>PNG, JPG or WEBP · maximum 15 MB</small><img data-upload-preview alt="Product cover preview" hidden></label><div class="admin-gallery-heading"><div><h3>Gallery — 4 images *</h3><p>Shown under the main photo on product.html.</p></div><label class="admin-gallery-upload"><span class="material-symbols-outlined">collections</span>Choose 4 images<input name="galleryFiles" type="file" accept="image/*" multiple></label></div><div class="admin-gallery-preview" data-gallery-preview></div></div></section>
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>5</span><div><h2>Variants</h2><p>Choose whether this product has storage capacities, then enter the additional price for each capacity.</p></div></div><label class="admin-switch admin-has-variants"><input name="hasVariants" type="checkbox"> This product has capacities or variants</label><div data-variant-editor hidden><div class="admin-fields"><label>Variant type<select name="variantType"><option value="storage">Storage capacity (GB / TB)</option><option value="size">Size</option><option value="color">Color</option><option value="other">Other</option></select></label><label>English section title<input name="variantTitleEn" value="Storage Capacity"></label><label>Arabic section title<input name="variantTitleAr" dir="rtl" value="سعة التخزين"></label></div><div class="admin-variant-help">Use 0 for the base capacity, then enter only the amount added to the device price for every larger capacity.</div><div class="admin-section-heading"><span></span><button type="button" data-add-variant><span class="material-symbols-outlined">add</span>Add capacity / variant</button></div><div data-variant-list></div></div></section>
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>6</span><div><h2>Product specifications</h2><p>Add grouped specifications in both languages.</p></div></div><div class="admin-section-heading"><button type="button" data-import-specs>Paste specifications</button><button type="button" data-add-spec><span class="material-symbols-outlined">add</span>Add specification</button></div><div data-spec-list></div><div class="admin-fields"><label>Warranty (English)<input name="warrantyEn"></label><label>Warranty (Arabic)<input name="warrantyAr" dir="rtl"></label><label>Delivery (English)<input name="deliveryEn"></label><label>Delivery (Arabic)<input name="deliveryAr" dir="rtl"></label><label>Return period (English)<input name="returnEn"></label><label>Return period (Arabic)<input name="returnAr" dir="rtl"></label></div></section>
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>7</span><div><h2>Product placement</h2><p>Select where this product should appear.</p></div></div><fieldset><legend class="sr-only">Appears in</legend><div data-placement-fields></div></fieldset></section>
+<section class="dashboard-form-section"><div class="dashboard-form-section-title"><span>8</span><div><h2>Live preview</h2><p>Card and product price before saving.</p></div></div><div class="admin-live-preview" data-live-preview></div></section>
+<p class="admin-error" data-form-error aria-live="polite"></p><div class="admin-actions dashboard-form-actions"><a href="admin.html">Cancel</a><button type="submit">Save product</button></div></form></main></div>
+<script src="admin-ui.js?v=1"></script><script src="data/products.js"></script><script src="js/image-store.js?v=2"></script><script src="data/store.js?v=8"></script><script src="admin.js?v=11"></script></body></html>

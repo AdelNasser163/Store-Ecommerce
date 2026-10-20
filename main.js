@@ -146,7 +146,8 @@
     storedSelected = load(SELECTED_PRODUCT_KEY, null),
     storedCatalog = load(CATALOG_KEY, []);
   const activeProduct = isProductPage
-    ? storedCatalog.find((item) => item.id === requestedId) ||
+    ? products.find((item) => item.id === requestedId) ||
+      storedCatalog.find((item) => item.id === requestedId) ||
       ((!requestedId || storedSelected?.id === requestedId) &&
         storedSelected) ||
       defaultProduct
@@ -154,15 +155,6 @@
   const productDetails = activeProduct
     ? {
         ...activeProduct,
-        baseStorage: Number(
-          activeProduct.name.match(/(\d+)\s*(?:GB|TB)/i)?.[1] || 256,
-        ),
-        storagePrices: activeProduct.variants?.length
-          ? Object.fromEntries(activeProduct.variants.map(variant => [Number(variant.id), Number(variant.price)]))
-          : {256: activeProduct.price, 512: activeProduct.price + 7500, 1024: activeProduct.price + 15000},
-        storageOldPrices: activeProduct.variants?.length
-          ? Object.fromEntries(activeProduct.variants.map(variant => [Number(variant.id), Number(variant.oldPrice || 0)]))
-          : {256: activeProduct.oldPrice || 0, 512: (activeProduct.oldPrice || activeProduct.price) + 7500, 1024: (activeProduct.oldPrice || activeProduct.price) + 15000},
         images: activeProduct.gallery?.length
           ? activeProduct.gallery.slice(0, 4)
           : /iphone/i.test(activeProduct.name)
@@ -175,7 +167,7 @@
           : Array(4).fill(activeProduct.image),
         bundleDiscount: 650,
         suggestions: activeProduct.relatedIds?.length
-          ? activeProduct.relatedIds.map(id => products.find(product => product.id === id)).filter(Boolean)
+          ? activeProduct.relatedIds.map(id => products.find(product => product.id === id)).filter(Boolean).map(product=>{const state=window.StoreProducts?.getEffectivePrice(product)||{price:product.price,originalPrice:product.oldPrice||0};return {...product,price:state.price,oldPrice:state.originalPrice}})
           : [
           {
             id: "apple-20w-usb-c-adapter",
@@ -198,32 +190,12 @@
         ],
       }
     : null;
-  const storageParam = Number(
-      new URLSearchParams(location.search).get("storage"),
-    ),
-    validStorages = [256, 512, 1024];
-  let selectedProductStorage = validStorages.includes(storageParam)
-      ? storageParam
-      : 256,
+  const variantParam = new URLSearchParams(location.search).get("variant") || new URLSearchParams(location.search).get("storage"),
+    defaultVariant = activeProduct?.variants?.find(variant=>variant.default) || activeProduct?.variants?.[0] || null;
+  let selectedProductStorage = activeProduct?.variants?.some(variant=>String(variant.id)===String(variantParam)) ? String(variantParam) : defaultVariant?.id || null,
     purchaseQuantity = 1;
-  if (activeProduct && !activeProduct.variants?.length) selectedProductStorage = null;
-  const storageLabel = (value) => (value === 1024 ? "1 TB" : `${value} GB`);
-  const configuredProduct = () => ({
-    ...activeProduct,
-    storage: selectedProductStorage,
-    price:
-      productDetails?.storagePrices[selectedProductStorage] ||
-      activeProduct.price,
-    oldPrice: selectedProductStorage ? productDetails?.storageOldPrices[selectedProductStorage] || 0 : activeProduct.oldPrice || 0,
-    name: selectedProductStorage ? activeProduct.name.replace(/(?:256|512)\s*GB|1\s*TB/i, storageLabel(selectedProductStorage)) : activeProduct.name,
-    sku: `${activeProduct.id
-      .toUpperCase()
-      .replace(/[^A-Z0-9]+/g, "-")
-      .slice(
-        0,
-        22,
-      )}${selectedProductStorage ? `-${selectedProductStorage === 1024 ? "1TB" : `${selectedProductStorage}GB`}` : ""}`,
-  });
+  const storageLabel = value => activeProduct?.variants?.find(variant=>String(variant.id)===String(value))?.label?.[localStorage.getItem(LANGUAGE_KEY)==="ar"?"ar":"en"] || String(value||"");
+  const configuredProduct = () => {const variant=activeProduct?.variants?.find(item=>String(item.id)===String(selectedProductStorage))||null,state=window.StoreProducts?.getEffectivePrice(activeProduct,variant)||{price:activeProduct.price,originalPrice:activeProduct.oldPrice||0};return {...activeProduct,storage:variant?.id||null,variant:variant?.id||null,price:Number(state.price),oldPrice:Number(state.originalPrice||0),stock:Number(variant?.stock??activeProduct.stock??0),offerState:state,name:activeProduct.name,sku:variant?.sku||activeProduct.sku||activeProduct.id.toUpperCase().replace(/[^A-Z0-9]+/g,"-")}};
   if (isProductPage) {
     products.push(activeProduct);
     products.push({
@@ -251,6 +223,7 @@
       saving = Math.max(0, (activeProduct.oldPrice || 0) - activeProduct.price);
     document.title = `${activeProduct.name} - AlMumez Online Store`;
     if (title) title.textContent = activeProduct.name;
+    const productDescription=activeProduct.description?.[localStorage.getItem(LANGUAGE_KEY)==="ar"?"ar":"en"]||activeProduct.description?.en;if(title&&productDescription){let description=details.querySelector("[data-product-description]");if(!description){description=document.createElement("p");description.dataset.productDescription="";description.className="text-sm text-outline mt-2";title.after(description)}description.textContent=productDescription}
     const breadcrumb = document.querySelector(
       'nav[aria-label="Breadcrumb"] li:last-child',
     );
@@ -388,14 +361,14 @@
           ),
         ],
         specificationLanguage = localStorage.getItem(LANGUAGE_KEY) === "ar" ? "ar" : "en",
-        customSpecs = (activeProduct.specifications || []).map((spec) => [
-          spec.label?.[specificationLanguage] || spec.label?.en || "",
+        customSpecs = (activeProduct.specs || activeProduct.specifications || []).map((spec) => [
+          `${spec.group?.[specificationLanguage] || spec.group?.en || "General"} · ${spec.label?.[specificationLanguage] || spec.label?.en || ""}`,
           spec.value?.[specificationLanguage] || spec.value?.en || "",
         ]),
-        specs = customSpecs.length ? customSpecs : [
+        specs = [
           ["Category", categoryLabel],
           ["Product", activeProduct.name],
-          ["Current Price", money(activeProduct.price)],
+          ["Current Price", money(configuredProduct().price)],
           [
             "Previous Price",
             activeProduct.oldPrice ? money(activeProduct.oldPrice) : "—",
@@ -405,10 +378,12 @@
             "Customer Rating",
             `${(activeProduct.rating || 4.8).toFixed(1)} / 5`,
           ],
-          ["Warranty", "Official regional warranty"],
-          ["Delivery", "24h express delivery in Cairo & Giza"],
+          ["Warranty", activeProduct.warranty?.[specificationLanguage] || activeProduct.warranty?.en || "Official regional warranty"],
+          ["Delivery", activeProduct.delivery?.[specificationLanguage] || activeProduct.delivery?.en || "24h express delivery in Cairo & Giza"],
+          ["Returns", activeProduct.returnPeriod?.[specificationLanguage] || activeProduct.returnPeriod?.en || "14-day returns"],
+          ...customSpecs,
         ];
-      while (customSpecs.length > specRows.length && specRows[0]) {
+      while (specs.length > specRows.length && specRows[0]) {
         const clone = specRows[0].cloneNode(true);
         specRows[0].parentElement.append(clone);
         specRows.push(clone);
@@ -416,9 +391,10 @@
       specRows.forEach((row, index) => {
         const values = row.querySelectorAll("span");
         if (specs[index] && values.length > 1) {
+          row.hidden = false;
           values[0].textContent = specs[index][0];
           values[1].textContent = specs[index][1];
-        }
+        } else row.hidden = true;
       });
       const reviewsPanel = document.querySelector("#reviews"),
         reviewsGrid = reviewsPanel?.querySelector(".grid");
@@ -432,6 +408,7 @@
   let cart = load(CART_KEY, load("almumez-cart", [])).map((item) => ({
       ...item,
       key: item.key || `${item.id}::${item.storage || "default"}`,
+      ...(()=>{const product=products.find(candidate=>candidate.id===item.id);if(!product)return{};const variant=product.variants?.find(candidate=>String(candidate.id)===String(item.storage));const effective=window.StoreProducts?.getEffectivePrice(product,variant);return{name:product.name,image:product.image,price:effective?.price??item.price}})(),
     })),
     wishlist = load(WISHLIST_KEY),
     language =
@@ -500,8 +477,9 @@
     const product = products.find((item) => item.id === id);
     if (!product) return;
     const isActive = isProductPage && id === activeProduct?.id,
-      configured = isActive ? configuredProduct() : product,
-      storage = options.storage ?? (isActive ? selectedProductStorage : null),
+      defaultState=window.StoreProducts?.getEffectivePrice(product),
+      configured = isActive ? configuredProduct() : {...product,price:defaultState?.price??product.price},
+      storage = options.storage ?? (isActive ? selectedProductStorage : defaultState?.variant?.id||null),
       amount = options.quantity ?? (isActive ? purchaseQuantity : 1),
       key = `${id}::${storage || "default"}`;
     const existing = cart.find(
@@ -539,7 +517,7 @@
           {
             id,
             name: product.name,
-            price: product.price,
+            price: window.StoreProducts?.getEffectivePrice(product)?.price??product.price,
             image: product.image,
           },
         ];
@@ -778,6 +756,7 @@
       Contact: "اتصل بنا",
       Wishlist: "المفضلة",
       Login: "تسجيل الدخول",
+      Dashboard: "لوحة التحكم",
       "Sign Up": "إنشاء حساب",
       Search: "بحث",
       "Shop Now": "تسوق الآن",
@@ -1018,10 +997,22 @@
     "Continue shopping": "متابعة التسوق",
   }).forEach(([english, arabic]) => translations.set(english, arabic));
   const mobileNav = document.querySelector(".home-navigation > div");
+  const headerActions = document.querySelector("[data-component='site-header'] .home-header-actions"),
+    headerCart = headerActions?.querySelector(".home-cart-button");
+  if (headerActions && !headerActions.querySelector(".dashboard-nav-button"))
+    headerCart?.insertAdjacentHTML(
+      "beforebegin",
+      '<a class="dashboard-nav-button home-action-icon" href="admin.html" title="Dashboard" aria-label="Open dashboard"><span class="material-symbols-outlined">dashboard</span><small>Dashboard</small></a>',
+    );
   if (mobileNav && !mobileNav.querySelector(".mobile-menu-login"))
     mobileNav.insertAdjacentHTML(
       "beforeend",
       '<a class="mobile-menu-login text-slate-600 hover:text-navy-dark font-semibold transition-colors duration-150 pb-1" href="auth.html"><span class="material-symbols-outlined">login</span><span>Login</span></a>',
+    );
+  if (mobileNav && !mobileNav.querySelector(".mobile-menu-dashboard"))
+    mobileNav.insertAdjacentHTML(
+      "beforeend",
+      '<a class="mobile-menu-dashboard text-slate-600 hover:text-navy-dark font-semibold transition-colors duration-150 pb-1" href="admin.html"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></a>',
     );
   const originalTexts = new WeakMap();
   const walker = document.createTreeWalker(
@@ -1706,6 +1697,8 @@
     renderCheckout();
   }
   if (isProductPage) {
+    const variantGrid=document.querySelector("main [data-variant-grid]"),variantSection=variantGrid?.closest(".flex.flex-col"),variantLanguage=localStorage.getItem(LANGUAGE_KEY)==="ar"?"ar":"en";
+    if(activeProduct.variants?.length&&variantGrid){const heading=variantSection.querySelector(".font-label-lg.font-semibold");if(heading)heading.textContent=`${activeProduct.variantTitle?.[variantLanguage]||activeProduct.variantTitle?.en||"Options"}:`;variantGrid.innerHTML=activeProduct.variants.map(variant=>`<button data-storage="${String(variant.id).replace(/"/g,"&quot;")}" class="py-2.5 px-3 rounded-xl border border-surface-container-high bg-surface-container-lowest hover:border-primary-container flex flex-col items-center justify-center transition-all"><span class="font-label-lg text-label-lg font-bold text-on-surface">${variant.label?.[variantLanguage]||variant.label?.en||variant.id}</span><span class="text-xs text-outline"></span></button>`).join("");variantGrid.style.gridTemplateColumns=`repeat(${Math.min(activeProduct.variants.length,3)},minmax(0,1fr))`}
     const buttons = [...document.querySelectorAll("main button")],
       byText = (text) =>
         buttons.find((button) => button.textContent.includes(text)),
@@ -1719,7 +1712,7 @@
       thumbRow = gallerySection?.querySelector(".grid.grid-cols-4"),
       thumbButtons = [...(thumbRow?.querySelectorAll(":scope > button") || [])],
       storageButtons = [...document.querySelectorAll("main [data-storage]")];
-    if (!activeProduct.variants?.length) storageButtons[0]?.closest(".flex.flex-col")?.setAttribute("hidden", "");
+    if (!activeProduct.variants?.length) variantSection?.setAttribute("hidden", "");
     productDetails.suggestions.forEach((item) => {
       if (!products.some((product) => product.id === item.id))
         products.push(item);
@@ -1767,10 +1760,14 @@
     });
     const setGallerySource = (image, source) => {
       if (!image) return;
-      if (source.startsWith?.("idb:")) image.dataset.imageRef = source;
-      else delete image.dataset.imageRef;
-      image.src = source;
-      window.ImageStore?.hydrate(image);
+      if (source.startsWith?.("idb:")) {
+        image.dataset.imageRef = source;
+        if (!image.src || image.src.startsWith("idb:")) image.src = window.StoreProducts?.imageFallback || "assets/images/logo.png";
+        window.ImageStore?.getImageURL(source).then(url=>{if(image.dataset.imageRef===source)image.src=url||window.StoreProducts?.imageFallback||"assets/images/logo.png"});
+      } else {
+        delete image.dataset.imageRef;
+        image.src = source;
+      }
     };
     const showGalleryImage = (index, fromLightbox = false) => {
       galleryIndex =
@@ -1820,7 +1817,7 @@
       zoomButton = galleryCard?.querySelector(".absolute.bottom-3");
     document.body.insertAdjacentHTML(
       "beforeend",
-      `<div class="product-lightbox" hidden role="dialog" aria-modal="true" aria-label="Product image viewer"><button type="button" class="product-lightbox-close" aria-label="Close image viewer">×</button><button type="button" class="product-lightbox-arrow prev" aria-label="Previous image">‹</button><figure><img src="${productDetails.images[0]}" alt="${activeProduct.name}"><figcaption class="product-lightbox-counter">1 / ${productDetails.images.length}</figcaption></figure><button type="button" class="product-lightbox-arrow next" aria-label="Next image">›</button></div>`,
+      `<div class="product-lightbox" hidden role="dialog" aria-modal="true" aria-label="Product image viewer"><button type="button" class="product-lightbox-close" aria-label="Close image viewer">×</button><button type="button" class="product-lightbox-arrow prev" aria-label="Previous image">‹</button><figure><img src="${productDetails.images[0].startsWith?.("idb:")?(window.StoreProducts?.imageFallback||"assets/images/logo.png"):productDetails.images[0]}" ${productDetails.images[0].startsWith?.("idb:")?`data-image-ref="${productDetails.images[0]}"`:""} alt="${activeProduct.name}"><figcaption class="product-lightbox-counter">1 / ${productDetails.images.length}</figcaption></figure><button type="button" class="product-lightbox-arrow next" aria-label="Next image">›</button></div>`,
     );
     const lightbox = document.querySelector(".product-lightbox"),
       closeLightbox = () => {
@@ -1915,7 +1912,9 @@
       ),
       monthlyNode = [...document.querySelectorAll("main strong")].find((node) =>
         /EGP\/month/.test(node.textContent),
-      );
+      ),variantStockNode=[...document.querySelectorAll("main span")].find(node=>/In Stock|left in Cairo Warehouse/i.test(node.textContent));
+    const priceBlock=priceNode?.parentElement?.parentElement,offerCountdown=document.createElement("p");offerCountdown.className="product-offer-countdown font-label-sm text-label-sm text-primary font-bold mt-2";offerCountdown.setAttribute("aria-live","polite");priceBlock?.append(offerCountdown);
+    const formatCountdown=milliseconds=>{const seconds=Math.max(0,Math.floor(milliseconds/1000)),days=Math.floor(seconds/86400),hours=Math.floor(seconds%86400/3600),minutes=Math.floor(seconds%3600/60),rest=seconds%60;return `${days}:${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(rest).padStart(2,"0")}`};
     const selectedSuggestions = new Set(
       productDetails.suggestions.map((item) => item.id),
     );
@@ -1943,8 +1942,10 @@
       }
       if (discountNode)
         discountNode.textContent = saving
-          ? `Save ${money(saving)}`
-          : "Best Price";
+          ? `-${configured.offerState.discountPercent}% (Save ${money(saving)})`
+          : "";
+      if(discountNode)discountNode.hidden=!saving;
+      offerCountdown.hidden=!(configured.offerState.active&&configured.offerState.endsAt);offerCountdown.dataset.offerEnd=configured.offerState.endsAt||"";offerCountdown.textContent=offerCountdown.hidden?"":`${language==="ar"?"ينتهي خلال":"Ends in"} ${formatCountdown(configured.offerState.remaining)}`;
       if (monthlyNode)
         monthlyNode.textContent = `${money(Math.ceil(configured.price / 12))}/month`;
       if (currentPriceRow?.querySelector("span:last-child"))
@@ -1957,9 +1958,12 @@
       if (title) title.textContent = configured.name;
       if (breadcrumb) breadcrumb.textContent = configured.name;
       if (skuNode) skuNode.textContent = `SKU: ${configured.sku}`;
-      storageButtons.forEach((button, index) => {
-        const value = [256, 512, 1024][index],
-          active = value === selectedProductStorage;
+      if (variantStockNode) variantStockNode.textContent = `In Stock - ${configured.stock} left in Cairo Warehouse`;
+      storageButtons.forEach((button) => {
+        const value = button.dataset.storage,
+          variant=activeProduct.variants.find(item=>String(item.id)===String(value)),
+          addition=Number(variant?.priceDelta||0),
+          active = String(value) === String(selectedProductStorage);
         button.classList.toggle("border-2", active);
         button.classList.toggle("border-primary-container", active);
         button.classList.toggle("bg-primary-container/10", active);
@@ -1967,25 +1971,22 @@
         button.classList.toggle("border-surface-container-high", !active);
         button.setAttribute("aria-pressed", String(active));
         const price = button.querySelector("span:last-child");
-        if (price)
-          price.textContent =
-            value === 256
-              ? money(productDetails.storagePrices[value])
-              : `+${money(productDetails.storagePrices[value] - productDetails.storagePrices[256])}`;
+        if (price) price.textContent = money(Math.abs(addition));
       });
       const url = new URL(location.href);
       url.searchParams.set("id", activeProduct.id);
       if (selectedProductStorage) url.searchParams.set("storage", selectedProductStorage);
       else url.searchParams.delete("storage");
+      url.searchParams.delete("variant");
       history.replaceState(null, "", url);
       renderBundle();
     };
     storageButtons.forEach((button) => {
-      const value = Number(button.dataset.storage);
+      const value = button.dataset.storage;
       button.type = "button";
       button.setAttribute(
         "aria-label",
-        `Select ${storageLabel(value)} storage`,
+        `Select ${storageLabel(value)}`,
       );
       button.addEventListener("click", () => {
         selectedProductStorage = value;
@@ -2241,6 +2242,7 @@
     );
     showGalleryImage(0);
     updateProductPricing();
+    let lastOfferActive=configuredProduct().offerState.active;setInterval(()=>{const configured=configuredProduct(),state=configured.offerState;if(state.active!==lastOfferActive){lastOfferActive=state.active;updateProductPricing();return}if(state.active&&state.endsAt){offerCountdown.hidden=false;offerCountdown.textContent=`${language==="ar"?"ينتهي خلال":"Ends in"} ${formatCountdown(state.remaining)}`}},1000);
   }
   document.addEventListener("click", (event) => {
     const add = event.target.closest("[data-add-to-cart]"),

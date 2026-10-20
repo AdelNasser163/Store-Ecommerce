@@ -21,7 +21,7 @@
   brand.value = params.get("brand") || "";
   price.value = params.get("price") || "";
   sort.value = params.get("sort") || "featured";
-  const all = StoreProducts.read(),
+  const all = StoreProducts.read().map(product=>({...product,effectivePrice:StoreProducts.getEffectivePrice(product).price})),
     local = (product) => StoreProducts.localized(product, lang);
   [...new Set(all.map((product) => local(product).brand))]
     .sort()
@@ -63,15 +63,15 @@
         (!category || product.category === category) &&
         (!brand.value || localized.brand === brand.value) &&
         (!price.value ||
-          (product.price >= range[0] && product.price <= range[1]))
+          (product.effectivePrice >= range[0] && product.effectivePrice <= range[1]))
       );
     });
     if (sort.value === "newest")
       list.sort((a, b) =>
         String(b.createdAt).localeCompare(String(a.createdAt)),
       );
-    if (sort.value === "price-asc") list.sort((a, b) => a.price - b.price);
-    if (sort.value === "price-desc") list.sort((a, b) => b.price - a.price);
+    if (sort.value === "price-asc") list.sort((a, b) => a.effectivePrice - b.effectivePrice);
+    if (sort.value === "price-desc") list.sort((a, b) => b.effectivePrice - a.effectivePrice);
     if (sort.value === "rating") list.sort((a, b) => b.rating - a.rating);
     count.textContent = `${list.length} ${lang === "ar" ? "منتج" : "products"}`;
     grid.innerHTML = list

@@ -15,8 +15,8 @@
     return products.find(product => product.id === requested) || products.find(product => product.id === selected?.id) || products.find(product => product.id === "apple-iphone-15-pro-max-256gb") || products[0];
   };
   const configuredMain = product => {
-    const storage = new URLSearchParams(location.search).get("storage"), variant = product.variants?.find(item => String(item.id) === String(storage)) || product.variants?.[0];
-    return {...product, storage: variant?.id ? Number(variant.id) : null, price: Number(variant?.price ?? product.price), oldPrice: Number(variant?.oldPrice ?? product.oldPrice ?? 0)};
+    const selected = new URLSearchParams(location.search).get("variant") || new URLSearchParams(location.search).get("storage"), variant = product.variants?.find(item => String(item.id) === String(selected)) || product.variants?.find(item=>item.default) || product.variants?.[0], effective=ProductStore.getEffectivePrice?.(product,variant)||{price:product.price,originalPrice:product.oldPrice||0};
+    return {...product, storage: variant?.id || null, price: Number(effective.price), oldPrice: Number(effective.originalPrice||0)};
   };
   const selectedRelatedIds = product => {
     const toggles = section ? [...section.querySelectorAll("[data-bundle-toggle]")] : [];
@@ -41,7 +41,7 @@
   const addBundleToCart = event => {
     if (event?.__almumezBundleHandled) return;
     if (event) { event.__almumezBundleHandled = true; event.preventDefault(); event.stopImmediatePropagation(); }
-    const catalog = ProductStore.read(), main = configuredMain(getActiveProduct()), related = selectedRelatedIds(main).map(id => catalog.find(product => product.id === id)).filter(Boolean);
+    const catalog = ProductStore.read(), main = configuredMain(getActiveProduct()), related = selectedRelatedIds(main).map(id => catalog.find(product => product.id === id)).filter(Boolean).map(product=>({...product,price:ProductStore.getEffectivePrice?.(product)?.price??product.price}));
     const cart = read(CART_KEY, []), items = [main, ...related];
     items.forEach(item => {
       const storage = item.storage || null, key = `${item.id}::${storage || "default"}`, existing = cart.find(entry => (entry.key || `${entry.id}::${entry.storage || "default"}`) === key), localized = ProductStore.localized(item, document.documentElement.lang === "ar" ? "ar" : "en");
