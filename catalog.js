@@ -21,7 +21,6 @@
     let all=section.querySelector("[data-section-view-all]");if(list.length>limit&&!all){all=document.createElement("a");all.dataset.sectionViewAll="";all.className="catalog-section-view-all";section.append(all)}if(all){all.hidden=list.length<=limit;all.href="accessories.html";all.textContent=language==="ar"?"عرض الكل":"View all"}
   }
   const page=document.body.dataset.page;
-  document.querySelectorAll('.home-navigation a[href="products.html"]').forEach(link=>link.remove());
   if(page==="home"||!page){renderPlacement("home-flash",findSection("Flash Deals"));renderPlacement("home-featured",findSection("Featured Tech Collections"))}
   if(page==="accessories"){
     const section=[...document.querySelectorAll("main section")].find(node=>node.querySelector("h3")&&node.querySelectorAll("h3").length>3);

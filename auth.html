@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>تسجيل الدخول | AlMumex</title>
+  <meta name="description" content="سجّل الدخول أو أنشئ حسابًا جديدًا في متجر AlMumex للإلكترونيات.">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Tajawal:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page" data-auth-page="auth">
+  <main class="auth-shell">
+    <a class="auth-back-home" href="index.html"><span class="material-symbols-outlined">arrow_forward</span>العودة للمتجر</a>
+    <section class="auth-card" aria-labelledby="auth-title">
+      <header class="auth-brand">
+        <img src="assets/images/logo.png" alt="AlMumez Online Store">
+        <h1 id="auth-title">AlMumex</h1>
+        <p>أحدث المنتجات بأفضل الأسعار</p>
+      </header>
+
+      <div class="auth-tabs" role="tablist" aria-label="الدخول أو إنشاء حساب">
+        <button class="is-active" type="button" role="tab" aria-selected="true" aria-controls="login-panel" data-auth-tab="login">تسجيل الدخول</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="register-panel" data-auth-tab="register">إنشاء حساب</button>
+      </div>
+
+      <div class="auth-message" data-auth-message role="status" aria-live="polite" hidden></div>
+
+      <form class="auth-form" id="login-panel" data-auth-form="login" novalidate>
+        <label for="login-email">البريد الإلكتروني</label>
+        <div class="auth-input"><span class="material-symbols-outlined">mail</span><input id="login-email" name="email" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" required></div>
+        <small class="auth-error" data-error-for="login-email"></small>
+
+        <div class="auth-label-row"><label for="login-password">كلمة المرور</label><a href="forgot-password.html">نسيت كلمة المرور؟</a></div>
+        <div class="auth-input"><span class="material-symbols-outlined">lock</span><input id="login-password" name="password" type="password" dir="ltr" autocomplete="current-password" placeholder="••••••••" minlength="8" required><button class="auth-password-toggle" type="button" aria-label="إظهار كلمة المرور"><span class="material-symbols-outlined">visibility</span></button></div>
+        <small class="auth-error" data-error-for="login-password"></small>
+
+        <button class="auth-submit" type="submit"><span>تسجيل الدخول</span><i aria-hidden="true"></i></button>
+      </form>
+
+      <form class="auth-form" id="register-panel" data-auth-form="register" novalidate hidden>
+        <label for="register-name">الاسم</label>
+        <div class="auth-input"><span class="material-symbols-outlined">person</span><input id="register-name" name="name" autocomplete="name" required></div>
+        <small class="auth-error" data-error-for="register-name"></small>
+
+        <label for="register-email">البريد الإلكتروني</label>
+        <div class="auth-input"><span class="material-symbols-outlined">mail</span><input id="register-email" name="email" type="email" dir="ltr" autocomplete="email" placeholder="name@example.com" required></div>
+        <small class="auth-error" data-error-for="register-email"></small>
+
+        <label for="register-password">كلمة المرور</label>
+        <div class="auth-input"><span class="material-symbols-outlined">lock</span><input id="register-password" name="password" type="password" dir="ltr" autocomplete="new-password" placeholder="8 حروف على الأقل" minlength="8" required><button class="auth-password-toggle" type="button" aria-label="إظهار كلمة المرور"><span class="material-symbols-outlined">visibility</span></button></div>
+        <small class="auth-error" data-error-for="register-password"></small>
+
+        <label for="register-confirm">تأكيد كلمة المرور</label>
+        <div class="auth-input"><span class="material-symbols-outlined">verified_user</span><input id="register-confirm" name="confirmPassword" type="password" dir="ltr" autocomplete="new-password" placeholder="أعد كتابة كلمة المرور" minlength="8" required><button class="auth-password-toggle" type="button" aria-label="إظهار كلمة المرور"><span class="material-symbols-outlined">visibility</span></button></div>
+        <small class="auth-error" data-error-for="register-confirm"></small>
+
+        <button class="auth-submit" type="submit"><span>إنشاء حساب</span><i aria-hidden="true"></i></button>
+      </form>
+
+      <div class="auth-divider"><span>أو المتابعة بواسطة</span></div>
+      <button class="auth-google" type="button" data-google-auth>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.5a4.7 4.7 0 0 1-2 3v2.6h3.3c1.9-1.8 3-4.4 3-7.5ZM12 22c2.8 0 5.1-.9 6.8-2.4l-3.3-2.6c-.9.6-2.1 1-3.5 1a6 6 0 0 1-5.7-4.2H2.9v2.7A10 10 0 0 0 12 22ZM6.3 13.8a6 6 0 0 1 0-3.8V7.3H2.9a10 10 0 0 0 0 9.2l3.4-2.7ZM12 5.9c1.5 0 2.9.5 3.9 1.5l2.9-2.9A9.8 9.8 0 0 0 2.9 7.3L6.3 10A6 6 0 0 1 12 5.9Z"/></svg>
+        الدخول بواسطة جوجل
+      </button>
+    </section>
+
+    <p class="auth-consent">بتسجيل الدخول أو إنشاء حساب أنت بتوافق على <a href="index.html#terms">شروط الاستخدام</a> و<a href="index.html#privacy">سياسة الخصوصية</a> لمتجر AlMumex.</p>
+  </main>
+  <script src="auth.js"></script>
+</body>
+</html>

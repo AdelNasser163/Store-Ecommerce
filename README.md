@@ -34,5 +34,7 @@ Open `index.html` directly, or serve the folder with any static HTTP server.
 - `data/products.js`: البيانات الافتراضية والـ placements.
 - `data/store.js`: القراءة والكتابة والتوافق مع السلة وصفحة المنتج.
 - `catalog.js`: بناء كروت المنتجات والسكاشن.
-- `products.html` و`products.js`: كتالوج كل المنتجات والفلاتر.
+- `accessories.html`: صفحة المنتجات الأساسية باسم «المنتجات»، وتستخدم `catalog.js` و`main.js`، بينما يحتفظ `products.html` بتحويل توافق للرابط القديم.
+- `products.js`: منطق كتالوج المنتجات القديم، تم الاحتفاظ به دون حذف.
+- `auth.html` و`forgot-password.html` و`reset-password.html`: واجهات حساب العميل واستعادة كلمة المرور، ويجمع منطقها `auth.js`.
 - `admin.html` و`admin.js`: إدارة المنتجات والتصدير والاستيراد.

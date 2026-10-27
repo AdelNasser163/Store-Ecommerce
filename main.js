@@ -7,6 +7,15 @@
     SELECTED_PRODUCT_KEY = "almumez-selected-product";
   const money = (value) =>
     `${new Intl.NumberFormat("en-EG").format(value)} EGP`;
+  const imageFallback = () =>
+    window.StoreProducts?.imageFallback || "assets/images/logo.png";
+  const imageAttributes = (source) => {
+    const safeSource =
+      typeof source === "string" && source.trim() ? source : imageFallback();
+    return safeSource.startsWith("idb:")
+      ? `src="${imageFallback()}" data-image-ref="${safeSource}"`
+      : `src="${safeSource}"`;
+  };
   const normalize = (value) =>
     value
       .toLowerCase()
@@ -152,6 +161,9 @@
         storedSelected) ||
       defaultProduct
     : null;
+  const activeBundle = activeProduct && window.StoreBundles
+    ? window.StoreBundles.forProduct(activeProduct.id)
+    : null;
   const productDetails = activeProduct
     ? {
         ...activeProduct,
@@ -190,6 +202,56 @@
         ],
       }
     : null;
+  if (productDetails) {
+    const sources = Array.isArray(productDetails.images)
+      ? productDetails.images.filter(
+          (source) => typeof source === "string" && source.trim(),
+        )
+      : [];
+    const fallbackSource =
+      sources[0] ||
+      (typeof activeProduct.image === "string" && activeProduct.image.trim()
+        ? activeProduct.image
+        : imageFallback());
+    productDetails.images = Array.from(
+      { length: 4 },
+      (_, index) => sources[index] || fallbackSource,
+    );
+    if (!productDetails.suggestions.length) {
+      productDetails.suggestions = [
+        {
+          id: "apple-20w-usb-c-adapter",
+          name: "Apple 20W USB-C Power Adapter",
+          subtitle: "Apple Original",
+          price: 899,
+          oldPrice: 999,
+          image: "assets/images/adapter-20w.jpg",
+          category: "accessories",
+        },
+        {
+          id: "apple-magsafe-clear-case",
+          name: "Apple MagSafe Clear Case",
+          subtitle: "Drop Protection",
+          price: 1450,
+          oldPrice: 1599,
+          image: "assets/images/magsafe-case.jpg",
+          category: "accessories",
+        },
+      ];
+    }
+    if (activeBundle) {
+      productDetails.bundle = activeBundle;
+      productDetails.bundleDiscount = Number(activeBundle.discount || 0);
+      productDetails.suggestions = activeBundle.productIds
+        .filter((id) => id !== activeProduct.id)
+        .map((id) => products.find((product) => product.id === id))
+        .filter(Boolean)
+        .map((product) => {
+          const state = window.StoreProducts?.getEffectivePrice(product) || { price: product.price, originalPrice: product.oldPrice || 0 };
+          return { ...product, price: Number(state.price), oldPrice: Number(state.originalPrice || 0) };
+        });
+    }
+  }
   const variantParam = new URLSearchParams(location.search).get("variant") || new URLSearchParams(location.search).get("storage"),
     defaultVariant = activeProduct?.variants?.find(variant=>variant.default) || activeProduct?.variants?.[0] || null;
   let selectedProductStorage = activeProduct?.variants?.some(variant=>String(variant.id)===String(variantParam)) ? String(variantParam) : defaultVariant?.id || null,
@@ -463,6 +525,27 @@
   wishlistHeader?.setAttribute("aria-label", "Open wishlist");
 
   let renderCheckout = () => {};
+  function findStoreProduct(id) {
+    const cached = products.find((item) => String(item.id) === String(id));
+    if (cached) return cached;
+    const live = window.StoreProducts
+      ?.read()
+      .find((item) => String(item.id) === String(id));
+    if (live) {
+      const localized = window.StoreProducts.localized(live, language);
+      products.push(localized);
+      return localized;
+    }
+    const cardProduct = productCards.find(
+      (item) => String(item.id) === String(id),
+    );
+    if (cardProduct) {
+      const { card, addButton, wishlistButton, ...fallback } = cardProduct;
+      products.push(fallback);
+      return fallback;
+    }
+    return null;
+  }
   function changeQuantity(key, amount) {
     const item = cart.find((entry) => (entry.key || entry.id) === key);
     if (!item) return;
@@ -474,8 +557,16 @@
     renderCheckout();
   }
   function addToCart(id, options = {}) {
-    const product = products.find((item) => item.id === id);
-    if (!product) return;
+    const product = findStoreProduct(id);
+    if (!product) {
+      console.warn(`Cart product was not found: ${id}`);
+      toast(
+        language === "ar"
+          ? "تعذر العثور على بيانات المنتج"
+          : "Product data could not be found",
+      );
+      return false;
+    }
     const isActive = isProductPage && id === activeProduct?.id,
       defaultState=window.StoreProducts?.getEffectivePrice(product),
       configured = isActive ? configuredProduct() : {...product,price:defaultState?.price??product.price},
@@ -505,9 +596,10 @@
           ? "تمت إضافة المنتج إلى السلة"
           : "Product added to cart",
       );
+    return true;
   }
   function toggleWishlist(id) {
-    const product = products.find((item) => item.id === id);
+    const product = findStoreProduct(id);
     if (!product) return;
     const exists = wishlist.some((item) => item.id === id);
     wishlist = exists
@@ -566,7 +658,7 @@
       ? cart
           .map(
             (item) =>
-              `<article class="drawer-item"><img src="${item.image}" alt=""><div><h3>${item.name}</h3>${item.storage ? `<small>${storageLabel(item.storage)}</small>` : ""}<strong>${money(item.price)}</strong><div class="quantity"><button data-quantity="-1" data-id="${item.key || item.id}">−</button><span>${item.quantity}</span><button data-quantity="1" data-id="${item.key || item.id}">+</button></div></div><button class="remove-item" data-remove-cart="${item.key || item.id}" aria-label="Remove">delete</button></article>`,
+              `<article class="drawer-item"><img ${imageAttributes(item.image)} alt=""><div><h3>${item.name}</h3>${item.storage ? `<small>${storageLabel(item.storage)}</small>` : ""}<strong>${money(item.price)}</strong><div class="quantity"><button data-quantity="-1" data-id="${item.key || item.id}">−</button><span>${item.quantity}</span><button data-quantity="1" data-id="${item.key || item.id}">+</button></div></div><button class="remove-item" data-remove-cart="${item.key || item.id}" aria-label="Remove">delete</button></article>`,
           )
           .join("")
       : `<p class="drawer-empty">${language === "ar" ? "السلة فارغة." : "Your cart is empty."}</p>`;
@@ -576,7 +668,7 @@
       ? wishlist
           .map(
             (item) =>
-              `<article class="drawer-item"><img src="${item.image}" alt=""><div><h3>${item.name}</h3><strong>${money(item.price)}</strong><button class="move-to-cart" data-wishlist-to-cart="${item.id}">${language === "ar" ? "أضف للسلة" : "Add to cart"}</button></div><button class="remove-item" data-remove-wishlist="${item.id}" aria-label="Remove">delete</button></article>`,
+              `<article class="drawer-item"><img ${imageAttributes(item.image)} alt=""><div><h3>${item.name}</h3><strong>${money(item.price)}</strong><button class="move-to-cart" data-wishlist-to-cart="${item.id}">${language === "ar" ? "أضف للسلة" : "Add to cart"}</button></div><button class="remove-item" data-remove-wishlist="${item.id}" aria-label="Remove">delete</button></article>`,
           )
           .join("")
       : `<p class="drawer-empty">${language === "ar" ? "لا توجد منتجات في المفضلة." : "Your wishlist is empty."}</p>`;
@@ -597,6 +689,16 @@
       });
     }
   }
+  window.addEventListener("store:cart-changed", (event) => {
+    cart = load(CART_KEY, []);
+    renderState();
+    renderCheckout();
+    if (event.detail?.message) toast(event.detail.message);
+    if (event.detail?.openCart) openDrawer("cart");
+  });
+  window.addEventListener("store:bundle-error", (event) =>
+    toast(event.detail?.message || (language === "ar" ? "تعذر إضافة الباقة" : "Could not add bundle")),
+  );
   function filterProducts(category = "all", query = "") {
     const normalizedQuery = normalize(query);
     let matches = 0;
@@ -751,7 +853,7 @@
       items: "منتجات",
       Home: "الرئيسية",
       About: "من نحن",
-      Accessories: "الإكسسوارات",
+      Products: "المنتجات",
       Blog: "المدونة",
       Contact: "اتصل بنا",
       Wishlist: "المفضلة",
@@ -1676,7 +1778,7 @@
         event.preventDefault();
         openDrawer("cart");
       });
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (!form.elements.terms.checked)
         return toast(
@@ -1686,10 +1788,81 @@
         );
       if (!cart.length)
         return toast(language === "ar" ? "السلة فارغة" : "Your cart is empty");
+      const fields = new FormData(form),
+        subtotal = cart.reduce(
+          (sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 0),
+          0,
+        ),
+        order = {
+          id: `MMZ-${Date.now().toString().slice(-9)}`,
+          createdAt: new Date().toISOString(),
+          customer: {
+            name: fields.get("fullName") || "",
+            phone: fields.get("phone") || "",
+            email: fields.get("email") || "",
+            address: fields.get("address") || "",
+            city: fields.get("city") || "",
+          },
+          items: cart.map((item) => ({
+            key: item.key || `${item.id}::${item.storage || "default"}`,
+            id: item.id,
+            storage: item.storage || null,
+            name:
+              typeof item.name === "object"
+                ? item.name[language] || item.name.en || item.name.ar || item.id
+                : item.name,
+            price: Number(item.price || 0),
+            image: item.image,
+            quantity: Number(item.quantity || 1),
+            isBundle: Boolean(item.isBundle),
+            bundleId: item.bundleId || null,
+            components: Array.isArray(item.components) ? item.components : [],
+          })),
+          subtotal,
+          shipping,
+          discount,
+          total: Math.max(0, subtotal + shipping - discount),
+          delivery,
+          payment,
+          status: payment === "cod" ? "طلب جديد" : "مدفوع",
+        },
+        orders = load("store-orders-v1", []);
+      orders.unshift(order);
+      if (!save("store-orders-v1", orders)) {
+        return toast(
+          language === "ar"
+            ? "تعذر حفظ الطلب. راجع مساحة المتصفح وحاول مرة أخرى."
+            : "The order could not be saved. Check browser storage and try again.",
+        );
+      }
+      try {
+        const updatedProducts = StoreProducts.read();
+        order.items.flatMap((orderedItem) => orderedItem.isBundle
+          ? orderedItem.components.map((component) => ({ ...component, quantity: Number(component.quantity || 1) * Number(orderedItem.quantity || 1) }))
+          : [orderedItem]).forEach((orderedItem) => {
+          const product = updatedProducts.find((item) => item.id === orderedItem.id);
+          if (!product) return;
+          product.stock = Math.max(0, Number(product.stock || 0) - orderedItem.quantity);
+          const variant = product.variants?.find(
+            (item) => String(item.id) === String(orderedItem.storage),
+          );
+          if (variant)
+            variant.stock = Math.max(
+              0,
+              Number(variant.stock ?? product.stock) - orderedItem.quantity,
+            );
+        });
+        await StoreProducts.write(updatedProducts);
+      } catch (error) {
+        console.warn("The order was saved, but stock could not be updated.", error);
+      }
       form.hidden = true;
       success.hidden = false;
       cart = [];
       save(CART_KEY, cart);
+      window.dispatchEvent(
+        new CustomEvent("store:order-created", { detail: order }),
+      );
       renderState();
       renderCheckout();
       success.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1754,19 +1927,21 @@
       touchStartX = 0;
     productDetails.images.forEach(async (src) => {
       const image = new Image();
-      image.src = src.startsWith?.("idb:")
-        ? (await window.ImageStore?.getImageURL(src)) || window.StoreProducts?.imageFallback || "assets/images/logo.png"
+      image.src = src.startsWith("idb:")
+        ? (await window.ImageStore?.getImageURL(src)) || imageFallback()
         : src;
     });
     const setGallerySource = (image, source) => {
       if (!image) return;
-      if (source.startsWith?.("idb:")) {
-        image.dataset.imageRef = source;
+      const safeSource =
+        typeof source === "string" && source.trim() ? source : imageFallback();
+      if (safeSource.startsWith("idb:")) {
+        image.dataset.imageRef = safeSource;
         if (!image.src || image.src.startsWith("idb:")) image.src = window.StoreProducts?.imageFallback || "assets/images/logo.png";
-        window.ImageStore?.getImageURL(source).then(url=>{if(image.dataset.imageRef===source)image.src=url||window.StoreProducts?.imageFallback||"assets/images/logo.png"});
+        window.ImageStore?.getImageURL(safeSource).then(url=>{if(image.dataset.imageRef===safeSource)image.src=url||imageFallback()}).catch(()=>{if(image.dataset.imageRef===safeSource)image.src=imageFallback()});
       } else {
         delete image.dataset.imageRef;
-        image.src = source;
+        image.src = safeSource;
       }
     };
     const showGalleryImage = (index, fromLightbox = false) => {
@@ -1817,7 +1992,7 @@
       zoomButton = galleryCard?.querySelector(".absolute.bottom-3");
     document.body.insertAdjacentHTML(
       "beforeend",
-      `<div class="product-lightbox" hidden role="dialog" aria-modal="true" aria-label="Product image viewer"><button type="button" class="product-lightbox-close" aria-label="Close image viewer">×</button><button type="button" class="product-lightbox-arrow prev" aria-label="Previous image">‹</button><figure><img src="${productDetails.images[0].startsWith?.("idb:")?(window.StoreProducts?.imageFallback||"assets/images/logo.png"):productDetails.images[0]}" ${productDetails.images[0].startsWith?.("idb:")?`data-image-ref="${productDetails.images[0]}"`:""} alt="${activeProduct.name}"><figcaption class="product-lightbox-counter">1 / ${productDetails.images.length}</figcaption></figure><button type="button" class="product-lightbox-arrow next" aria-label="Next image">›</button></div>`,
+      `<div class="product-lightbox" hidden role="dialog" aria-modal="true" aria-label="Product image viewer"><button type="button" class="product-lightbox-close" aria-label="Close image viewer">×</button><button type="button" class="product-lightbox-arrow prev" aria-label="Previous image">‹</button><figure><img ${imageAttributes(productDetails.images[0])} alt="${activeProduct.name}"><figcaption class="product-lightbox-counter">1 / ${productDetails.images.length}</figcaption></figure><button type="button" class="product-lightbox-arrow next" aria-label="Next image">›</button></div>`,
     );
     const lightbox = document.querySelector(".product-lightbox"),
       closeLightbox = () => {
@@ -1994,6 +2169,9 @@
       });
     });
     if (bundleSection) {
+      const bundleHeading = bundleSection.querySelector("h2");
+      if (activeBundle && bundleHeading)
+        bundleHeading.textContent = activeBundle.title?.[language] || activeBundle.title?.en || "Special Tech Bundle";
       const itemsWrap = bundleSection.querySelector(
           ".flex.flex-wrap.items-center.justify-center",
         ),
@@ -2019,7 +2197,7 @@
             },
             ...productDetails.suggestions,
           ],
-          chosen = entries.filter(
+          chosen = activeBundle ? entries : entries.filter(
             (item) => item.fixed || selectedSuggestions.has(item.id),
           ),
           original = chosen.reduce(
@@ -2027,16 +2205,19 @@
             0,
           ),
           raw = chosen.reduce((sum, item) => sum + item.price, 0),
-          discountValue = selectedSuggestions.size
-            ? Math.min(productDetails.bundleDiscount, raw)
-            : 0,
+          discountValue = activeBundle
+            ? Math.min(Math.max(0, Number(activeBundle.discount || 0)), raw)
+            : selectedSuggestions.size
+              ? Math.min(productDetails.bundleDiscount, raw)
+              : 0,
           total = raw - discountValue;
         itemsWrap.innerHTML = entries
           .map(
             (item, index) =>
-              `<${item.fixed ? "div" : "button"} class="bundle-item-1 bundle-choice ${item.fixed || selectedSuggestions.has(item.id) ? "is-selected" : ""}" ${item.fixed ? 'aria-label="Main product always included"' : `type="button" data-bundle-toggle="${item.id}" aria-pressed="${selectedSuggestions.has(item.id)}"`}><span class="bundle-check material-symbols-outlined">${item.fixed || selectedSuggestions.has(item.id) ? "check_circle" : "radio_button_unchecked"}</span><img src="${item.fixed ? productDetails.images[0] : item.image}" alt="${item.name}" data-bundle-open="${item.id}"><div><p class="font-label-md text-label-md font-bold text-on-surface" data-bundle-open="${item.id}">${item.name}</p><p class="text-xs text-outline">${item.subtitle || item.category}</p><p class="font-label-sm text-label-sm font-bold text-inverse-surface mt-1">${money(item.price)}</p></div></${item.fixed ? "div" : "button"}>${index < entries.length - 1 ? '<span class="bundle-plus">+</span>' : ""}`,
+              `<${item.fixed || activeBundle ? "div" : "button"} class="bundle-item-1 bundle-choice ${item.fixed || activeBundle || selectedSuggestions.has(item.id) ? "is-selected" : ""}" ${item.fixed || activeBundle ? 'aria-label="Bundle product included"' : `type="button" data-bundle-toggle="${item.id}" aria-pressed="${selectedSuggestions.has(item.id)}"`}><span class="bundle-check material-symbols-outlined">${item.fixed || activeBundle || selectedSuggestions.has(item.id) ? "check_circle" : "radio_button_unchecked"}</span><img ${imageAttributes(item.fixed ? productDetails.images[0] : item.image)} alt="${item.name}"><div><p class="font-label-md text-label-md font-bold text-on-surface">${item.name}</p><p class="text-xs text-outline">${item.subtitle || item.category}</p><p class="font-label-sm text-label-sm font-bold text-inverse-surface mt-1">${money(item.price)}</p></div></${item.fixed || activeBundle ? "div" : "button"}>${index < entries.length - 1 ? '<span class="bundle-plus">+</span>' : ""}`,
           )
           .join("");
+        window.ImageStore?.hydrate(itemsWrap);
         if (labelNode)
           labelNode.textContent = `Bundle Total (${chosen.length} item${chosen.length === 1 ? "" : "s"}):`;
         if (totalNode) totalNode.textContent = money(total);
@@ -2048,7 +2229,7 @@
           saveBadge.textContent = discountValue
             ? `Save ${money(discountValue)} Extra`
             : "Choose extras to save";
-        bundleButton.disabled = !selectedSuggestions.size;
+        bundleButton.disabled = activeBundle ? false : !selectedSuggestions.size;
         bundleButton.dataset.addBundleToCart = "true";
         bundleButton.type = "button";
         bundleButton.textContent = selectedSuggestions.size
@@ -2056,6 +2237,10 @@
           : "Select an extra item";
       };
       itemsWrap.addEventListener("click", (event) => {
+        if (activeBundle) {
+          event.preventDefault();
+          return;
+        }
         const open = event.target.closest("[data-bundle-open]");
         if (open && event.target.closest("[data-bundle-toggle]") == null) {
           const item = productDetails.suggestions.find(
@@ -2077,7 +2262,7 @@
       bundleButton.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
-        if (!selectedSuggestions.size) return;
+        if (!activeBundle && !selectedSuggestions.size) return;
         const configured = configuredProduct(),
           selectedItems = [
             {
@@ -2091,6 +2276,32 @@
               selectedSuggestions.has(item.id),
             ),
           ];
+        if (activeBundle) {
+          const key = `bundle::${activeBundle.id}`,
+            existing = cart.find((item) => item.key === key),
+            bundleItem = {
+              key,
+              id: activeBundle.id,
+              bundleId: activeBundle.id,
+              isBundle: true,
+              name: `${language === "ar" ? "باقة عرض" : "Offer bundle"} — ${activeBundle.title?.[language] || activeBundle.title?.en || "Special Tech Bundle"}`,
+              price: Number(activeBundle.price),
+              image: activeProduct.image || imageFallback(),
+              quantity: 1,
+              components: selectedItems.map((item) => ({ id: item.id, storage: item.storage || null, name: item.name, price: Number(item.price), quantity: 1 })),
+            },
+            previousCart = cart.map((item) => ({ ...item }));
+          if (existing) existing.quantity += 1;
+          else cart.push(bundleItem);
+          if (!save(CART_KEY, cart)) { cart = previousCart; toast(language === "ar" ? "تعذر حفظ الباقة في السلة" : "The bundle could not be saved to the cart"); return; }
+          window.dispatchEvent(new CustomEvent("store:cart-changed", { detail: { cart, added: bundleItem } }));
+          renderState();
+          renderCheckout();
+          toast(language === "ar" ? "تمت إضافة باقة العرض إلى السلة" : "Offer bundle added to cart");
+          openDrawer("cart");
+          return;
+        }
+        const previousCart = cart.map((item) => ({ ...item }));
         selectedItems.forEach((item) => {
           const storage = item.storage || null,
             key = `${item.id}::${storage || "default"}`,
@@ -2114,7 +2325,16 @@
               quantity: 1,
             });
         });
-        save(CART_KEY, cart);
+        if (!save(CART_KEY, cart)) {
+          cart = previousCart;
+          toast(
+            language === "ar"
+              ? "تعذر حفظ الباقة في السلة"
+              : "The bundle could not be saved to the cart",
+          );
+          return;
+        }
+        window.dispatchEvent(new CustomEvent("store:cart-changed", { detail: { cart, added: selectedItems } }));
         renderState();
         renderCheckout();
         toast(
@@ -2154,6 +2374,7 @@
     bundleSection?.addEventListener(
       "click",
       (event) => {
+        if (activeBundle) return;
         const open = event.target.closest("[data-bundle-open]");
         if (!open) return;
         const item = productDetails.suggestions.find(
@@ -2170,6 +2391,7 @@
     bundleSection?.addEventListener(
       "keydown",
       (event) => {
+        if (activeBundle) return;
         const open = event.target.closest("[data-bundle-open]");
         if (!open || !(event.key === "Enter" || event.key === " ")) return;
         const item = productDetails.suggestions.find(

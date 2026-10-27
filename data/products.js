@@ -56,11 +56,11 @@
     {
       id: "accessories",
       page: "accessories.html",
-      label: { en: "Accessories", ar: "صفحة الإكسسوارات" },
+      label: { en: "Products", ar: "صفحة المنتجات" },
     },
     {
       id: "all-products",
-      page: "products.html",
+      page: "accessories.html",
       label: { en: "All Products", ar: "كل المنتجات" },
       required: true,
     },

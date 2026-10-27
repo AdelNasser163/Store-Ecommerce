@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head><meta charset="utf-8"><meta name="viewport"
+      content="width=device-width,initial-scale=1"><title>إدارة المنتجات |
+      AlMumez</title><link rel="stylesheet" href="assets/fonts/fonts.css"><link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Tajawal:wght@400;500;700;800&amp;display=swap"
+      rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+  <body data-page="admin-products"
+    class="admin-orders-page admin-products-page">
+    <header class="dashboard-header"></header>
+    <main class="admin-products-main">
+      <section class="admin-products-title"><div><span>إدارة
+            الكتالوج</span><h1>كل المنتجات</h1><p>تحكم في جميع المنتجات المعروضة
+            في المتجر من مكان واحد.</p></div><div><button type="button"
+            data-products-export><span
+              class="material-symbols-outlined">download</span>تصدير
+            JSON</button><a href="admin-product.html"><span
+              class="material-symbols-outlined">add</span>إضافة
+            منتج</a></div></section>
+      <section class="admin-products-stats"><article><span
+            class="material-symbols-outlined">inventory_2</span><div><small>إجمالي
+              المنتجات</small><strong
+              data-products-total>0</strong></div></article><article><span
+            class="material-symbols-outlined">warehouse</span><div><small>الوحدات
+              المتاحة</small><strong
+              data-products-stock>0</strong></div></article><article><span
+            class="material-symbols-outlined">warning</span><div><small>مخزون
+              منخفض</small><strong
+              data-products-low>0</strong></div></article><article><span
+            class="material-symbols-outlined">payments</span><div><small>قيمة
+              المخزون</small><strong data-products-value>0
+              EGP</strong></div></article></section>
+      <section class="admin-products-controls"><label><span
+            class="material-symbols-outlined">search</span><input type="search"
+            data-products-search
+            placeholder="ابحث بالاسم أو الماركة أو القسم..."></label><select
+          data-products-category aria-label="القسم"><option value="all">كل
+            الأقسام</option></select><select data-products-stock-filter
+          aria-label="المخزون"><option value="all">كل حالات
+            المخزون</option><option value="available">متوفر</option><option
+            value="low">مخزون منخفض</option><option value="out">نفد
+            المخزون</option></select><select data-products-sort
+          aria-label="الترتيب"><option value="name">الاسم</option><option
+            value="newest">الأحدث</option><option value="price-asc">السعر:
+            الأقل</option><option value="price-desc">السعر:
+            الأعلى</option><option
+            value="stock">المخزون</option></select></section>
+      <section class="admin-products-table-wrap"><table
+          class="admin-products-table"><thead><tr><th>المنتج</th><th>القسم</th><th>السعر</th><th>المخزون</th><th>أماكن
+                الظهور</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody
+            data-products-list></tbody></table></section>
+      <section class="orders-empty" data-products-empty hidden><span
+          class="material-symbols-outlined">inventory_2</span><h2>لا توجد
+          منتجات</h2><p>لا توجد منتجات مطابقة للبحث أو الفلاتر.</p></section>
+    </main>
+    <nav class="orders-admin-dock"><a href="admin.html"><span
+          class="material-symbols-outlined">grid_view</span><b>الرئيسية</b></a><a
+        href="admin-orders.html"><span
+          class="material-symbols-outlined">assignment</span><b>الطلبات</b></a><a
+        class="is-active" href="admin-products.html"><span
+          class="material-symbols-outlined">inventory_2</span><b>المنتجات</b></a><a
+        href="admin-bundles.html"><span
+          class="material-symbols-outlined">redeem</span><b>الباقات</b></a>
+          
+          <button type="button" data-admin-logout>
+        <span
+          class="material-symbols-outlined">logout</span><b>خروج</b></button></nav>
+    <script src="admin-ui.js?v=3"></script><script
+      src="data/products.js"></script><script
+      src="js/image-store.js?v=2"></script><script
+      src="data/store.js?v=9"></script><script
+      src="admin-products.js?v=1"></script>
+  </body></html>
+
+

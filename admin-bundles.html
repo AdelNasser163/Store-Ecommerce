@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head><meta charset="utf-8"><meta name="viewport"
+      content="width=device-width,initial-scale=1"><title>إدارة الباقات |
+      AlMumez</title><link rel="stylesheet" href="assets/fonts/fonts.css"><link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Tajawal:wght@400;500;700;800&amp;display=swap"
+      rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+  <body data-page="admin-bundles"
+    class="admin-orders-page admin-products-page admin-bundles-page">
+    <header class="dashboard-header"></header>
+    <main class="admin-products-main">
+      <section class="admin-products-title"><div><span>إدارة عروض
+            المتجر</span><h1>باقات المنتجات</h1><p>أنشئ باقة من ثلاثة منتجات
+            وحدد سعر العرض والخصم.</p></div></section>
+      <section class="admin-bundle-editor">
+        <form data-bundle-form novalidate>
+          <input type="hidden" name="id">
+          <div class="admin-bundle-heading"><div><h2>بيانات الباقة</h2><p>المنتج
+                الأساسي هو الصفحة التي ستظهر فيها الباقة.</p></div><label
+              class="admin-bundle-switch"><input type="checkbox" name="enabled"
+                checked><span>الباقة مفعّلة</span></label></div>
+          <div class="admin-bundle-fields">
+            <label><span>اسم الباقة بالعربية</span><input name="titleAr"
+                required value="باقة تقنية خاصة"></label>
+            <label><span>اسم الباقة بالإنجليزية</span><input name="titleEn"
+                required value="Special Tech Bundle"></label>
+            <label><span>المنتج الأساسي</span><select name="primaryId"
+                required></select></label>
+            <label><span>المنتج الثاني</span><select name="secondId"
+                required></select></label>
+            <label><span>المنتج الثالث</span><select name="thirdId"
+                required></select></label>
+            <label><span>إجمالي المنتجات قبل الخصم</span><input
+                name="originalTotal" readonly></label>
+            <label><span>قيمة الخصم (EGP)</span><input name="discount"
+                type="number" min="0" step="1" value="650" required></label>
+            <label><span>سعر الباقة النهائي (EGP)</span><input name="price"
+                type="number" min="1" step="1" required></label>
+          </div>
+          <p class="admin-bundle-error" data-bundle-error
+            aria-live="polite"></p>
+          <div class="admin-bundle-actions"><button type="reset">إلغاء
+              التعديل</button><button type="submit"><span
+                class="material-symbols-outlined">save</span>حفظ
+              الباقة</button></div>
+        </form>
+        <section><h2>الباقات الحالية</h2><div class="admin-bundle-list"
+            data-bundle-list></div><p class="orders-empty" data-bundle-empty>لا
+            توجد باقات حتى الآن.</p></section>
+      </section>
+    </main>
+    <nav class="orders-admin-dock"><div class="admin-side-brand"><span
+          class="material-symbols-outlined">dashboard</span><div><strong>لوحة
+            التحكم</strong><small>إدارة المتجر</small></div></div><a
+        href="admin.html"><span
+          class="material-symbols-outlined">grid_view</span><b>الرئيسية</b></a><a
+        href="admin-orders.html"><span
+          class="material-symbols-outlined">assignment</span><b>الطلبات</b></a><a
+        href="admin-products.html"><span
+          class="material-symbols-outlined">inventory_2</span><b>المنتجات</b></a><a
+        class="is-active" href="admin-bundles.html" aria-current="page"><span
+          class="material-symbols-outlined">redeem</span><b>الباقات</b></a><button
+        type="button" data-admin-logout><span
+          class="material-symbols-outlined">logout</span><b>خروج</b></button></nav>
+    <script src="admin-ui.js?v=3"></script><script
+      src="data/products.js"></script><script
+      src="js/image-store.js?v=2"></script><script
+      src="data/store.js?v=9"></script><script
+      src="data/bundles.js?v=2"></script><script
+      src="admin-bundles.js?v=2"></script>
+  </body></html>
+
+

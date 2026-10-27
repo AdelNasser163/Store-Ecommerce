@@ -1,63 +1,125 @@
-<!doctype html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Products Dashboard | AlMumez</title>
-  <link rel="stylesheet" href="assets/fonts/fonts.css">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body data-page="admin" class="admin-dashboard-page">
-  <main class="admin-login-screen" data-admin-login>
-    <form class="admin-login-card" data-admin-login-form novalidate>
-      <img src="assets/images/logo.png" alt="AlMumez">
-      <div class="admin-login-copy"><h1 data-login-text="title">Dashboard login</h1><p data-login-text="description">Sign in to manage products and store inventory.</p></div>
-      <label><span data-login-text="username">Username</span><span class="admin-login-field"><span class="material-symbols-outlined">person</span><input name="username" type="text" autocomplete="username" required></span></label>
-      <label><span data-login-text="password">Password</span><span class="admin-login-field"><span class="material-symbols-outlined">lock</span><input name="password" type="password" autocomplete="current-password" required><button class="admin-password-toggle" type="button" aria-label="Show password"><span class="material-symbols-outlined">visibility</span></button></span></label>
-      <small data-login-error aria-live="polite"></small>
-      <button class="admin-login-submit" type="submit"><span data-login-text="submit">Sign in</span><span class="admin-login-spinner" aria-hidden="true"></span></button>
-      <a class="admin-back-store" href="index.html"><span class="material-symbols-outlined">arrow_back</span><span data-login-text="back">Back to store</span></a>
-    </form>
-  </main>
+﻿ <!doctype html>
+<html lang="ar" dir="rtl">
+  <head><meta charset="utf-8"><meta name="viewport"
+      content="width=device-width,initial-scale=1"><title>لوحة تحكم المميز |
+      AlMumez</title><link rel="stylesheet" href="assets/fonts/fonts.css"><link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Tajawal:wght@400;500;700;800&amp;display=swap"
+      rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+  <body data-page="admin" class="admin-dashboard-page admin-mobile-dashboard">
+    <main class="admin-login-screen" data-admin-login><form
+        class="admin-login-card" data-admin-login-form novalidate><img
+          src="assets/images/logo.png" alt="AlMumez"><div
+          class="admin-login-copy"><h1 data-login-text="title">تسجيل دخول لوحة
+            التحكم</h1><p data-login-text="description">سجّل الدخول لإدارة
+            المتجر والطلبات.</p></div><label><span
+            data-login-text="username">اسم المستخدم</span><span
+            class="admin-login-field"><span
+              class="material-symbols-outlined">person</span><input
+              name="username" autocomplete="username"
+              required></span></label><label><span
+            data-login-text="password">كلمة المرور</span><span
+            class="admin-login-field"><span
+              class="material-symbols-outlined">lock</span><input
+              name="password" type="password" autocomplete="current-password"
+              required><button class="admin-password-toggle" type="button"
+              aria-label="إظهار كلمة المرور"><span
+                class="material-symbols-outlined">visibility</span></button></span></label><small
+          data-login-error aria-live="polite"></small><button
+          class="admin-login-submit" type="submit"><span
+            data-login-text="submit">تسجيل الدخول</span><span
+            class="admin-login-spinner"></span></button><a
+          class="admin-back-store" href="index.html"><span
+            class="material-symbols-outlined">arrow_back</span><span
+            data-login-text="back">العودة للمتجر</span></a></form></main>
+    <div class="dashboard-app" data-admin-app hidden>
+      <header class="dashboard-header"></header>
+      <main class="mobile-dashboard-main">
+        <section class="mobile-live"><span><i></i>نظام إدارة التجزئة
+            المتكامل</span><b>متصل مباشر</b></section>
+        <section class="mobile-welcome"><h1>مرحبًا بعودتك، مدير المنصة
+            👋</h1><p>نظرة مباشرة على أداء المتجر والطلبات والمخزون.</p><div
+            class="mobile-period" data-dashboard-period><button
+              class="is-active" data-period="today">اليوم</button><button
+              data-period="7">آخر 7 أيام</button><button data-period="month">هذا
+              الشهر</button><button
+              data-period="all">الكل</button></div></section>
+        <section class="mobile-kpis"><article><header><span>إجمالي
+                المبيعات</span><i
+                class="material-symbols-outlined green">payments</i></header><strong
+              data-kpi-revenue>0 EGP</strong><p data-kpi-revenue-note>لا توجد
+              مبيعات بعد</p></article><article><header><span>الطلبات
+                الجديدة</span><i
+                class="material-symbols-outlined blue">shopping_bag</i></header><strong
+              data-kpi-orders>0</strong><p data-kpi-orders-note>0 منتج
+              مباع</p></article><article><header><span>متوسط قيمة الطلب</span><i
+                class="material-symbols-outlined violet">monitoring</i></header><strong
+              data-kpi-aov>0 EGP</strong><p>محسوب من
+              الطلبات</p></article><article
+            class="warning"><header><span>تنبيهات المخزون</span><i
+                class="material-symbols-outlined amber">warning</i></header><strong
+              data-kpi-low-stock>0</strong><p>متبقي 5 قطع أو
+              أقل</p></article></section>
+        <section class="mobile-panel" id="sales"><header><div><h2>معدل المبيعات
+                الأسبوعية</h2><p>إجمالي قيمة الطلبات خلال آخر سبعة
+                أيام</p></div><strong data-chart-total>0
+              EGP</strong></header><div class="dashboard-bars"
+            data-sales-chart></div></section>
+        <section class="mobile-panel"><header><div><h2>طرق الدفع
+                المستخدمة</h2><p>توزيع الطلبات حسب وسيلة
+                السداد</p></div></header><div
+            data-payment-breakdown></div></section>
+        <section class="mobile-panel"><header><div><h2>الأكثر مبيعًا</h2><p>مرتب
+                حسب الكمية</p></div></header><div class="mobile-best"
+            data-best-sellers></div></section>
+        <section class="mobile-panel" id="orders"><header><div><h2>أحدث طلبات
+                المتجر</h2><p>كل عملية شراء مكتملة تظهر هنا</p></div><a
+              class="mobile-panel-link" href="admin-orders.html">عرض
+              الكل</a></header><div class="mobile-recent-orders"
+            data-orders-list></div><div class="dashboard-empty compact"
+            data-orders-empty><span
+              class="material-symbols-outlined">receipt_long</span><p>لا توجد
+              طلبات بعد</p></div><button type="button" data-export-orders
+            hidden>تصدير CSV</button></section>
+        <section class="mobile-panel" id="products"><header><div><h2>إدارة
+                المنتجات</h2><p><span data-storage-usage>جاري حساب
+                  المساحة…</span></p></div><a class="mobile-add-product"
+              href="admin-product.html"><span
+                class="material-symbols-outlined">add</span>إضافة
+              منتج</a></header><label class="mobile-admin-search"><span
+              class="material-symbols-outlined">search</span><input
+              type="search" data-admin-search
+              placeholder="ابحث بالاسم أو الماركة أو القسم..."></label><div
+            class="mobile-product-list" data-admin-list></div><div
+            class="dashboard-empty" data-admin-empty hidden><span
+              class="material-symbols-outlined">inventory_2</span><p>لا توجد
+              منتجات</p></div></section>
+        <footer class="mobile-admin-footer">© <span data-dashboard-year></span>
+          AlMumez. جميع الحقوق محفوظة.<small>AlMumez Admin v1.0</small></footer>
+      </main>
+      <nav class="mobile-admin-dock">
+        <a class="is-active"
+          href="admin.html"><span
+            class="material-symbols-outlined">home</span><b>نظرة عامة</b></a><a
+          href="admin-orders.html"><span
+            class="material-symbols-outlined">assignment</span><b>الطلبات</b></a><a
+          href="admin-products.html"><span
+            class="material-symbols-outlined">inventory_2</span><b>المنتجات</b></a>
+        <a href="admin-bundles.html">
+          <span class="material-symbols-outlined">redeem</span>
+          <b>الباقات</b>
+        </a>
 
-  <div class="dashboard-app" data-admin-app hidden>
-    <header class="dashboard-header">
-      <a class="dashboard-brand" href="index.html"><img src="assets/images/logo.png" alt="AlMumez"><span>Admin</span></a>
-      <div class="dashboard-header-actions">
-        <a class="dashboard-store-link" href="index.html"><span class="material-symbols-outlined">storefront</span>View store</a>
-        <button class="dashboard-icon-button" type="button" data-export aria-label="Export products"><span class="material-symbols-outlined">download</span></button>
-        <label class="dashboard-icon-button" aria-label="Import products"><span class="material-symbols-outlined">upload</span><input type="file" accept="application/json" data-import></label>
-      </div>
-    </header>
+        <button type="button" data-admin-logout>
+          <span class="material-symbols-outlined">logout</span>
+          <b>خروج</b>
+        </button>
+      </nav>
+    </div>
+    <script src="admin-ui.js?v=2"></script><script
+      src="data/products.js"></script><script
+      src="js/image-store.js?v=2"></script><script
+      src="data/store.js?v=9"></script><script
+      src="admin-dashboard.js?v=5"></script>
+  </body></html>
 
-    <main class="dashboard-main">
-      <div class="dashboard-title-row">
-        <div><p class="dashboard-kicker">PRODUCT MANAGEMENT</p><h1>Products</h1><p>Add, edit and manage product photos and specifications.</p></div>
-        <a class="dashboard-add-button" href="admin-product.html"><span class="material-symbols-outlined">add</span>Add product</a>
-      </div>
 
-      <section class="dashboard-stats" aria-label="Product statistics">
-        <article><span class="dashboard-stat-icon green"><span class="material-symbols-outlined">inventory_2</span></span><div><small>Total products</small><strong data-stat-products>0</strong></div></article>
-        <article><span class="dashboard-stat-icon blue"><span class="material-symbols-outlined">deployed_code</span></span><div><small>Units in stock</small><strong data-stat-stock>0</strong></div></article>
-        <article><span class="dashboard-stat-icon amber"><span class="material-symbols-outlined">payments</span></span><div><small>Stock value</small><strong data-stat-value>0 EGP</strong></div></article>
-      </section>
-
-      <section class="dashboard-products-card">
-        <div class="dashboard-card-head">
-          <div><h2>All products</h2><p>Manage your store catalog from one place. <span data-storage-usage>Calculating storage…</span></p></div>
-          <label class="dashboard-search"><span class="material-symbols-outlined">search</span><input type="search" data-admin-search placeholder="Search by name, brand or category"></label>
-        </div>
-        <div class="dashboard-table-wrap">
-          <table class="dashboard-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody data-admin-list></tbody></table>
-        </div>
-        <div class="dashboard-empty" data-admin-empty hidden><span class="material-symbols-outlined">inventory_2</span><h3>No products yet</h3><p>Add your first product to start building the catalog.</p><a href="admin-product.html">Add product</a></div>
-      </section>
-    </main>
-  </div>
-  <script src="admin-ui.js?v=1"></script>
-  <script src="data/products.js"></script>
-  <script src="js/image-store.js"></script>
-  <script src="data/store.js?v=8"></script>
-  <script src="admin-dashboard.js?v=3"></script>
-</body>
-</html>

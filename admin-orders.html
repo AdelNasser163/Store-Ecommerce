@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head><meta charset="utf-8"><meta name="viewport"
+      content="width=device-width,initial-scale=1"><title>إدارة الطلبات |
+      AlMumez</title><link rel="stylesheet" href="assets/fonts/fonts.css"><link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&amp;family=Tajawal:wght@400;500;700;800&amp;display=swap"
+      rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+  <body data-page="admin-orders" class="admin-orders-page">
+    <header class="dashboard-header"></header>
+    <div class="orders-admin-header"><div><h1>إدارة الطلبات</h1><span
+          data-orders-count>0 طلب</span></div><div><button type="button"
+          data-orders-export><span
+            class="material-symbols-outlined">download</span>تصدير
+          CSV</button></div></div>
+    <main class="orders-admin-main">
+      <div class="orders-breadcrumb"><span>متجر المميز</span><b>/</b><a
+          href="admin.html">لوحة التحكم الرئيسية</a><i>متصل مباشر</i></div>
+      <section class="orders-stats"><article><span
+            class="material-symbols-outlined amber">pending_actions</span><p>قيد
+            التنفيذ<strong data-stat-processing>0</strong><small>طلبات تحتاج
+              تأكيد</small></p></article><article><span
+            class="material-symbols-outlined blue">local_shipping</span><p>جاري
+            التوصيل<strong data-stat-shipping>0</strong><small>مع المناديب
+              الآن</small></p></article><article><span
+            class="material-symbols-outlined green">task_alt</span><p>مكتمل
+            اليوم<strong data-stat-completed>0</strong><small>تم التسليم
+              بنجاح</small></p></article></section>
+      <label class="orders-search"><span
+          class="material-symbols-outlined">search</span><input type="search"
+          data-orders-search
+          placeholder="ابحث برقم الطلب، اسم العميل، أو الهاتف..."><button
+          type="button" aria-label="خيارات البحث"><span
+            class="material-symbols-outlined">tune</span></button></label>
+      <div class="orders-filters" data-orders-filters><button class="is-active"
+          data-status="all">الكل <span>0</span></button><button
+          data-status="new">جديد <span>0</span></button><button
+          data-status="processing">قيد التجهيز <span>0</span></button><button
+          data-status="shipping">جاري التوصيل <span>0</span></button><button
+          data-status="completed">مكتمل <span>0</span></button></div>
+      <section class="orders-list" data-orders-list></section>
+      <section class="orders-empty" data-orders-empty hidden><span
+          class="material-symbols-outlined">receipt_long</span><h2>لا توجد
+          طلبات</h2><p>لم يتم العثور على طلبات مطابقة.</p></section>
+    </main>
+    <nav class="orders-admin-dock"><a href="admin.html"><span
+          class="material-symbols-outlined">grid_view</span><b>الرئيسية</b></a>
+          <a
+        class="is-active" href="admin-orders.html"><span
+          class="material-symbols-outlined">assignment</span><b>الطلبات</b></a>
+          <a
+        href="admin-products.html"><span
+          class="material-symbols-outlined">inventory_2</span><b>المنتجات</b></a>
+          <a
+        href="admin-bundles.html"><span
+          class="material-symbols-outlined">redeem</span><b>الباقات</b></a>
+          
+          <button
+        type="button" data-admin-logout><span
+          class="material-symbols-outlined">logout</span><b>خروج</b></button></nav>
+    <dialog class="order-details-modal" data-order-modal><button type="button"
+        data-modal-close aria-label="إغلاق">×</button><div
+        data-modal-content></div></dialog>
+    <script src="admin-ui.js?v=2"></script><script
+      src="admin-orders.js?v=1"></script>
+  </body></html>
+
+
